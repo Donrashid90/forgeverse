@@ -150,28 +150,72 @@
     </div>
   </footer>
 
-  <script src="js/main.js"></script>
-  <script src="https://unpkg.com/@solana/wallet-adapter-web@0.9.20/lib/index.iife.js"></script>
-<script>
-  const connectBtn = document.getElementById('connectBtn');
+    <script src="js/main.js"></script>
 
-  async function connectWallet() {
-    if (!window.solana) {
-      alert('Bitte installiere Phantom Wallet (https://phantom.app)');
+  <!-- Simple Phantom connect (no extra libs) -->
+  <script>
+  (function () {
+    const btn = document.getElementById('connectBtn');
+    if (!btn) return;
+
+    function setInstall() {
+      btn.textContent = 'Install Phantom';
+      btn.disabled = false;
+      btn.style.backgroundColor = '#FFB347';
+      btn.onclick = () => window.open('https://phantom.app/', '_blank');
+    }
+
+    // Detect provider (desktop Phantom or mobile Phantom)
+    const provider =
+      window.solana ||
+      (window.phantom && window.phantom.solana) ||
+      null;
+
+    // No provider found → show install button
+    if (!provider || !provider.isPhantom) {
+      setInstall();
       return;
     }
-    try {
-      const resp = await window.solana.connect();
-      const shortAddr = resp.publicKey.toString().slice(0, 4) + '...' + resp.publicKey.toString().slice(-4);
-      connectBtn.textContent = `Connected: ${shortAddr}`;
-      connectBtn.disabled = true;
-      connectBtn.style.backgroundColor = '#66FAFF';
-    } catch (err) {
-      alert('Wallet-Verbindung abgebrochen.');
-    }
-  }
 
-  connectBtn.addEventListener('click', connectWallet);
+    // Click → connect
+    btn.addEventListener('click', async () => {
+      try {
+        const resp = await provider.connect({ onlyIfTrusted: false });
+        const pubkey = resp.publicKey.toString();
+        const short = pubkey.slice(0, 4) + '...' + pubkey.slice(-4);
+        btn.textContent = 'Connected: ' + short;
+        btn.disabled = true;
+        btn.style.backgroundColor = '#66FAFF';
+      } catch (e) {
+        alert('Wallet-Verbindung abgebrochen.');
+      }
+    });
+
+    // Schon verbunden? (z.B. nach Refresh)
+    if (provider.isConnected && provider.publicKey) {
+      const pk = provider.publicKey.toString();
+      const short = pk.slice(0, 4) + '...' + pk.slice(-4);
+      btn.textContent = 'Connected: ' + short;
+      btn.disabled = true;
+      btn.style.backgroundColor = '#66FAFF';
+    }
+
+    // Optional: reaktiv auf connect events
+    if (provider.on) {
+      provider.on('connect', (pk) => {
+        const s = pk.toString();
+        const short = s.slice(0, 4) + '...' + s.slice(-4);
+        btn.textContent = 'Connected: ' + short;
+        btn.disabled = true;
+        btn.style.backgroundColor = '#66FAFF';
+      });
+      provider.on('disconnect', () => {
+        btn.textContent = 'Connect Wallet';
+        btn.disabled = false;
+        btn.style.backgroundColor = '#FFB347';
+      });
+    }
+  })();
   </script>
 </body>
 </html>
