@@ -151,5 +151,28 @@
   </footer>
 
   <script src="js/main.js"></script>
+  <script src="https://unpkg.com/@solana/wallet-adapter-web@0.9.20/lib/index.iife.js"></script>
+<script>
+  const connectBtn = document.getElementById('connectBtn');
+
+  async function connectWallet() {
+    if (!window.solana) {
+      alert('Bitte installiere Phantom Wallet (https://phantom.app)');
+      return;
+    }
+    try {
+      const resp = await window.solana.connect();
+      const shortAddr = resp.publicKey.toString().slice(0, 4) + '...' + resp.publicKey.toString().slice(-4);
+      connectBtn.textContent = `Connected: ${shortAddr}`;
+      connectBtn.disabled = true;
+      connectBtn.style.backgroundColor = '#66FAFF';
+    } catch (err) {
+      alert('Wallet-Verbindung abgebrochen.');
+    }
+  }
+
+  connectBtn.addEventListener('click', connectWallet);
+</script>
+
 </body>
 </html>
