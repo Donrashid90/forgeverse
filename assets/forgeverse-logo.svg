@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="64" viewBox="0 0 256 64" fill="none">
+  <rect width="256" height="64" rx="8" fill="#0D0D0F"/>
+  <g filter="url(#g)">
+    <text x="16" y="42" font-family="Press Start 2P, monospace" font-size="20" fill="#66FAFF">FORGEVERSE</text>
+  </g>
+  <defs>
+    <filter id="g" x="0" y="0" width="256" height="64" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+</svg>

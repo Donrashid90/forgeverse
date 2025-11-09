@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ForgeVerse – A Pixel Economy on Solana</title>
+  <meta name="description" content="ForgeVerse – Pixel economy on Solana. Stake, Forge and Trade to grow your NFT empire."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+  <header class="header">
+    <div class="container header__inner">
+      <div class="brand">
+        <img src="assets/forgeverse-logo.svg" alt="ForgeVerse logo" class="brand__logo"/>
+        <span class="brand__name neon-glow">ForgeVerse</span>
+      </div>
+      <nav class="nav">
+        <a href="#about">About</a>
+        <a href="#mint">Mint your NFT</a>
+        <a href="#nfts">Your NFTs</a>
+        <a href="#stake">Stake your NFTs</a>
+        <a href="#fusion">Fusion Lab</a>
+        <a href="#game">Game</a>
+        <a href="#ranking">Ranking</a>
+        <a href="#merch">Merch</a>
+        <a href="#chat">Chat</a>
+      </nav>
+      <button id="connectBtn" class="btn btn--wallet">Connect Wallet</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero__inner">
+      <h1 class="title neon-glow">A Pixel Economy on Solana</h1>
+      <p class="subtitle">Stake, Forge &amp; Trade to grow your NFT empire.</p>
+      <div class="hero__cta">
+        <a href="#mint" class="btn btn--primary">Mint your NFT</a>
+        <a href="#about" class="btn btn--secondary">Read Whitepaper</a>
+      </div>
+    </div>
+    <div class="grid-bg"></div>
+  </section>
+
+  <main class="main">
+    <section id="about" class="section">
+      <div class="container">
+        <h2 class="section__title">About</h2>
+        <p class="section__text">
+          ForgeVerse connects NFTs, gaming, and a resource-driven economy. Each NFT has a role:
+          <strong>Traders</strong> earn $DOLLAR, <strong>Farmers</strong> grow $FOOD, and
+          <strong>Workers</strong> mine $METAL. Use resources to feed, forge, and fuse your NFTs.
+        </p>
+        <div class="cards">
+          <a class="card" href="#" target="_blank" rel="noreferrer"><span class="card__title">Whitepaper (PDF)</span></a>
+          <a class="card" href="#" target="_blank" rel="noreferrer"><span class="card__title">Pitchdeck</span></a>
+          <a class="card" href="#" target="_blank" rel="noreferrer"><span class="card__title">Roadmap</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section id="mint" class="section">
+      <div class="container">
+        <h2 class="section__title">Mint your NFT</h2>
+        <p class="section__text">Embed your launchpad/button here. Until then, this button shows a demo.</p>
+        <button class="btn btn--primary" onclick="demoMint()">Mint (Demo)</button>
+      </div>
+    </section>
+
+    <section id="nfts" class="section">
+      <div class="container"><h2 class="section__title">Your NFTs</h2><p class="section__text">After wallet connect, your NFTs can be displayed here (gallery embed or API).</p></div>
+    </section>
+
+    <section id="stake" class="section">
+      <div class="container"><h2 class="section__title">Stake your NFTs</h2><p class="section__text">Staking UI will appear here (Anchor program later). For now, it's a placeholder.</p></div>
+    </section>
+
+    <section id="fusion" class="section">
+      <div class="container"><h2 class="section__title">Fusion Lab</h2><p class="section__text">Fuse two NFTs using $FOOD and $METAL to obtain a stronger NFT. Placeholder area.</p></div>
+    </section>
+
+    <section id="game" class="section">
+      <div class="container"><h2 class="section__title">Game</h2><p class="section__text">Connect your wallet and play to unlock session-based reward boosts. Placeholder.</p></div>
+    </section>
+
+    <section id="ranking" class="section">
+      <div class="container"><h2 class="section__title">Ranking</h2><p class="section__text">Leaderboard of top players and collectors. For MVP, embed a Google Sheet here.</p></div>
+    </section>
+
+    <section id="merch" class="section">
+      <div class="container"><h2 class="section__title">Merch Store</h2><p class="section__text">NFT holder discounts. Link your Shopify/WooCommerce store here.</p></div>
+    </section>
+
+    <section id="chat" class="section">
+      <div class="container"><h2 class="section__title">Chat</h2><p class="section__text">Embed Discord widget or later add in-site chat with wallet auth.</p></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <div class="brand brand--footer">
+            <div class="brand__box neon-border">FV</div>
+            <span class="brand__name neon-glow">ForgeVerse</span>
+          </div>
+          <p class="muted">A Pixel Economy on Solana</p>
+          <div class="socials">
+            <a aria-label="Twitter" href="#" target="_blank">Twitter</a>
+            <a aria-label="Telegram" href="#" target="_blank">Telegram</a>
+            <a aria-label="GitHub" href="#" target="_blank">GitHub</a>
+            <a aria-label="Discord" href="#" target="_blank">Discord</a>
+          </div>
+        </div>
+        <div>
+          <h3 class="footer__title">Quick Links</h3>
+          <ul class="footer__list">
+            <li><a href="#about">About</a></li>
+            <li><a href="#mint">Mint NFT</a></li>
+            <li><a href="#stake">Stake</a></li>
+            <li><a href="#fusion">Fusion Lab</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer__title">Community</h3>
+          <ul class="footer__list">
+            <li><a href="#game">Game</a></li>
+            <li><a href="#ranking">Ranking</a></li>
+            <li><a href="#merch">Merch</a></li>
+            <li><a href="#chat">Chat</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer__title">Legal</h3>
+          <ul class="footer__list">
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Whitepaper</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="copyright">
+        <p class="neon-glow">© 2025 ForgeVerse Labs</p>
+        <p>Built on Solana • Powered by the Community</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

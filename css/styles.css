@@ -1,0 +1,37 @@
+:root{--bg:#0D0D0F;--neon:#66FAFF;--accent:#FFB347;--text:#E8F3F5}
+*{box-sizing:border-box}html,body{margin:0;padding:0;background:var(--bg);color:var(--text)}body{font-family:'VT323', monospace; line-height:1.5}
+.container{max-width:1200px;margin:0 auto;padding:0 1rem}
+.neon-glow{text-shadow:0 0 6px rgba(102,250,255,.9),0 0 12px rgba(102,250,255,.6)}
+.neon-border{box-shadow:0 0 6px rgba(102,250,255,.8), inset 0 0 6px rgba(102,250,255,.35)}
+.header{position:sticky;top:0;z-index:10;background:rgba(13,13,15,.8);backdrop-filter:blur(6px);border-bottom:2px solid var(--neon)}
+.header__inner{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:14px 0}
+.brand{display:flex;align-items:center;gap:10px}
+.brand__logo{height:40px}
+.brand__name{font-family:'Press Start 2P', monospace;color:var(--neon);font-size:16px}
+.nav{display:none;gap:14px}.nav a{color:var(--text);text-decoration:none;border-bottom:1px solid transparent;padding-bottom:2px}.nav a:hover{color:var(--neon);border-color:var(--neon)}
+@media(min-width:960px){.nav{display:flex}}
+.btn{font-family:'Press Start 2P', monospace; cursor:pointer; border:2px solid var(--accent); background:transparent; color:#111; padding:10px 14px; transition:.2s;}
+.btn--wallet{background:var(--accent); color:#111}.btn--wallet:hover{filter:brightness(1.05)}
+.btn--primary{background:var(--accent); color:#111;border-color:var(--accent); margin-right:8px}
+.btn--secondary{color:var(--neon);border-color:var(--neon)}.btn--secondary:hover{background:rgba(102,250,255,.12)}
+.hero{position:relative;padding:72px 0 56px;border-bottom:2px solid var(--neon)}
+.title{font-family:'Press Start 2P', monospace; font-size:28px;margin:0 0 12px}
+.subtitle{font-size:22px;margin:0 0 20px;color:#cfeef2}
+.hero__cta{display:flex;gap:8px}
+.grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(102,250,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(102,250,255,.08) 1px, transparent 1px); background-size:32px 32px; pointer-events:none;}
+.main .section{padding:56px 0;border-bottom:1px solid rgba(102,250,255,.25)}
+.section__title{font-family:'Press Start 2P', monospace;color:var(--accent);font-size:18px;margin:0 0 14px}
+.section__text{font-size:20px;max-width:900px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:18px}
+.card{display:flex;align-items:center;justify-content:center;min-height:72px;border:2px solid var(--neon);text-decoration:none;color:var(--text);transition:.2s}.card:hover{background:rgba(102,250,255,.08)}
+.footer{border-top:4px solid var(--neon);padding:48px 0}
+.footer__grid{display:grid;gap:24px;margin-bottom:24px}
+@media(min-width:960px){.footer__grid{grid-template-columns:repeat(4,1fr)}}
+.brand--footer{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.brand__box{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:2px solid var(--neon);background:var(--neon);color:#111;font-family:'Press Start 2P', monospace;font-size:10px}
+.footer__title{font-family:'Press Start 2P', monospace;color:var(--accent);font-size:12px;margin:0 0 14px}
+.footer__list{list-style:none;margin:0;padding:0}
+.footer__list a{color:#fff;text-decoration:none;font-size:18px}.footer__list a:hover{color:var(--neon)}
+.socials{display:flex;gap:12px}.socials a{color:var(--neon);text-decoration:none}.socials a:hover{color:var(--accent)}
+.divider{height:4px;background:linear-gradient(to right, var(--neon), var(--accent), var(--neon)); box-shadow:0 0 8px rgba(102,250,255,.6)}
+.copyright{text-align:center}.copyright p{margin:6px 0}
