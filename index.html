@@ -9,18 +9,19 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet"/>
-  <!-- CSS -->
+  <!-- Styles -->
   <link rel="stylesheet" href="css/styles.css"/>
 </head>
 
 <body>
-  <!-- HEADER -->
-  <header class="header">
+  <!-- ========== HEADER ========== -->
+  <header class="header" role="banner">
     <div class="container header__inner">
-      <div class="brand">
-        <span class="brand__name neon-glow">ForgeVerse</span>
-      </div>
-      <nav class="nav">
+      <a class="brand" href="#top" aria-label="ForgeVerse Home">
+        <span class="brand__name neon-glow neon-glow-animated">ForgeVerse</span>
+      </a>
+
+      <nav class="nav" role="navigation" aria-label="Main">
         <a href="#about">About</a>
         <a href="#mint">Mint</a>
         <a href="#nfts">NFTs</a>
@@ -31,48 +32,51 @@
         <a href="#merch">Merch</a>
         <a href="#chat">Chat</a>
       </nav>
-      <button id="connectBtn" class="btn btn--wallet">Connect Wallet</button>
+
+      <button id="connectBtn" class="btn btn--wallet" aria-label="Connect Phantom Wallet">
+        Install Phantom
+      </button>
     </div>
   </header>
 
-  <!-- HERO -->
-  <section class="hero">
+  <!-- ========== HERO ========== -->
+  <section class="hero" id="top">
     <div class="container hero__inner">
-      <h1 class="title neon-glow">A Pixel Economy on Solana</h1>
+      <h1 class="title neon-glow-animated">A Pixel Economy on Solana</h1>
       <p class="subtitle">Stake, Forge &amp; Trade to grow your NFT empire.</p>
       <div class="hero__cta">
-        <a href="#mint" class="btn btn--primary">Mint your NFT</a>
-        <a href="#about" class="btn btn--secondary">Read Docs</a>
+        <a href="#mint" class="btn btn--primary" aria-label="Mint your NFT">Mint your NFT</a>
+        <a href="#about" class="btn btn--secondary" aria-label="Read documentation">Read Docs</a>
       </div>
     </div>
   </section>
 
-  <!-- ABOUT -->
-  <section id="about" class="section">
+  <!-- ========== ABOUT (Docs Viewer) ========== -->
+  <section id="about" class="section" aria-labelledby="about-title">
     <div class="container">
-      <h2 class="section__title">About</h2>
+      <h2 id="about-title" class="section__title">About</h2>
       <p class="section__text">
         ForgeVerse connects NFTs, gaming, and a resource-driven economy. Each NFT has a role:
         <strong>Traders</strong> earn $DOLLAR, <strong>Farmers</strong> grow $FOOD, and
         <strong>Workers</strong> mine $METAL. Use resources to feed, forge, and fuse your NFTs.
       </p>
 
-      <!-- Docs Buttons -->
-      <div id="fv-docs-cards" class="cards">
-        <button data-doc="whitepaper" class="fv-card">Whitepaper</button>
-        <button data-doc="pitchdeck"  class="fv-card">Pitchdeck</button>
-        <button data-doc="roadmap"    class="fv-card">Roadmap</button>
+      <!-- Buttons -->
+      <div id="fv-docs-cards" class="cards" role="tablist" aria-label="Documents">
+        <button data-doc="whitepaper" class="fv-card" role="tab" aria-controls="fv-docs-viewer">Whitepaper</button>
+        <button data-doc="pitchdeck"  class="fv-card" role="tab" aria-controls="fv-docs-viewer">Pitchdeck</button>
+        <button data-doc="roadmap"    class="fv-card" role="tab" aria-controls="fv-docs-viewer">Roadmap</button>
       </div>
 
       <!-- Collapsible PDF Viewer -->
-      <div id="fv-docs-viewer" class="fv-viewer">
-        <button id="fv-close-btn" class="fv-close">✕ CLOSE</button>
+      <div id="fv-docs-viewer" class="fv-viewer" role="region" aria-live="polite" aria-label="Document viewer">
+        <button id="fv-close-btn" class="fv-close" aria-label="Close document">✕ CLOSE</button>
         <iframe id="fv-docs-frame" src="" width="100%" height="820" title="ForgeVerse Document Viewer"></iframe>
       </div>
     </div>
   </section>
 
-  <!-- MINT -->
+  <!-- ========== MINT ========== -->
   <section id="mint" class="section">
     <div class="container">
       <h2 class="section__title">Mint your NFT</h2>
@@ -81,69 +85,22 @@
     </div>
   </section>
 
-  <!-- NFTs -->
-  <section id="nfts" class="section">
-    <div class="container">
-      <h2 class="section__title">Your NFTs</h2>
-      <p class="section__text">Your owned NFTs will appear here after wallet connect.</p>
-    </div>
-  </section>
+  <!-- ========== OTHER SECTIONS (placeholders) ========== -->
+  <section id="nfts" class="section"><div class="container"><h2 class="section__title">Your NFTs</h2><p class="section__text">Your owned NFTs will appear here after wallet connect.</p></div></section>
+  <section id="stake" class="section"><div class="container"><h2 class="section__title">Stake your NFTs</h2><p class="section__text">Stake NFTs and earn $FOOD, $METAL or $DOLLAR.</p></div></section>
+  <section id="fusion" class="section"><div class="container"><h2 class="section__title">Fusion Lab</h2><p class="section__text">Fuse two NFTs using resources to obtain a stronger NFT.</p></div></section>
+  <section id="game" class="section"><div class="container"><h2 class="section__title">Game</h2><p class="section__text">Play mini-games to boost rewards. (Coming soon)</p></div></section>
+  <section id="ranking" class="section"><div class="container"><h2 class="section__title">Ranking</h2><p class="section__text">Leaderboard for top players &amp; collectors.</p></div></section>
+  <section id="merch" class="section"><div class="container"><h2 class="section__title">Merch Store</h2><p class="section__text">Exclusive ForgeVerse gear with NFT-holder discounts.</p></div></section>
+  <section id="chat" class="section"><div class="container"><h2 class="section__title">Chat</h2><p class="section__text">Embed Discord widget or add in-site chat with wallet auth.</p></div></section>
 
-  <!-- STAKE -->
-  <section id="stake" class="section">
-    <div class="container">
-      <h2 class="section__title">Stake your NFTs</h2>
-      <p class="section__text">Stake NFTs and earn $FOOD, $METAL or $DOLLAR.</p>
-    </div>
-  </section>
-
-  <!-- FUSION -->
-  <section id="fusion" class="section">
-    <div class="container">
-      <h2 class="section__title">Fusion Lab</h2>
-      <p class="section__text">Fuse two NFTs using resources to obtain a stronger NFT.</p>
-    </div>
-  </section>
-
-  <!-- GAME -->
-  <section id="game" class="section">
-    <div class="container">
-      <h2 class="section__title">Game</h2>
-      <p class="section__text">Play mini-games to boost rewards. (Coming soon)</p>
-    </div>
-  </section>
-
-  <!-- RANKING -->
-  <section id="ranking" class="section">
-    <div class="container">
-      <h2 class="section__title">Ranking</h2>
-      <p class="section__text">Leaderboard for top players &amp; collectors.</p>
-    </div>
-  </section>
-
-  <!-- MERCH -->
-  <section id="merch" class="section">
-    <div class="container">
-      <h2 class="section__title">Merch Store</h2>
-      <p class="section__text">Exclusive ForgeVerse gear with NFT-holder discounts.</p>
-    </div>
-  </section>
-
-  <!-- CHAT -->
-  <section id="chat" class="section">
-    <div class="container">
-      <h2 class="section__title">Chat</h2>
-      <p class="section__text">Embed Discord widget or add in-site chat with wallet authentication.</p>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="footer">
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer" role="contentinfo">
     <div class="container">
       <div class="footer__grid">
         <div>
           <div class="brand brand--footer">
-            <div class="brand__box neon-border">FV</div>
+            <div class="brand__box">FV</div>
             <span class="brand__name neon-glow">ForgeVerse</span>
           </div>
           <p class="muted">A Pixel Economy on Solana</p>
@@ -192,16 +149,14 @@
 
   <!-- ========== SCRIPTS ========== -->
 
-  <!-- Docs Viewer logic -->
+  <!-- Docs Viewer (open/close with animation) -->
   <script>
     (function(){
-      // Dokument-Links (Drive IDs im /preview-Format)
       const DOCS = {
         whitepaper: "https://drive.google.com/file/d/1QGnx0QtJHX5SH0qMnDksHnqTYU9S6U5o/preview",
         pitchdeck:  "https://drive.google.com/file/d/1GAAIlu69a2IzVHh3-MJVKySi_-tdMGGG/preview",
         roadmap:    "https://drive.google.com/file/d/1BZcNeluxr7n2-KBxQb-LPPeFNgrI-IkU/preview"
       };
-
       const cards  = document.querySelectorAll('#fv-docs-cards .fv-card');
       const viewer = document.getElementById('fv-docs-viewer');
       const frame  = document.getElementById('fv-docs-frame');
@@ -216,17 +171,15 @@
       }
       function closeViewer(){
         viewer.classList.remove('show');
-        setTimeout(()=>{ frame.src = ''; }, 450); // nach Animation leeren
+        setTimeout(()=>{ frame.src = ''; }, 450);
       }
 
-      cards.forEach(btn=>{
-        btn.addEventListener('click', ()=>{ openDoc(DOCS[btn.dataset.doc]); });
-      });
+      cards.forEach(btn => btn.addEventListener('click', () => openDoc(DOCS[btn.dataset.doc])));
       close.addEventListener('click', closeViewer);
     })();
   </script>
 
-  <!-- Phantom Wallet Connect (Desktop-freundlich) -->
+  <!-- Phantom Wallet Connect -->
   <script>
     (function () {
       const btn = document.getElementById('connectBtn');
@@ -236,25 +189,22 @@
 
       function setInstall() {
         btn.textContent = 'Install Phantom';
-        btn.classList.add('btn--warning');
         btn.onclick = () => window.open('https://phantom.app/', '_blank');
       }
 
-      if (!provider || !provider.isPhantom) {
-        setInstall();
-        return;
-      }
+      if (!provider || !provider.isPhantom) { setInstall(); return; }
+
+      btn.textContent = 'Connect Wallet';
 
       btn.addEventListener('click', async () => {
         try {
           const resp = await provider.connect({ onlyIfTrusted: false });
           const pk = resp.publicKey.toString();
-          const short = pk.slice(0, 4) + '...' + pk.slice(-4);
+          const short = pk.slice(0,4) + '...' + pk.slice(-4);
           btn.textContent = 'Connected: ' + short;
           btn.disabled = true;
-          btn.classList.remove('btn--warning');
           btn.classList.add('btn--connected');
-        } catch (e) {
+        } catch {
           alert('Wallet-Verbindung abgebrochen.');
         }
       });
