@@ -2,17 +2,50 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>ForgeVerse – A Pixel Economy on Solana</title>
   <meta name="description" content="ForgeVerse – Pixel economy on Solana. Stake, Forge and Trade to grow your NFT empire."/>
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://forgeverse.app/"/>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet"/>
 
-  <!-- Styles (Cache-Bust) -->
-  <link rel="stylesheet" href="css/styles.css?v=8"/>
+  <!-- Icons & PWA -->
+  <link rel="icon" href="/icons/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/icons/icon-32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/icons/icon-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://forgeverse.app/">
+  <meta property="og:title" content="ForgeVerse – A Pixel Economy on Solana">
+  <meta property="og:description" content="Mint, stake and play in a resource-driven NFT economy on Solana.">
+  <meta property="og:image" content="https://forgeverse.app/og.png">
+  <meta property="og:site_name" content="ForgeVerse">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ForgeVerse – A Pixel Economy on Solana">
+  <meta name="twitter:description" content="Mint, stake and play in a resource-driven NFT economy on Solana.">
+  <meta name="twitter:image" content="https://forgeverse.app/og.png">
+
+  <!-- Theme -->
+  <meta name="theme-color" content="#0D0D0F">
+
+  <!-- Perf for embeds -->
+  <link rel="dns-prefetch" href="https://drive.google.com">
+  <link rel="preconnect" href="https://drive.google.com" crossorigin>
+  <link rel="dns-prefetch" href="https://minnit.chat">
+  <link rel="preconnect" href="https://minnit.chat" crossorigin>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/styles.css?v=9"/>
 </head>
 
 <body id="top">
@@ -71,7 +104,7 @@
       <!-- Collapsible PDF Viewer -->
       <div id="fv-docs-viewer" class="fv-viewer" role="region" aria-live="polite" aria-label="Document viewer">
         <button id="fv-close-btn" class="fv-close" aria-label="Close document">✕ CLOSE</button>
-        <iframe id="fv-docs-frame" src="" width="100%" height="820" title="ForgeVerse Document Viewer"></iframe>
+        <iframe id="fv-docs-frame" src="" width="100%" height="820" loading="lazy" title="ForgeVerse Document Viewer"></iframe>
       </div>
     </div>
   </section>
@@ -179,7 +212,7 @@
   <!-- Docs Viewer (open/close with animation) -->
   <script>
     (function(){
-      // Ersetze die 3 URLs später durch deine eigenen PDFs (/preview)
+      // Ersetze diese 3 Links durch deine finalen PDFs (/preview-URLs von Google Drive)
       const DOCS = {
         whitepaper: "https://drive.google.com/file/d/1QGnx0QtJHX5SH0qMnDksHnqTYU9S6U5o/preview",
         pitchdeck:  "https://drive.google.com/file/d/1GAAIlu69a2IzVHh3-MJVKySi_-tdMGGG/preview",
@@ -286,7 +319,7 @@
       btn.addEventListener('click', async () => {
         try {
           const resp = await provider.connect({ onlyIfTrusted: false });
-          const pk = resp.publicKey.toString();
+        const pk = resp.publicKey.toString();
           const short = pk.slice(0,4) + '...' + pk.slice(-4);
           btn.textContent = 'Connected: ' + short;
           btn.disabled = true;
