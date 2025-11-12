@@ -6,46 +6,13 @@
   <title>ForgeVerse – A Pixel Economy on Solana</title>
   <meta name="description" content="ForgeVerse – Pixel economy on Solana. Stake, Forge and Trade to grow your NFT empire."/>
 
-  <!-- Canonical -->
-  <link rel="canonical" href="https://forgeverse.app/"/>
-
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet"/>
 
-  <!-- Icons & PWA -->
-  <link rel="icon" href="/icons/favicon.ico" sizes="any">
-  <link rel="icon" type="image/png" href="/icons/icon-32.png" sizes="32x32">
-  <link rel="icon" type="image/png" href="/icons/icon-192.png" sizes="192x192">
-  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
-  <link rel="manifest" href="/manifest.json">
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://forgeverse.app/">
-  <meta property="og:title" content="ForgeVerse – A Pixel Economy on Solana">
-  <meta property="og:description" content="Mint, stake and play in a resource-driven NFT economy on Solana.">
-  <meta property="og:image" content="https://forgeverse.app/og.png">
-  <meta property="og:site_name" content="ForgeVerse">
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ForgeVerse – A Pixel Economy on Solana">
-  <meta name="twitter:description" content="Mint, stake and play in a resource-driven NFT economy on Solana.">
-  <meta name="twitter:image" content="https://forgeverse.app/og.png">
-
-  <!-- Theme -->
-  <meta name="theme-color" content="#0D0D0F">
-
-  <!-- Perf for embeds -->
-  <link rel="dns-prefetch" href="https://drive.google.com">
-  <link rel="preconnect" href="https://drive.google.com" crossorigin>
-  <link rel="dns-prefetch" href="https://minnit.chat">
-  <link rel="preconnect" href="https://minnit.chat" crossorigin>
-
   <!-- Styles -->
-  <link rel="stylesheet" href="css/styles.css?v=9"/>
+  <link rel="stylesheet" href="css/styles.css?v=1"/>
 </head>
 
 <body id="top">
@@ -78,8 +45,8 @@
       <h1 class="title neon-glow-animated">A Pixel Economy on Solana</h1>
       <p class="subtitle">Stake, Forge &amp; Trade to grow your NFT empire.</p>
       <div class="hero__cta">
-        <a href="#mint" class="btn btn--primary" aria-label="Mint your NFT">Mint your NFT</a>
-        <a href="#about" class="btn btn--secondary" aria-label="Read documentation">Read Docs</a>
+        <a href="#mint" class="btn btn--primary">Mint your NFT</a>
+        <a href="#about" class="btn btn--secondary">Read Docs</a>
       </div>
     </div>
   </section>
@@ -110,7 +77,14 @@
   </section>
 
   <!-- ===== SECTIONS (PLACEHOLDERS) ===== -->
-  <section id="mint" class="section"><div class="container"><h2 class="section__title">Mint your NFT</h2><p class="section__text">Connect wallet and mint your first ForgeVerse NFT.</p><button class="btn btn--primary">Mint (Demo)</button></div></section>
+  <section id="mint" class="section" aria-labelledby="mint-title">
+    <div class="container">
+      <h2 id="mint-title" class="section__title">Mint your NFT</h2>
+      <p class="section__text">Choose your role and mint. (Demo modal until live Candy Machine is connected.)</p>
+      <button id="openMintModal" class="btn btn--primary">Mint (Demo)</button>
+    </div>
+  </section>
+
   <section id="nfts" class="section"><div class="container"><h2 class="section__title">Your NFTs</h2><p class="section__text">Your owned NFTs will appear here after wallet connect.</p></div></section>
   <section id="stake" class="section"><div class="container"><h2 class="section__title">Stake your NFTs</h2><p class="section__text">Stake NFTs and earn $FOOD, $METAL or $DOLLAR.</p></div></section>
   <section id="fusion" class="section"><div class="container"><h2 class="section__title">Fusion Lab</h2><p class="section__text">Fuse two NFTs using resources to obtain a stronger NFT.</p></div></section>
@@ -122,9 +96,7 @@
   <section id="chat" class="section" aria-labelledby="chat-title">
     <div class="container">
       <h2 id="chat-title" class="section__title">Community Chat</h2>
-      <p class="section__text">
-        Chat with ForgeVerse players in real time. Share tips, strategies and creations.
-      </p>
+      <p class="section__text">Chat with ForgeVerse players in real time. Share tips, strategies and creations.</p>
 
       <!-- Toggle Button with Online Users -->
       <button id="chatToggleBtn" class="btn btn--ghost-cyan" aria-expanded="false" aria-controls="chatPanel">
@@ -207,12 +179,11 @@
     </div>
   </footer>
 
-  <!-- ===== SCRIPTS ===== -->
+  <!-- ===== SCRIPTS (minimal, direkt hier eingebettet) ===== -->
 
   <!-- Docs Viewer (open/close with animation) -->
   <script>
     (function(){
-      // Ersetze diese 3 Links durch deine finalen PDFs (/preview-URLs von Google Drive)
       const DOCS = {
         whitepaper: "https://drive.google.com/file/d/1QGnx0QtJHX5SH0qMnDksHnqTYU9S6U5o/preview",
         pitchdeck:  "https://drive.google.com/file/d/1GAAIlu69a2IzVHh3-MJVKySi_-tdMGGG/preview",
@@ -291,7 +262,6 @@
 
       close.addEventListener('click', (e)=>{ e.preventDefault(); closeChat(); });
 
-      // Höhe bei Resize anpassen, wenn offen
       window.addEventListener('resize', ()=>{
         if (btn.getAttribute('aria-expanded') === 'true') {
           panel.style.maxHeight = panel.scrollHeight + 'px';
@@ -300,7 +270,100 @@
     })();
   </script>
 
-  <!-- Phantom Wallet Connect -->
+  <!-- Mint Modal (Demo) -->
+  <div id="mintModal" class="modal" aria-hidden="true" aria-labelledby="mintModalTitle" role="dialog">
+    <div class="modal__backdrop" data-close="true"></div>
+    <div class="modal__content" role="document">
+      <button class="modal__close" aria-label="Close mint modal" data-close="true">✕</button>
+      <h3 id="mintModalTitle" class="modal__title">Mint ForgeVerse NFT</h3>
+      <p class="modal__subtitle">Pick your role, set quantity, confirm &amp; mint.</p>
+      <form id="mintForm" class="mint-form" autocomplete="off">
+        <div class="mint-row">
+          <label class="mint-label">Role</label>
+          <div class="mint-options">
+            <label class="opt"><input type="radio" name="role" value="Trader" checked> Trader ($DOLLAR)</label>
+            <label class="opt"><input type="radio" name="role" value="Farmer"> Farmer ($FOOD)</label>
+            <label class="opt"><input type="radio" name="role" value="Worker"> Worker ($METAL)</label>
+          </div>
+        </div>
+        <div class="mint-row">
+          <label for="mintQty" class="mint-label">Quantity</label>
+          <input id="mintQty" class="mint-input" type="number" min="1" max="10" step="1" value="1" />
+        </div>
+        <div class="mint-row">
+          <label class="mint-label">Network</label>
+          <div class="mint-chip">Solana (Demo)</div>
+        </div>
+        <div class="mint-summary">
+          <div class="sum-line"><span>Price per mint</span><strong id="priceEach">0.10 SOL</strong></div>
+          <div class="sum-line"><span>Quantity</span><strong id="qtyView">1</strong></div>
+          <div class="sum-line total"><span>Total</span><strong id="totalView">0.10 SOL</strong></div>
+        </div>
+        <label class="terms">
+          <input type="checkbox" id="acceptTerms"/>
+          I accept that this is a demo mint (no on-chain transaction).
+        </label>
+        <div class="mint-actions">
+          <button type="button" id="mintNowBtn" class="btn btn--primary" disabled>Mint Now</button>
+          <button type="button" class="btn btn--secondary" data-close="true">Cancel</button>
+        </div>
+      </form>
+      <div id="mintStatus" class="mint-status" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    const OPEN  = document.getElementById('openMintModal');
+    const MODAL = document.getElementById('mintModal');
+    const CLOSES= MODAL.querySelectorAll('[data-close]');
+    const QTY   = document.getElementById('mintQty');
+    const PRICE_EACH = 0.10;
+    const priceEachEl= document.getElementById('priceEach');
+    const qtyViewEl  = document.getElementById('qtyView');
+    const totalViewEl= document.getElementById('totalView');
+    const TERMS      = document.getElementById('acceptTerms');
+    const BTN_MINT   = document.getElementById('mintNowBtn');
+    const STATUS     = document.getElementById('mintStatus');
+
+    priceEachEl.textContent = PRICE_EACH.toFixed(2) + ' SOL';
+    function updateTotals(){
+      const q = Math.min(10, Math.max(1, parseInt(QTY.value||'1',10)));
+      QTY.value = q;
+      qtyViewEl.textContent = q;
+      totalViewEl.textContent = (q * PRICE_EACH).toFixed(2) + ' SOL';
+      BTN_MINT.disabled = !TERMS.checked;
+    }
+    updateTotals();
+    QTY.addEventListener('input', updateTotals);
+    TERMS.addEventListener('change', updateTotals);
+
+    function openModal(){ MODAL.classList.add('show'); MODAL.setAttribute('aria-hidden','false'); STATUS.textContent=''; }
+    function closeModal(){ MODAL.classList.remove('show'); MODAL.setAttribute('aria-hidden','true'); }
+
+    document.getElementById('openMintModal').addEventListener('click', openModal);
+    CLOSES.forEach(el => el.addEventListener('click', closeModal));
+    MODAL.addEventListener('click', (e)=>{ if (e.target && e.target.dataset && e.target.dataset.close === 'true') closeModal(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && MODAL.classList.contains('show')) closeModal(); });
+
+    BTN_MINT.addEventListener('click', async ()=>{
+      if (BTN_MINT.disabled) return;
+      BTN_MINT.disabled = true;
+      STATUS.textContent = 'Connecting wallet...';
+      const provider = window.solana || (window.phantom && window.phantom.solana) || null;
+      await new Promise(r=>setTimeout(r, 700));
+      STATUS.textContent = (provider && provider.isPhantom) ? 'Wallet connected.\nMinting...' : 'No Phantom detected. Proceeding in demo mode...\nMinting...';
+      await new Promise(r=>setTimeout(r, 1000));
+      const qty = parseInt(QTY.value||'1',10);
+      const role = (document.querySelector('input[name="role"]:checked')||{value:'Trader'}).value;
+      const fakeHash = '0x' + Math.random().toString(16).slice(2,10) + Math.random().toString(16).slice(2,10);
+      STATUS.innerHTML = '✅ Mint successful (demo)\nRole: ' + role + ' | Qty: ' + qty + '\nTx: <code style="font-size:14px;">' + fakeHash + '</code>';
+      BTN_MINT.disabled = false;
+    });
+  })();
+  </script>
+
+  <!-- Phantom Wallet Connect (header button) -->
   <script>
     (function () {
       const btn = document.getElementById('connectBtn');
@@ -319,7 +382,7 @@
       btn.addEventListener('click', async () => {
         try {
           const resp = await provider.connect({ onlyIfTrusted: false });
-        const pk = resp.publicKey.toString();
+          const pk = resp.publicKey.toString();
           const short = pk.slice(0,4) + '...' + pk.slice(-4);
           btn.textContent = 'Connected: ' + short;
           btn.disabled = true;
