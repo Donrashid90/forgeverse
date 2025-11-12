@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet"/>
 
   <!-- Styles -->
-  <link rel="stylesheet" href="css/styles.css?v=1"/>
+  <link rel="stylesheet" href="css/styles.css?v=12"/>
 </head>
 
 <body id="top">
@@ -76,7 +76,7 @@
     </div>
   </section>
 
-  <!-- ===== SECTIONS (PLACEHOLDERS) ===== -->
+  <!-- ===== MINT ===== -->
   <section id="mint" class="section" aria-labelledby="mint-title">
     <div class="container">
       <h2 id="mint-title" class="section__title">Mint your NFT</h2>
@@ -85,26 +85,54 @@
     </div>
   </section>
 
+  <!-- ===== PLACEHOLDERS ===== -->
   <section id="nfts" class="section"><div class="container"><h2 class="section__title">Your NFTs</h2><p class="section__text">Your owned NFTs will appear here after wallet connect.</p></div></section>
   <section id="stake" class="section"><div class="container"><h2 class="section__title">Stake your NFTs</h2><p class="section__text">Stake NFTs and earn $FOOD, $METAL or $DOLLAR.</p></div></section>
   <section id="fusion" class="section"><div class="container"><h2 class="section__title">Fusion Lab</h2><p class="section__text">Fuse two NFTs using resources to obtain a stronger NFT.</p></div></section>
-  <section id="game" class="section"><div class="container"><h2 class="section__title">Game</h2><p class="section__text">Play mini-games to boost rewards. (Coming soon)</p></div></section>
+
+  <!-- ===== GAME – PIXEL PAC ===== -->
+  <section id="game" class="section" aria-labelledby="game-title">
+    <div class="container">
+      <h2 id="game-title" class="section__title">Game – Pixel Pac</h2>
+      <p class="section__text">
+        Collect all pellets, avoid ghosts. Use <strong>Arrow Keys</strong> or <strong>WASD</strong>.
+      </p>
+
+      <div class="game-wrap">
+        <div class="game-hud">
+          <div class="hud-group"><span class="hud-label">Score</span><span id="pmScore" class="hud-val">0</span></div>
+          <div class="hud-group"><span class="hud-label">Lives</span><span id="pmLives" class="hud-val">3</span></div>
+          <div class="hud-actions">
+            <button id="pmStart" class="btn btn--primary">Start</button>
+            <button id="pmReset" class="btn btn--secondary">Reset</button>
+          </div>
+        </div>
+
+        <div class="game-stage">
+          <canvas id="pmCanvas" width="448" height="496" aria-label="Pac-Man Mini Game"></canvas>
+          <div id="pmOverlay" class="game-overlay" role="status" aria-live="polite"></div>
+        </div>
+
+        <p class="game-hint">Tip: Power pellets (●) let you eat ghosts for a few seconds.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MORE PLACEHOLDERS ===== -->
   <section id="ranking" class="section"><div class="container"><h2 class="section__title">Ranking</h2><p class="section__text">Leaderboard for top players &amp; collectors.</p></div></section>
   <section id="merch" class="section"><div class="container"><h2 class="section__title">Merch Store</h2><p class="section__text">Exclusive ForgeVerse gear with NFT-holder discounts.</p></div></section>
 
-  <!-- ===== CHAT (Collapsible Minnit + Online Users) ===== -->
+  <!-- ===== CHAT (Minnit) ===== -->
   <section id="chat" class="section" aria-labelledby="chat-title">
     <div class="container">
       <h2 id="chat-title" class="section__title">Community Chat</h2>
       <p class="section__text">Chat with ForgeVerse players in real time. Share tips, strategies and creations.</p>
 
-      <!-- Toggle Button with Online Users -->
       <button id="chatToggleBtn" class="btn btn--ghost-cyan" aria-expanded="false" aria-controls="chatPanel">
         <span id="chatToggleLabel">▸ Open Chat</span>
         <span id="chatUsers" class="chat-users">Online: 12</span>
       </button>
 
-      <!-- Collapsible Panel -->
       <div id="chatPanel" class="chat-panel" role="region" aria-label="ForgeVerse Chat">
         <div class="chat-container">
           <script src="https://minnit.chat/js/embed.js?c=1758971289" defer></script>
@@ -179,11 +207,12 @@
     </div>
   </footer>
 
-  <!-- ===== SCRIPTS (minimal, direkt hier eingebettet) ===== -->
+  <!-- ===== SCRIPTS ===== -->
 
   <!-- Docs Viewer (open/close with animation) -->
   <script>
     (function(){
+      // TODO: ersetze durch deine finalen /preview-Links:
       const DOCS = {
         whitepaper: "https://drive.google.com/file/d/1QGnx0QtJHX5SH0qMnDksHnqTYU9S6U5o/preview",
         pitchdeck:  "https://drive.google.com/file/d/1GAAIlu69a2IzVHh3-MJVKySi_-tdMGGG/preview",
@@ -212,7 +241,7 @@
     })();
   </script>
 
-  <!-- Collapsible Chat Toggle + Online Users (robust) -->
+  <!-- Chat Toggle -->
   <script>
     (function(){
       const btn    = document.getElementById('chatToggleBtn');
@@ -221,18 +250,10 @@
       const close  = document.getElementById('chatCloseBtn');
       const users  = document.getElementById('chatUsers');
 
-      // Startzustand
-      panel.classList.remove('show');
-      panel.style.maxHeight = '0px';
-      panel.style.opacity   = '0';
-      btn.setAttribute('aria-expanded','false');
-      label.textContent = '▸ Open Chat';
+      panel.classList.remove('show'); panel.style.maxHeight='0px'; panel.style.opacity='0';
+      btn.setAttribute('aria-expanded','false'); label.textContent='▸ Open Chat';
 
-      // Demo: Online-Zahl ändern
-      function updateUsers(){
-        const n = 10 + Math.floor(Math.random()*15);
-        users.textContent = 'Online: ' + n;
-      }
+      function updateUsers(){ const n = 10 + Math.floor(Math.random()*15); users.textContent = 'Online: ' + n; }
       setInterval(updateUsers, 8000);
 
       function openChat(){
@@ -255,18 +276,9 @@
         label.textContent = '▸ Open Chat';
       }
 
-      btn.addEventListener('click', ()=>{
-        const isOpen = btn.getAttribute('aria-expanded') === 'true';
-        if (isOpen) closeChat(); else openChat();
-      });
-
+      btn.addEventListener('click', ()=> (btn.getAttribute('aria-expanded')==='true') ? closeChat() : openChat());
       close.addEventListener('click', (e)=>{ e.preventDefault(); closeChat(); });
-
-      window.addEventListener('resize', ()=>{
-        if (btn.getAttribute('aria-expanded') === 'true') {
-          panel.style.maxHeight = panel.scrollHeight + 'px';
-        }
-      });
+      window.addEventListener('resize', ()=>{ if (btn.getAttribute('aria-expanded') === 'true') panel.style.maxHeight = panel.scrollHeight + 'px'; });
     })();
   </script>
 
@@ -329,19 +341,16 @@
     priceEachEl.textContent = PRICE_EACH.toFixed(2) + ' SOL';
     function updateTotals(){
       const q = Math.min(10, Math.max(1, parseInt(QTY.value||'1',10)));
-      QTY.value = q;
-      qtyViewEl.textContent = q;
+      QTY.value = q; qtyViewEl.textContent = q;
       totalViewEl.textContent = (q * PRICE_EACH).toFixed(2) + ' SOL';
       BTN_MINT.disabled = !TERMS.checked;
     }
-    updateTotals();
-    QTY.addEventListener('input', updateTotals);
-    TERMS.addEventListener('change', updateTotals);
+    updateTotals(); QTY.addEventListener('input', updateTotals); TERMS.addEventListener('change', updateTotals);
 
     function openModal(){ MODAL.classList.add('show'); MODAL.setAttribute('aria-hidden','false'); STATUS.textContent=''; }
     function closeModal(){ MODAL.classList.remove('show'); MODAL.setAttribute('aria-hidden','true'); }
 
-    document.getElementById('openMintModal').addEventListener('click', openModal);
+    OPEN.addEventListener('click', openModal);
     CLOSES.forEach(el => el.addEventListener('click', closeModal));
     MODAL.addEventListener('click', (e)=>{ if (e.target && e.target.dataset && e.target.dataset.close === 'true') closeModal(); });
     document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && MODAL.classList.contains('show')) closeModal(); });
@@ -363,7 +372,7 @@
   })();
   </script>
 
-  <!-- Phantom Wallet Connect (header button) -->
+  <!-- Phantom Wallet Connect (Header Button) -->
   <script>
     (function () {
       const btn = document.getElementById('connectBtn');
@@ -407,6 +416,230 @@
         });
       }
     })();
+  </script>
+
+  <!-- ===== GAME SCRIPT (Pixel Pac) ===== -->
+  <script>
+  (function(){
+    const TILE = 16, COLS = 28, ROWS = 31;
+    const SPEED = 1.0, GHOST_SPEED = 0.95, FRIGHTENED_TIME = 6000, START_LIVES = 3;
+
+    const C = {
+      bg: '#000214', wall: '#0cc', pellet: '#9df', power: '#FFB347',
+      pac: '#FFEF00', ghostR: '#ff4d4d', ghostP: '#ff68ff', ghostB: '#66a3ff', ghostO: '#ffb347',
+      eyes: '#fff', fright: '#2aa', gate:'#66FAFF'
+    };
+
+    const cv = document.getElementById('pmCanvas');
+    const cx = cv.getContext('2d');
+    const scoreEl = document.getElementById('pmScore');
+    const livesEl = document.getElementById('pmLives');
+    const startBtn = document.getElementById('pmStart');
+    const resetBtn = document.getElementById('pmReset');
+    const overlay = document.getElementById('pmOverlay');
+
+    const MAP = [
+      "1111111111111111111111111111",
+      "1000000000110000000000000001",
+      "1011110110110110110111111101",
+      "1030000100000000000100000301",
+      "1011110101111111100101111101",
+      "1000000101000000100100000001",
+      "1111100101011110100101111101",
+      "2000100001000000100001000102",
+      "1110101111114111111101010111",
+      "1000101000000000000101000101",
+      "1011101011110111110101110101",
+      "1030001000000100000100000301",
+      "1011101111100101111101111101",
+      "1000000000100101000000000001",
+      "1111111110100101011111111111",
+      "2000000000100001000000000002",
+      "1111111110111111011111111111",
+      "1000000000000000000000000001",
+      "1011111111110111111111111101",
+      "1010000000030100000000000101",
+      "1010111111110111111111100101",
+      "1010000000000000000000100101",
+      "1011111111111111111110100101",
+      "1000000000000000000000100001",
+      "1111111111111111111111111111"
+    ];
+    while (MAP.length < ROWS) MAP.push(MAP[MAP.length-1]);
+    const grid = MAP.map(row => row.split('').map(c => +c));
+
+    let score=0, lives=START_LIVES, pelletsTotal=0, pelletsLeft=0;
+    let running=false, lastTime=0, frightenedUntil=0;
+    let nextDir = {x:0,y:0};
+
+    const pac = { x: 14*TILE, y: 23*TILE, dir:{x:-1,y:0} };
+    const ghosts = [
+      mkGhost(13, 11, C.ghostR),
+      mkGhost(14, 11, C.ghostP),
+      mkGhost(13, 13, C.ghostB),
+      mkGhost(14, 13, C.ghostO),
+    ];
+
+    function mkGhost(cx, cy, color){
+      return { x:cx*TILE, y:cy*TILE, dir:randDir(), baseColor:color, frightened:false, eyesOnly:false, home:{x:cx*TILE, y:cy*TILE} };
+    }
+
+    for (let r=0;r<ROWS;r++) for (let c=0;c<COLS;c++) if (grid[r][c]===0||grid[r][c]===3) pelletsTotal++;
+    pelletsLeft = pelletsTotal; updateHUD();
+
+    window.addEventListener('keydown', (e)=>{
+      const k = e.key.toLowerCase();
+      if (k==='arrowup'||k==='w') nextDir={x:0,y:-1};
+      else if (k==='arrowdown'||k==='s') nextDir={x:0,y:1};
+      else if (k==='arrowleft'||k==='a') nextDir={x:-1,y:0};
+      else if (k==='arrowright'||k==='d') nextDir={x:1,y:0};
+    });
+
+    startBtn.addEventListener('click', ()=>{ if(!running){ overlay.classList.remove('show'); start(); } });
+    resetBtn.addEventListener('click', resetGame);
+
+    function start(){ running=true; lastTime=performance.now(); requestAnimationFrame(loop); }
+    function stop(){ running=false; }
+
+    function resetGame(){
+      stop();
+      for (let r=0;r<ROWS;r++) for (let c=0;c<COLS;c++) grid[r][c]= +MAP[Math.min(r, MAP.length-1)][c] || 1;
+      score=0; lives=START_LIVES; pelletsTotal=0;
+      for (let r=0;r<ROWS;r++) for (let c=0;c<COLS;c++) if (grid[r][c]===0||grid[r][c]===3) pelletsTotal++;
+      pelletsLeft=pelletsTotal;
+      pac.x=14*TILE; pac.y=23*TILE; pac.dir={x:-1,y:0}; nextDir={x:0,y:0};
+      ghosts[0]=mkGhost(13, 11, C.ghostR);
+      ghosts[1]=mkGhost(14, 11, C.ghostP);
+      ghosts[2]=mkGhost(13, 13, C.ghostB);
+      ghosts[3]=mkGhost(14, 13, C.ghostO);
+      frightenedUntil=0; overlay.classList.remove('show');
+      updateHUD(); draw();
+    }
+
+    function loop(t){
+      if(!running) return;
+      const dt = Math.min(33, t-lastTime); lastTime=t;
+      update(dt); draw(); requestAnimationFrame(loop);
+    }
+
+    function update(){
+      tryTurn(pac, nextDir);
+      moveEntity(pac, SPEED);
+      wrapEntity(pac); ghosts.forEach(g=>wrapEntity(g));
+
+      const cell = cellAt(pac.x, pac.y);
+      if (cell===0){ setCell(pac.x,pac.y,2); score+=10; pelletsLeft--; pop("+10"); winCheck(); }
+      else if (cell===3){ setCell(pac.x,pac.y,2); score+=50; pelletsLeft--; frightenedUntil=performance.now()+FRIGHTENED_TIME; ghosts.forEach(g=>{ g.frightened=true; g.eyesOnly=false; }); pop("Power!"); winCheck(); }
+
+      ghosts.forEach(g=>{
+        const now=performance.now();
+        if (g.eyesOnly){
+          goHome(g); moveEntity(g, GHOST_SPEED*1.3);
+          if (Math.abs(g.x - g.home.x) < 1 && Math.abs(g.y - g.home.y) < 1){ g.eyesOnly=false; g.frightened=false; }
+          return;
+        }
+        g.frightened = now < frightenedUntil;
+        if (centered(g.x) && centered(g.y)){
+          const dirs = validDirs(g);
+          let dir;
+          if (!g.frightened && Math.random()<0.65) dir = chaseDir(g, pac);
+          else dir = dirs[Math.floor(Math.random()*dirs.length)] || g.dir;
+          if (dir && !(dir.x===-g.dir.x && dir.y===-g.dir.y) && canMove(g.x,g.y,dir)) g.dir=dir;
+          else if (!canMove(g.x,g.y,g.dir) && dir) g.dir=dir;
+        }
+        moveEntity(g, g.frightened ? GHOST_SPEED*0.85 : GHOST_SPEED);
+      });
+
+      ghosts.forEach(g=>{
+        if (dist2(g.x,g.y,pac.x,pac.y) < (TILE*0.6)*(TILE*0.6)){
+          if (g.frightened && !g.eyesOnly){ g.eyesOnly=true; score+=200; pop("+200"); updateHUD(); }
+          else if (!g.frightened && !g.eyesOnly){ loseLife(); }
+        }
+      });
+    }
+
+    function draw(){
+      cx.fillStyle=C.bg; cx.fillRect(0,0,cv.width,cv.height);
+      for(let r=0;r<ROWS;r++){
+        for(let c=0;c<COLS;c++){
+          const v=grid[r][c], x=c*TILE, y=r*TILE;
+          if (v===1){ cx.fillStyle=C.wall; cx.fillRect(x,y,TILE,TILE); cx.fillStyle="#001c1c"; cx.fillRect(x+2,y+2,TILE-4,TILE-4); }
+          else if (v===0){ cx.fillStyle=C.pellet; cx.beginPath(); cx.arc(x+TILE/2, y+TILE/2, 2, 0, Math.PI*2); cx.fill(); }
+          else if (v===3){ cx.fillStyle=C.power; cx.beginPath(); cx.arc(x+TILE/2, y+TILE/2, 5, 0, Math.PI*2); cx.fill(); }
+          else if (v===4){ cx.fillStyle=C.gate; cx.fillRect(x+2, y+TILE/2-1, TILE-4, 2); }
+        }
+      }
+      drawPac(pac.x,pac.y,pac.dir); ghosts.forEach(g=>drawGhost(g));
+    }
+
+    function updateHUD(){ scoreEl.textContent=score; livesEl.textContent=lives; }
+    function pop(msg){ overlay.textContent=msg; overlay.classList.add('show'); setTimeout(()=>overlay.classList.remove('show'), 600); }
+    function winCheck(){ if (pelletsLeft<=0){ stop(); overlay.textContent="YOU WIN! 🎉"; overlay.classList.add('show'); } updateHUD(); }
+    function loseLife(){
+      lives--; updateHUD();
+      if (lives<=0){ stop(); overlay.textContent="GAME OVER"; overlay.classList.add('show'); return; }
+      pac.x=14*TILE; pac.y=23*TILE; pac.dir={x:-1,y:0}; nextDir={x:0,y:0};
+      ghosts.forEach((g,i)=>{ const pos=[[13,11],[14,11],[13,13],[14,13]][i]; g.x=pos[0]*TILE; g.y=pos[1]*TILE; g.dir=randDir(); g.eyesOnly=false; g.frightened=false; });
+      frightenedUntil=0; pop("Life Lost");
+    }
+
+    function drawPac(x,y,dir){
+      cx.fillStyle=C.pac; cx.beginPath();
+      const t = performance.now()/120, m = (Math.sin(t)+1)/2 * 0.6 + 0.2;
+      let ang=0; if (dir.x===1) ang=0; else if (dir.x===-1) ang=Math.PI; else if (dir.y===-1) ang=-Math.PI/2; else if (dir.y===1) ang=Math.PI/2;
+      cx.moveTo(x+TILE/2,y+TILE/2);
+      cx.arc(x+TILE/2,y+TILE/2,TILE*0.45, ang+m, ang+(Math.PI*2 - m));
+      cx.closePath(); cx.fill();
+    }
+
+    function drawGhost(g){
+      const x=g.x, y=g.y;
+      const bodyColor = g.eyesOnly ? '#99c' : (g.frightened ? C.fright : g.baseColor);
+      cx.fillStyle=bodyColor; cx.beginPath();
+      const r=TILE*0.45;
+      cx.arc(x+TILE/2,y+TILE/2,r, Math.PI, 0);
+      cx.lineTo(x+TILE*0.9, y+TILE*0.9);
+      cx.lineTo(x+TILE*0.7, y+TILE*0.8);
+      cx.lineTo(x+TILE*0.5, y+TILE*0.9);
+      cx.lineTo(x+TILE*0.3, y+TILE*0.8);
+      cx.lineTo(x+TILE*0.1, y+TILE*0.9);
+      cx.closePath(); cx.fill();
+      cx.fillStyle=C.eyes;
+      const ex = (g.eyesOnly? 0 : g.dir.x)*2, ey=(g.eyesOnly? -1 : g.dir.y)*2;
+      cx.beginPath(); cx.arc(x+TILE*0.42+ex, y+TILE*0.46+ey, 2.2, 0, Math.PI*2); cx.fill();
+      cx.beginPath(); cx.arc(x+TILE*0.58+ex, y+TILE*0.46+ey, 2.2, 0, Math.PI*2); cx.fill();
+    }
+
+    function tryTurn(e, nd){ if (!nd || (nd.x===0&&nd.y===0)) return; if (centered(e.x)&&centered(e.y)&&canMove(e.x,e.y,nd)) e.dir={x:nd.x,y:nd.y}; }
+    function moveEntity(e, spd){
+      const nx=e.x + e.dir.x*spd, ny=e.y + e.dir.y*spd;
+      if (canMove(e.x,e.y,e.dir)){ e.x=nx; e.y=ny; }
+      else { e.x=Math.round(e.x/(TILE/2))*(TILE/2); e.y=Math.round(e.y/(TILE/2))*(TILE/2); }
+    }
+    function wrapEntity(e){ if (e.x < -TILE) e.x = (COLS*TILE - TILE); if (e.x > COLS*TILE) e.x = 0; }
+    function cellAt(x,y){ const c=Math.floor((x+TILE/2)/TILE), r=Math.floor((y+TILE/2)/TILE); if(r<0||r>=ROWS||c<0||c>=COLS) return 1; return grid[r][c]; }
+    function setCell(x,y,val){ const c=Math.floor((x+TILE/2)/TILE), r=Math.floor((y+TILE/2)/TILE); if(r>=0&&r<ROWS&&c>=0&&c<COLS) grid[r][c]=val; }
+    function isWallAt(x,y){ const v=cellAt(x,y); return v===1||v===4; }
+    function canMove(x,y,dir){
+      const nx=x+dir.x*(TILE/2), ny=y+dir.y*(TILE/2), pad=5;
+      return !(isWallAt(nx-pad,ny-pad)||isWallAt(nx+pad,ny-pad)||isWallAt(nx-pad,ny+pad)||isWallAt(nx+pad,ny+pad));
+    }
+    function centered(v){ return Math.abs((v % TILE) - TILE/2) < 0.6 || (v%TILE)===0; }
+    function randDir(){ return [{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}][(Math.random()*4)|0]; }
+    function validDirs(e){ return [{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}].filter(d=>canMove(e.x,e.y,d)); }
+    function chaseDir(g, t){
+      const dirs=validDirs(g); let best=g.dir, bestd=Infinity;
+      dirs.forEach(d=>{ const nx=g.x+d.x*TILE, ny=g.y+d.y*TILE, d2=(nx-t.x)*(nx-t.x)+(ny-t.y)*(ny-t.y); if(d2<bestd && !(d.x===-g.dir.x&&d.y===-g.dir.y)){ bestd=d2; best=d; } });
+      return best||g.dir;
+    }
+    function goHome(g){
+      const dx=Math.sign(g.home.x-g.x), dy=Math.sign(g.home.y-g.y);
+      const tryDirs=[{x:dx,y:0},{x:0,y:dy},{x:-dx,y:0},{x:0,y:-dy}];
+      for (const d of tryDirs){ if (canMove(g.x,g.y,d)){ g.dir=d; return; } }
+    }
+
+    draw(); // initial static render
+  })();
   </script>
 </body>
 </html>
