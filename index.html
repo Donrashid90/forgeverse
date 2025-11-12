@@ -5,16 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ForgeVerse – A Pixel Economy on Solana</title>
   <meta name="description" content="ForgeVerse – Pixel economy on Solana. Stake, Forge and Trade to grow your NFT empire."/>
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet"/>
-  <!-- Styles -->
-  <link rel="stylesheet" href="css/styles.css"/>
+
+  <!-- Styles (Cache-Bust mit v=6) -->
+  <link rel="stylesheet" href="css/styles.css?v=6"/>
 </head>
 
-<body>
-  <!-- ========== HEADER ========== -->
+<body id="top">
+  <!-- ===== HEADER ===== -->
   <header class="header" role="banner">
     <div class="container header__inner">
       <a class="brand" href="#top" aria-label="ForgeVerse Home">
@@ -33,14 +35,12 @@
         <a href="#chat">Chat</a>
       </nav>
 
-      <button id="connectBtn" class="btn btn--wallet" aria-label="Connect Phantom Wallet">
-        Install Phantom
-      </button>
+      <button id="connectBtn" class="btn btn--wallet" aria-label="Connect Phantom Wallet">Install Phantom</button>
     </div>
   </header>
 
-  <!-- ========== HERO ========== -->
-  <section class="hero" id="top">
+  <!-- ===== HERO ===== -->
+  <section class="hero">
     <div class="container hero__inner">
       <h1 class="title neon-glow-animated">A Pixel Economy on Solana</h1>
       <p class="subtitle">Stake, Forge &amp; Trade to grow your NFT empire.</p>
@@ -51,7 +51,7 @@
     </div>
   </section>
 
-  <!-- ========== ABOUT (Docs Viewer) ========== -->
+  <!-- ===== ABOUT / DOCS VIEWER ===== -->
   <section id="about" class="section" aria-labelledby="about-title">
     <div class="container">
       <h2 id="about-title" class="section__title">About</h2>
@@ -76,16 +76,8 @@
     </div>
   </section>
 
-  <!-- ========== MINT ========== -->
-  <section id="mint" class="section">
-    <div class="container">
-      <h2 class="section__title">Mint your NFT</h2>
-      <p class="section__text">Connect wallet and mint your first ForgeVerse NFT.</p>
-      <button class="btn btn--primary">Mint (Demo)</button>
-    </div>
-  </section>
-
-  <!-- ========== OTHER SECTIONS (placeholders) ========== -->
+  <!-- ===== SECTIONS (PLACEHOLDERS) ===== -->
+  <section id="mint" class="section"><div class="container"><h2 class="section__title">Mint your NFT</h2><p class="section__text">Connect wallet and mint your first ForgeVerse NFT.</p><button class="btn btn--primary">Mint (Demo)</button></div></section>
   <section id="nfts" class="section"><div class="container"><h2 class="section__title">Your NFTs</h2><p class="section__text">Your owned NFTs will appear here after wallet connect.</p></div></section>
   <section id="stake" class="section"><div class="container"><h2 class="section__title">Stake your NFTs</h2><p class="section__text">Stake NFTs and earn $FOOD, $METAL or $DOLLAR.</p></div></section>
   <section id="fusion" class="section"><div class="container"><h2 class="section__title">Fusion Lab</h2><p class="section__text">Fuse two NFTs using resources to obtain a stronger NFT.</p></div></section>
@@ -94,7 +86,7 @@
   <section id="merch" class="section"><div class="container"><h2 class="section__title">Merch Store</h2><p class="section__text">Exclusive ForgeVerse gear with NFT-holder discounts.</p></div></section>
   <section id="chat" class="section"><div class="container"><h2 class="section__title">Chat</h2><p class="section__text">Embed Discord widget or add in-site chat with wallet auth.</p></div></section>
 
-  <!-- ========== FOOTER ========== -->
+  <!-- ===== FOOTER ===== -->
   <footer class="footer" role="contentinfo">
     <div class="container">
       <div class="footer__grid">
@@ -147,16 +139,18 @@
     </div>
   </footer>
 
-  <!-- ========== SCRIPTS ========== -->
+  <!-- ===== SCRIPTS ===== -->
 
   <!-- Docs Viewer (open/close with animation) -->
   <script>
     (function(){
+      // Ersetze die 3 URLs später durch deine eigenen PDFs (/preview)
       const DOCS = {
         whitepaper: "https://drive.google.com/file/d/1QGnx0QtJHX5SH0qMnDksHnqTYU9S6U5o/preview",
         pitchdeck:  "https://drive.google.com/file/d/1GAAIlu69a2IzVHh3-MJVKySi_-tdMGGG/preview",
         roadmap:    "https://drive.google.com/file/d/1BZcNeluxr7n2-KBxQb-LPPeFNgrI-IkU/preview"
       };
+
       const cards  = document.querySelectorAll('#fv-docs-cards .fv-card');
       const viewer = document.getElementById('fv-docs-viewer');
       const frame  = document.getElementById('fv-docs-frame');
@@ -193,7 +187,6 @@
       }
 
       if (!provider || !provider.isPhantom) { setInstall(); return; }
-
       btn.textContent = 'Connect Wallet';
 
       btn.addEventListener('click', async () => {
