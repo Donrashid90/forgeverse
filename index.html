@@ -53,24 +53,74 @@
           <strong>Traders</strong> earn $DOLLAR, <strong>Farmers</strong> grow $FOOD, and
           <strong>Workers</strong> mine $METAL. Use resources to feed, forge, and fuse your NFTs.
         </p>
-        <div class="cards">
-  <!-- Whitepaper direkt eingebettet -->
-  <iframe 
-    src="https://drive.google.com/file/d/1QGnx0QtJHX5SH0qMnDksHnqTYU9S6U5o/preview"
-    width="100%" 
-    height="800" 
-    style="border:none;"
-    allow="autoplay">
-  </iframe>
+        <!-- === ForgeVerse Docs (Whitepaper / Pitchdeck / Roadmap) – One-Paste Block === -->
+<section id="about" style="color:#fff;">
+  <h2 class="section__title">About</h2>
+  <p class="section__text">
+    ForgeVerse connects NFTs, gaming, and a resource-driven economy. Each NFT has a role:
+    <strong>Traders</strong> earn $DOLLAR, <strong>Farmers</strong> grow $FOOD, and
+    <strong>Workers</strong> mine $METAL. Use resources to feed, forge, and fuse your NFTs.
+  </p>
 
-  <!-- Andere Dokumente -->
-  <a class="card" href="https://drive.google.com/file/d/1GAAIlu69a2IzVHh3-MJVKySi_-tdMGGG/view?usp=drive_link" target="_blank" rel="noreferrer">
-    <span class="card__title">Pitchdeck</span>
-  </a>
-  <a class="card" href="https://drive.google.com/file/d/1BZcNeluxr7n2-KBxQb-LPPeFNgrI-IkU/view?usp=drive_link" target="_blank" rel="noreferrer">
-    <span class="card__title">Roadmap</span>
-  </a>
-</div>
+  <!-- Buttons (Cards) -->
+  <div id="fv-docs-cards" style="display:flex; gap:20px; flex-wrap:wrap; margin-top:22px;">
+    <button data-doc="whitepaper" class="fv-card">Whitepaper</button>
+    <button data-doc="pitchdeck"  class="fv-card">Pitchdeck</button>
+    <button data-doc="roadmap"    class="fv-card">Roadmap</button>
+  </div>
+
+  <!-- Viewer -->
+  <div id="fv-docs-viewer" style="margin-top:24px; display:none;">
+    <iframe id="fv-docs-frame" src="" width="100%" height="820"
+      style="border:2px solid #66FAFF; box-shadow:0 0 20px #00ffff55; border-radius:12px; background:#0D0D0F;">
+    </iframe>
+  </div>
+</section>
+
+<!-- Scoped styles for the three cards -->
+<style>
+  .fv-card{
+    flex:1 1 220px; min-height:72px;
+    background:#0D0D0F; color:#66FAFF; cursor:pointer;
+    border:2px solid #66FAFF; border-radius:8px;
+    font-family:'Press Start 2P', monospace; font-size:12px;
+    display:flex; align-items:center; justify-content:center;
+    transition:transform .08s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .fv-card:hover{ transform:translateY(-2px); box-shadow:0 0 14px #66FAFF55; }
+  @media (max-width: 900px){ #fv-docs-frame{ height: 620px; } }
+</style>
+
+<!-- Minimal JS (keine Abhängigkeiten) -->
+<script>
+  (function(){
+    // Deine Dokument-Links (Drive-IDs im /preview-Format):
+    const DOCS = {
+      whitepaper: "https://drive.google.com/file/d/1QGnx0QtJHX5SH0qMnDksHnqTYU9S6U5o/preview",
+      pitchdeck:  "https://drive.google.com/file/d/1GAAIlu69a2IzVHh3-MJVKySi_-tdMGGG/preview",
+      roadmap:    "https://drive.google.com/file/d/1BZcNeluxr7n2-KBxQb-LPPeFNgrI-IkU/preview"
+    };
+
+    const cards  = document.querySelectorAll('#fv-docs-cards .fv-card');
+    const viewer = document.getElementById('fv-docs-viewer');
+    const frame  = document.getElementById('fv-docs-frame');
+
+    cards.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const key = btn.getAttribute('data-doc');
+        frame.src = DOCS[key] || '';
+        if (frame.src) {
+          viewer.style.display = 'block';
+          // sanft hinscrollen
+          const top = viewer.getBoundingClientRect().top + window.pageYOffset - 90;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      });
+    });
+  })();
+</script>
+<!-- === /ForgeVerse Docs Block === -->
+
     </section>
 
     <section id="mint" class="section">
