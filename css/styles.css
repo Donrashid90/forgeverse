@@ -105,3 +105,19 @@ body{ font-family:'VT323', monospace; line-height:1.4; }
 @media (max-width: 560px){
   .footer__grid{ grid-template-columns:1fr; }
 }
+
+/* === Global Neon Grid Background === */
+body{ position: relative; background:#0D0D0F; }
+body::before{
+  content:"";
+  position: fixed; inset:0;
+  z-index:0; pointer-events:none;
+  /* horizontale + vertikale Linien im 32px-Raster */
+  background:
+    repeating-linear-gradient(to right, rgba(102,250,255,.10) 0 1px, transparent 1px 32px),
+    repeating-linear-gradient(to bottom, rgba(102,250,255,.10) 0 1px, transparent 1px 32px);
+  /* leichte Gesamttransparenz */
+  opacity:.25;
+}
+.header, .hero, .section, .footer{ position: relative; z-index:1; }
+
