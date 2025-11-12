@@ -112,3 +112,28 @@ body::before{
 @media (max-width:560px){
   .nav{ display:none; }
 }
+/* --- Chat Section Styling --- */
+.chat-container {
+  border: 2px solid #66FAFF;
+  border-radius: 12px;
+  box-shadow: 0 0 20px #00ffff55;
+  background: #0D0D0F;
+  padding: 10px;
+  margin-top: 30px;
+}
+
+.powered-by-minnit {
+  text-align: center;
+  font-size: 10px;
+  color: #888;
+  margin-top: 8px;
+}
+
+.powered-by-minnit a {
+  color: #66FAFF;
+  text-decoration: none;
+}
+
+.powered-by-minnit a:hover {
+  text-decoration: underline;
+}
