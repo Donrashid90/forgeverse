@@ -11,8 +11,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet"/>
 
-  <!-- Styles (Cache-Bust mit v=6) -->
-  <link rel="stylesheet" href="css/styles.css?v=6"/>
+  <!-- Styles (Cache-Bust mit v=7) -->
+  <link rel="stylesheet" href="css/styles.css?v=7"/>
 </head>
 
 <body id="top">
@@ -61,7 +61,7 @@
         <strong>Workers</strong> mine $METAL. Use resources to feed, forge, and fuse your NFTs.
       </p>
 
-      <!-- Buttons -->
+      <!-- Docs Buttons -->
       <div id="fv-docs-cards" class="cards" role="tablist" aria-label="Documents">
         <button data-doc="whitepaper" class="fv-card" role="tab" aria-controls="fv-docs-viewer">Whitepaper</button>
         <button data-doc="pitchdeck"  class="fv-card" role="tab" aria-controls="fv-docs-viewer">Pitchdeck</button>
@@ -84,32 +84,41 @@
   <section id="game" class="section"><div class="container"><h2 class="section__title">Game</h2><p class="section__text">Play mini-games to boost rewards. (Coming soon)</p></div></section>
   <section id="ranking" class="section"><div class="container"><h2 class="section__title">Ranking</h2><p class="section__text">Leaderboard for top players &amp; collectors.</p></div></section>
   <section id="merch" class="section"><div class="container"><h2 class="section__title">Merch Store</h2><p class="section__text">Exclusive ForgeVerse gear with NFT-holder discounts.</p></div></section>
-  <!-- ===== CHAT SECTION (Minnit Chat Embed) ===== -->
-<section id="chat" class="section">
-  <div class="container">
-    <h2 class="section__title">Community Chat</h2>
-    <p class="section__text">
-      Join the ForgeVerse chat to connect with other players, discuss strategies,
-      and share your NFT creations in real time.
-    </p>
 
-    <!-- Minnit Chat Embed -->
-    <div class="chat-container">
-      <script src="https://minnit.chat/js/embed.js?c=1758971289" defer></script>
-      <span
-        class="minnit-chat-sembed"
-        data-chatname="https://organizations.minnit.chat/363196062352045/c/Main?embed"
-        data-style="width:100%; height:500px; max-height:90vh;"
-        data-version="1.55"
-      >Chat</span>
-      <p class="powered-by-minnit">
-        <a href="https://minnit.chat" target="_blank" rel="noreferrer">
-          Free embeddable chatroom powered by Minnit Chat
-        </a>
+  <!-- ===== CHAT (Collapsible Minnit + Online Users) ===== -->
+  <section id="chat" class="section" aria-labelledby="chat-title">
+    <div class="container">
+      <h2 id="chat-title" class="section__title">Community Chat</h2>
+      <p class="section__text">
+        Chat with ForgeVerse players in real time. Share tips, strategies and creations.
       </p>
+
+      <!-- Toggle Button with Online Users -->
+      <button id="chatToggleBtn" class="btn btn--ghost-cyan" aria-expanded="false" aria-controls="chatPanel">
+        ▸ Open Chat <span id="chatUsers" class="chat-users">Online: 12</span>
+      </button>
+
+      <!-- Collapsible Panel -->
+      <div id="chatPanel" class="chat-panel" role="region" aria-label="ForgeVerse Chat">
+        <div class="chat-container">
+          <script src="https://minnit.chat/js/embed.js?c=1758971289" defer></script>
+          <span
+            class="minnit-chat-sembed"
+            data-chatname="https://organizations.minnit.chat/363196062352045/c/Main?embed"
+            data-style="width:100%; height:500px; max-height:90vh;"
+            data-version="1.55"
+          >Chat</span>
+
+          <div class="chat-actions">
+            <button id="chatCloseBtn" class="btn btn--close-orange">✕ Close Chat</button>
+            <p class="powered-by-minnit">
+              <a href="https://minnit.chat" target="_blank" rel="noreferrer">Powered by Minnit Chat</a>
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
   <!-- ===== FOOTER ===== -->
   <footer class="footer" role="contentinfo">
@@ -195,6 +204,39 @@
 
       cards.forEach(btn => btn.addEventListener('click', () => openDoc(DOCS[btn.dataset.doc])));
       close.addEventListener('click', closeViewer);
+    })();
+  </script>
+
+  <!-- Collapsible Chat Toggle + Online Users Demo -->
+  <script>
+    (function(){
+      const btn   = document.getElementById('chatToggleBtn');
+      const panel = document.getElementById('chatPanel');
+      const close = document.getElementById('chatCloseBtn');
+      const users = document.getElementById('chatUsers');
+
+      // Demo: simuliert wechselnde Onlinezahlen
+      function updateUsers(){
+        const n = 10 + Math.floor(Math.random()*15);
+        users.textContent = 'Online: '+n;
+      }
+      setInterval(updateUsers, 8000);
+
+      function openChat(){
+        panel.classList.add('show');
+        btn.setAttribute('aria-expanded','true');
+        btn.firstChild.textContent = '▾ Close Chat ';
+        const top = panel.getBoundingClientRect().top + window.pageYOffset - 90;
+        window.scrollTo({ top, behavior:'smooth' });
+      }
+      function closeChat(){
+        panel.classList.remove('show');
+        btn.setAttribute('aria-expanded','false');
+        btn.firstChild.textContent = '▸ Open Chat ';
+      }
+
+      btn.addEventListener('click', ()=>{ panel.classList.contains('show') ? closeChat() : openChat(); });
+      close.addEventListener('click', closeChat);
     })();
   </script>
 
