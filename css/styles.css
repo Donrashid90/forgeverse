@@ -1,1 +1,83 @@
+/* ============================== */
+/*        PITCHDECK DESIGN        */
+/* ============================== */
 
+.pitchdeck-section {
+  margin: 80px auto;
+  padding: 32px;
+  width: 90%;
+  max-width: 900px;
+  background: #000;
+  border: 2px solid #66FAFF;
+  border-radius: 14px;
+  position: relative;
+  box-shadow: 0 0 30px #00ffff55;
+}
+
+.pitchdeck-section::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    repeating-linear-gradient(90deg, rgba(0,255,255,0.1) 0 2px, transparent 2px 40px),
+    repeating-linear-gradient(0deg, rgba(0,255,255,0.1) 0 2px, transparent 2px 40px);
+  z-index:0;
+}
+
+.pitchdeck-section * {
+  position: relative;
+  z-index: 1;
+}
+
+.pd-controls {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:20px;
+  margin-bottom:20px;
+  font-family:'Press Start 2P';
+  color:#66FAFF;
+}
+
+.pd-btn {
+  background:#000;
+  color:#66FAFF;
+  padding:10px 20px;
+  border:2px solid #66FAFF;
+  border-radius:6px;
+  cursor:pointer;
+  font-family:'Press Start 2P';
+}
+
+.pd-btn:hover {
+  background:#66FAFF;
+  color:#000;
+}
+
+.pd-slides {
+  position:relative;
+  height:300px;
+}
+
+.pd-slide {
+  position:absolute;
+  inset:0;
+  opacity:0;
+  transform:scale(0.95);
+  transition:0.3s;
+  padding:20px;
+  font-size:22px;
+  color:#fff;
+  text-align:center;
+}
+
+.pd-slide.active {
+  opacity:1;
+  transform:scale(1);
+}
+
+.pd-slide h3 {
+  font-family:'Press Start 2P';
+  font-size:26px;
+  color:#66FAFF;
+}
