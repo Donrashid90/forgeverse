@@ -654,8 +654,10 @@
       })();
     </script>
 
+    </section> <!-- Ende Pitchdeck -->
+
     <!-- =======================
-         FORGEVERSE ROADMAP
+         FORGEVERSE ROADMAP (Collapsible)
     ========================== -->
     <section id="fv-roadmap" class="fv-roadmap-wrapper">
       <button id="fv-roadmap-close" class="fv-roadmap-close">✕ CLOSE</button>
@@ -731,14 +733,177 @@
       </div>
     </section>
 
-  <!-- MINT -->
-  <section id="mint" class="section">
-    <div class="container">
-      <h2 class="section__title">Mint your NFT</h2>
-      <p class="section__text">Choose your role and mint. (Demo modal until live Candy Machine is connected.)</p>
-      <button id="openMintModal" class="btn btn--primary">Mint (Demo)</button>
-    </div>
-  </section>
+    <!-- === Styles nur für die Roadmap === -->
+    <style>
+      /* Wrapper: ausgeblendet, bis "show" gesetzt wird */
+      .fv-roadmap-wrapper {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        padding: 0;
+        transition: max-height 0.5s ease, opacity 0.4s ease, padding 0.4s ease;
+        position: relative;
+      }
+
+      .fv-roadmap-wrapper.show {
+        max-height: 2000px;
+        opacity: 1;
+        padding: 40px 0 80px 0;
+      }
+
+      /* Close Button */
+      .fv-roadmap-close {
+        position: absolute;
+        top: 8px;
+        right: 24px;
+        background: #0d0d0f;
+        color: #ffb347;
+        border: 2px solid #ffb347;
+        border-radius: 6px;
+        font-family: "Press Start 2P", monospace;
+        font-size: 10px;
+        padding: 6px 10px;
+        cursor: pointer;
+        box-shadow: 0 0 12px #ffb34766;
+        z-index: 5;
+      }
+      .fv-roadmap-close:hover {
+        background: #ffb347;
+        color: #0d0d0f;
+      }
+
+      /* Neon-Rahmen wie Pitchdeck */
+      .fv-roadmap-frame {
+        max-width: 900px;
+        margin: 0 auto;
+        border: 3px solid #00eaff;
+        border-radius: 20px;
+        padding: 32px 24px 28px 24px;
+        background: rgba(0, 0, 0, 0.5);
+        box-shadow: 0 0 25px #00eaff77;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* animierte Energie-Linie in der Mitte */
+      .fv-roadmap-frame::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          #00eaff,
+          transparent
+        );
+        opacity: 0.6;
+        animation: fv-energy 2.8s linear infinite;
+      }
+
+      @keyframes fv-energy {
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(100%); }
+      }
+
+      /* Stammbaum-Struktur */
+      .fv-roadmap-tree {
+        position: relative;
+        padding-left: 40px;
+      }
+
+      .fv-roadmap-item {
+        position: relative;
+        margin-bottom: 30px;
+      }
+
+      /* kleine Neon-"Pixel"-Punkte */
+      .fv-roadmap-dot {
+        position: absolute;
+        left: 10px;
+        top: 8px;
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+        background: #00eaff;
+        box-shadow: 0 0 12px #00eaffaa;
+      }
+
+      .fv-roadmap-card {
+        margin-left: 40px;
+        background: rgba(0, 0, 0, 0.75);
+        border: 2px solid #00eaff;
+        border-radius: 12px;
+        padding: 12px 14px;
+        font-family: "Press Start 2P", monospace;
+        font-size: 11px;
+        line-height: 1.7;
+        color: #ffffff;
+        box-shadow: 0 0 16px #00eaff44;
+      }
+
+      .fv-roadmap-card h3 {
+        margin: 0 0 8px 0;
+        font-size: 13px;
+        color: #ffb347;
+      }
+
+      @media (max-width: 768px) {
+        .fv-roadmap-tree {
+          padding-left: 24px;
+        }
+        .fv-roadmap-dot {
+          left: 6px;
+        }
+        .fv-roadmap-card {
+          margin-left: 32px;
+          font-size: 9px;
+        }
+        .fv-roadmap-card h3 {
+          font-size: 11px;
+        }
+      }
+    </style>
+
+    <!-- === JS: Roadmap per Button öffnen / schließen === -->
+    <script>
+      (function () {
+        const roadmapWrapper = document.getElementById("fv-roadmap");
+        const closeBtn = document.getElementById("fv-roadmap-close");
+        // Der Roadmap-Button oben in den Docs-Karten:
+        const roadmapBtn = document.querySelector(
+          '#fv-docs-cards .fv-card[data-doc="roadmap"]'
+        );
+
+        if (!roadmapWrapper || !roadmapBtn || !closeBtn) return;
+
+        // Beim Klick auf "Roadmap" ein-/ausklappen
+        roadmapBtn.addEventListener("click", function (e) {
+          e.preventDefault();
+          roadmapWrapper.classList.toggle("show");
+
+          if (roadmapWrapper.classList.contains("show")) {
+            const top =
+              roadmapWrapper.getBoundingClientRect().top +
+              window.pageYOffset -
+              80;
+            window.scrollTo({ top, behavior: "smooth" });
+          }
+        });
+
+        // X CLOSE schließt die Roadmap
+        closeBtn.addEventListener("click", function () {
+          roadmapWrapper.classList.remove("show");
+        });
+      })();
+    </script>
+
+    <!-- danach geht es normal weiter mit Mint -->
+    <section id="mint" class="section">
+      ...
+    </section>
 
   <!-- SIMPLE SECTIONS -->
   <section id="nfts" class="section"><div class="container"><h2 class="section__title">Your NFTs</h2><p class="section__text">Your owned NFTs will appear here after wallet connect.</p></div></section>
