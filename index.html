@@ -836,32 +836,63 @@
 
   <!-- DOCS SCRIPT -->
   <script>
-    (function(){
-      const DOCS = {
-        whitepaper:"https://drive.google.com/file/d/1QGnx0QtJHX5SH0qMnDksHnqTYU9S6U5o/preview",
-        pitchdeck :"https://drive.google.com/file/d/1GAAIlu69a2IzVHh3-MJVKySi_-tdMGGG/preview",
-        roadmap   :"https://drive.google.com/file/d/1BZcNeluxr7n2-KBxQb-LPPeFNgrI-IkU/preview"
-      };
-      const cards  = document.querySelectorAll('#fv-docs-cards .fv-card');
-      const viewer = document.getElementById('fv-docs-viewer');
-      const frame  = document.getElementById('fv-docs-frame');
-      const close  = document.getElementById('fv-close-btn');
+  (function () {
+    // Nur Whitepaper & Roadmap bleiben als PDF
+    const DOCS = {
+      whitepaper:
+        "https://drive.google.com/file/d/1QGnx0QtJHX5SH0qMnDksHnqTYU9S6U5o/preview",
+      roadmap:
+        "https://drive.google.com/file/d/1BZcNeluxr7n2-KBxQb-LPPeFNgrI-IkU/preview",
+    };
 
-      function openDoc(url){
-        if(frame.src === url && viewer.classList.contains('show')){ closeViewer(); return; }
-        frame.src = url;
-        viewer.classList.add('show');
-        const top = viewer.getBoundingClientRect().top + window.pageYOffset - 90;
-        window.scrollTo({ top, behavior:'smooth' });
-      }
-      function closeViewer(){
-        viewer.classList.remove('show');
-        setTimeout(()=>{ frame.src=''; }, 450);
-      }
-      cards.forEach(btn=>btn.addEventListener('click',()=>openDoc(DOCS[btn.dataset.doc])));
-      close.addEventListener('click', closeViewer);
-    })();
-  </script>
+    const cards = document.querySelectorAll("#fv-docs-cards .fv-card");
+    const viewer = document.getElementById("fv-docs-viewer");
+    const frame = document.getElementById("fv-docs-frame");
+    const close = document.getElementById("fv-close-btn");
+
+    function openDoc(url) {
+      frame.src = url;
+      viewer.classList.add("show");
+      const top = viewer.getBoundingClientRect().top + window.pageYOffset - 90;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+
+    function closeViewer() {
+      viewer.classList.remove("show");
+      setTimeout(() => {
+        frame.src = "";
+      }, 300);
+    }
+
+    cards.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const key = btn.getAttribute("data-doc");
+
+        // ✅ SPEZIALFALL: Pitchdeck -> HTML-Slider statt PDF
+        if (key === "pitchdeck") {
+          // Viewer sicher schließen
+          closeViewer();
+          // Sanft zum HTML-Pitchdeck scrollen
+          const target = document.getElementById("pitchdeck");
+          if (target) {
+            const top =
+              target.getBoundingClientRect().top + window.pageYOffset - 80;
+            window.scrollTo({ top, behavior: "smooth" });
+          }
+          return;
+        }
+
+        // Whitepaper + Roadmap normal als PDF anzeigen
+        const url = DOCS[key];
+        if (url) {
+          openDoc(url);
+        }
+      });
+    });
+
+    if (close) close.addEventListener("click", closeViewer);
+  })();
+</script>
 
   <!-- CHAT SCRIPT -->
   <script>
