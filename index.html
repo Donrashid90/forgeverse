@@ -424,6 +424,247 @@
     </div>
   </section>
 
+    <!-- =======================
+         FORGEVERSE PITCHDECK
+    ========================== -->
+    <section id="pitchdeck" class="fv-pitchdeck-section">
+      <h2 class="section__title">ForgeVerse Pitchdeck</h2>
+
+      <div id="fv-pitchdeck" class="fv-pitchdeck">
+
+        <!-- Header -->
+        <div class="fv-pd-header">
+          <span id="fv-prev" class="fv-pd-nav">&lt; Prev</span>
+          <span id="fv-counter" class="fv-pd-counter">Slide 1/13</span>
+          <span id="fv-next" class="fv-pd-nav">Next &gt;</span>
+        </div>
+
+        <!-- Slide Window -->
+        <div id="fv-slide" class="fv-pd-slide">
+          <!-- Slide content inserted by JS -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Styles nur für das Pitchdeck -->
+    <style>
+      .fv-pitchdeck-section {
+        padding-top: 40px;
+        padding-bottom: 80px;
+      }
+
+      .fv-pitchdeck {
+        max-width: 900px;
+        margin: 0 auto;
+        border: 3px solid #00eaff;
+        border-radius: 20px;
+        padding: 25px;
+        background: rgba(0, 0, 0, 0.4);
+        box-shadow: 0 0 25px #00eaff55;
+        font-family: "Press Start 2P", monospace;
+        color: #00eaff;
+      }
+
+      .fv-pd-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+        margin-bottom: 25px;
+      }
+
+      .fv-pd-nav {
+        cursor: pointer;
+        color: #00eaff;
+        transition: 0.2s;
+      }
+
+      .fv-pd-nav:hover {
+        color: #ffb347;
+      }
+
+      .fv-pd-counter {
+        font-size: 16px;
+      }
+
+      .fv-pd-slide {
+        border-top: 2px solid #00eaff;
+        border-bottom: 2px solid #00eaff;
+        padding: 40px 20px;
+        min-height: 300px;
+      }
+
+      .fv-pd-title {
+        font-size: 26px;
+        margin-bottom: 25px;
+        text-align: center;
+      }
+
+      .fv-pd-text {
+        font-size: 14px;
+        line-height: 1.8;
+        color: white;
+        text-align: left;
+        max-width: 700px;
+        margin: 0 auto;
+      }
+
+      @media (max-width: 768px) {
+        .fv-pitchdeck {
+          padding: 18px;
+        }
+        .fv-pd-slide {
+          padding: 24px 12px;
+          min-height: 220px;
+        }
+        .fv-pd-title {
+          font-size: 20px;
+        }
+        .fv-pd-text {
+          font-size: 12px;
+        }
+      }
+    </style>
+
+    <!-- Script nur für das Pitchdeck -->
+    <script>
+      (function () {
+        const slides = [
+          {
+            title: "ForgeVerse",
+            text: "A Pixel Economy on Solana\\n\\nForgeVerse Labs",
+          },
+          {
+            title: "Problem",
+            text:
+              "• Web3 games lack real utility\\n" +
+              "• NFT ecosystems unsustainable\\n" +
+              "• No skill-based earning loops",
+          },
+          {
+            title: "Solution",
+            text:
+              "ForgeVerse: NFTs with roles\\n\\n" +
+              "• Traders → $DOLLAR\\n" +
+              "• Farmers → $FOOD\\n" +
+              "• Workers → $METAL",
+          },
+          {
+            title: "Why Now",
+            text:
+              "• On-chain gaming is growing\\n" +
+              "• Solana enables low-cost gameplay\\n" +
+              "• Players want real ownership",
+          },
+          {
+            title: "Market Opportunity",
+            text:
+              "• Web3 gaming TAM: $65B+\\n" +
+              "• NFT market recovery underway\\n" +
+              "• Hybrid gaming-economy markets rising",
+          },
+          {
+            title: "Product Overview",
+            text:
+              "ForgeVerse is a resource-driven NFT strategy game.\\n" +
+              "Grow, trade, forge and fuse NFTs to climb ranks.",
+          },
+          {
+            title: "NFT Roles",
+            text:
+              "• Traders → Generate $DOLLAR\\n" +
+              "• Farmers → Produce $FOOD\\n" +
+              "• Workers → Mine $METAL\\n\\n" +
+              "Each role feeds the economy.",
+          },
+          {
+            title: "Tokenomics Loop",
+            text:
+              "A circular resource system:\\n\\n" +
+              "$FOOD → upgrades\\n" +
+              "$DOLLAR → trading power\\n" +
+              "$METAL → crafting\\n\\n" +
+              "Balanced and sustainable.",
+          },
+          {
+            title: "Game Loop",
+            text:
+              "Play → Earn → Upgrade → Fuse\\n\\n" +
+              "Stronger NFTs increase earning potential.",
+          },
+          {
+            title: "Fusion System",
+            text:
+              "Combine two NFTs + resources to create higher-tier NFTs.\\n" +
+              "Reduces supply, increases value.",
+          },
+          {
+            title: "Roadmap",
+            text:
+              "Q1: NFT Launch\\n" +
+              "Q2: Staking + Game MVP\\n" +
+              "Q3: Fusion Lab\\n" +
+              "Q4: PvP + Mobile App",
+          },
+          {
+            title: "Team",
+            text:
+              "ForgeVerse Labs\\n" +
+              "Founders, Developers, Artists\\n" +
+              "Anonymous but verified team",
+          },
+          {
+            title: "Thank You",
+            text: "Join the ForgeVerse.\\nBuild. Grow. Dominate.",
+          },
+        ];
+
+        let index = 0;
+
+        const slideBox = document.getElementById("fv-slide");
+        const counter = document.getElementById("fv-counter");
+        const prevBtn = document.getElementById("fv-prev");
+        const nextBtn = document.getElementById("fv-next");
+
+        function renderSlide() {
+          const s = slides[index];
+          slideBox.innerHTML =
+            '<h3 class="fv-pd-title">' +
+            s.title +
+            "</h3>" +
+            '<p class="fv-pd-text">' +
+            s.text.replace(/\\n/g, "<br>") +
+            "</p>";
+          counter.textContent = "Slide " + (index + 1) + "/" + slides.length;
+        }
+
+        prevBtn.addEventListener("click", function () {
+          index = (index - 1 + slides.length) % slides.length;
+          renderSlide();
+        });
+
+        nextBtn.addEventListener("click", function () {
+          index = (index + 1) % slides.length;
+          renderSlide();
+        });
+
+        // Init
+        renderSlide();
+      })();
+    </script>
+
+    <!-- Mint bleibt wie gehabt -->
+    <section id="mint" class="section">
+      <div class="container">
+        <h2 class="section__title">Mint your NFT</h2>
+        <p class="section__text">
+          Embed your launchpad/button here. Until then, this button shows a demo.
+        </p>
+        <button class="btn btn--primary" onclick="demoMint()">Mint (Demo)</button>
+      </div>
+    </section>
+
   <!-- MINT -->
   <section id="mint" class="section">
     <div class="container">
