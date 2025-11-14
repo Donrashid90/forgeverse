@@ -1455,5 +1455,34 @@
     resetGame(true);
   })();
   </script>
+
+  <script>
+  (function () {
+    const roadmapWrapper = document.getElementById("fv-roadmap");
+    const roadmapClose = document.getElementById("fv-roadmap-close");
+    const roadmapBtn = document.querySelector('#fv-docs-cards .fv-card[data-doc="roadmap"]');
+
+    if (!roadmapWrapper || !roadmapBtn) return;
+
+    // beim Klick auf "Roadmap" ein-/ausklappen
+    roadmapBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      roadmapWrapper.classList.toggle("show");
+
+      // beim Öffnen leicht hinscrollen
+      if (roadmapWrapper.classList.contains("show")) {
+        const top =
+          roadmapWrapper.getBoundingClientRect().top + window.pageYOffset - 80;
+        window.scrollTo({ top, behavior: "smooth" });
+      }
+    });
+
+    // X CLOSE schließt die Roadmap
+    roadmapClose.addEventListener("click", function () {
+      roadmapWrapper.classList.remove("show");
+    });
+  })();
+</script>
+
 </body>
 </html>
