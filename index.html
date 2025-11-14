@@ -868,38 +868,87 @@
       }
     </style>
 
-    <!-- === JS: Roadmap per Button öffnen / schließen === -->
-    <script>
-      (function () {
-        const roadmapWrapper = document.getElementById("fv-roadmap");
-        const closeBtn = document.getElementById("fv-roadmap-close");
-        // Der Roadmap-Button oben in den Docs-Karten:
-        const roadmapBtn = document.querySelector(
-          '#fv-docs-cards .fv-card[data-doc="roadmap"]'
-        );
+<script>
+  (function () {
+    // Nur Whitepaper bleibt PDF
+    const DOCS = {
+      whitepaper:
+        "https://drive.google.com/file/d/1QGnx0QtJHX5SH0qMnDksHnqTYU9S6U5o/preview",
+    };
 
-        if (!roadmapWrapper || !roadmapBtn || !closeBtn) return;
+    const cards   = document.querySelectorAll("#fv-docs-cards .fv-card");
+    const viewer  = document.getElementById("fv-docs-viewer");
+    const frame   = document.getElementById("fv-docs-frame");
+    const close   = document.getElementById("fv-close-btn");
 
-        // Beim Klick auf "Roadmap" ein-/ausklappen
-        roadmapBtn.addEventListener("click", function (e) {
-          e.preventDefault();
-          roadmapWrapper.classList.toggle("show");
+    const pitchdeckSection = document.getElementById("pitchdeck");
+    const roadmapWrapper   = document.getElementById("fv-roadmap");
 
-          if (roadmapWrapper.classList.contains("show")) {
+    function openDoc(url) {
+      if (!viewer || !frame) return;
+      frame.src = url;
+      viewer.classList.add("show");
+      const top = viewer.getBoundingClientRect().top + window.pageYOffset - 90;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+
+    function closeViewer() {
+      if (!viewer || !frame) return;
+      viewer.classList.remove("show");
+      setTimeout(() => (frame.src = ""), 300);
+    }
+
+    cards.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const key = btn.getAttribute("data-doc");
+
+        // 🧾 WHITEPAPER -> PDF im Viewer
+        if (key === "whitepaper") {
+          if (roadmapWrapper) roadmapWrapper.classList.remove("show");
+          closeViewer();
+          openDoc(DOCS.whitepaper);
+          return;
+        }
+
+        // 📊 PITCHDECK -> HTML-Slider anzeigen (kein PDF)
+        if (key === "pitchdeck") {
+          if (roadmapWrapper) roadmapWrapper.classList.remove("show");
+          closeViewer();
+          if (pitchdeckSection) {
             const top =
-              roadmapWrapper.getBoundingClientRect().top +
+              pitchdeckSection.getBoundingClientRect().top +
               window.pageYOffset -
               80;
             window.scrollTo({ top, behavior: "smooth" });
           }
-        });
+          return;
+        }
 
-        // X CLOSE schließt die Roadmap
-        closeBtn.addEventListener("click", function () {
-          roadmapWrapper.classList.remove("show");
-        });
-      })();
-    </script>
+        // 🌳 ROADMAP -> Neon-Stammbaum ein/ausklappen, KEIN PDF
+        if (key === "roadmap") {
+          closeViewer();
+          if (roadmapWrapper) {
+            roadmapWrapper.classList.toggle("show");
+            if (roadmapWrapper.classList.contains("show")) {
+              const top =
+                roadmapWrapper.getBoundingClientRect().top +
+                window.pageYOffset -
+                80;
+              window.scrollTo({ top, behavior: "smooth" });
+            }
+          }
+          return;
+        }
+      });
+    });
+
+    if (close) {
+      close.addEventListener("click", closeViewer);
+    }
+  })();
+</script>
+
 
     <!-- danach geht es normal weiter mit Mint -->
     <section id="mint" class="section">
