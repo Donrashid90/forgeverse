@@ -895,15 +895,21 @@
           if(grid[r][c]===0||grid[r][c]===3) pelletsLeft++;
     }
     function initEntities(){
-      pac={cx:14,cy:23};
-      ghosts=[
-        {cx:13,cy:11,color:COLORS.ghostR,home:{cx:13,cy:11},eyes:false},
-        {cx:14,cy:11,color:COLORS.ghostP,home:{cx:14,cy:11},eyes:false},
-        {cx:13,cy:13,color:COLORS.ghostB,home:{cx:13,cy:13},eyes:false},
-        {cx:14,cy:13,color:COLORS.ghostO,home:{cx:14,cy:13},eyes:false},
-      ];
-      ghostReleased=[false,false,false,false];
-    }
+  // Pac-Man Start bleibt unten
+  pac = { cx: 14, cy: 23 };
+
+  // Geister jetzt im offenen Mittel-Korridor (Row 17 ist komplett frei)
+  ghosts = [
+    { cx: 12, cy: 17, color: COLORS.ghostR, home: { cx: 12, cy: 17 }, eyes: false },
+    { cx: 14, cy: 17, color: COLORS.ghostP, home: { cx: 14, cy: 17 }, eyes: false },
+    { cx: 16, cy: 17, color: COLORS.ghostB, home: { cx: 16, cy: 17 }, eyes: false },
+    { cx: 18, cy: 17, color: COLORS.ghostO, home: { cx: 18, cy: 17 }, eyes: false },
+  ];
+
+  // Release-Logik bleibt, damit sie nacheinander „aktiv“ werden
+  ghostReleased = [false, false, false, false];
+}
+
     function inBounds(cx,cy){return cx>=0&&cx<COLS&&cy>=0&&cy<ROWS;}
     function isWallPac(cx,cy){
       if(!inBounds(cx,cy)) return true;
