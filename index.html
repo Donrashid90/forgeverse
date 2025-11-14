@@ -424,6 +424,153 @@
     </div>
   </section>
 
+  <!-- ============================== -->
+<!--     FORGEVERSE PITCHDECK      -->
+<!-- ============================== -->
+
+<section id="pitchdeck" class="pitchdeck-section">
+  <h2 class="section__title neon-glow">ForgeVerse Pitchdeck</h2>
+
+  <div class="pd-controls">
+    <button id="pd-prev" class="pd-btn">◀ Prev</button>
+    <span id="pd-counter">Slide 1 / 13</span>
+    <button id="pd-next" class="pd-btn">Next ▶</button>
+  </div>
+
+  <div id="pitchdeck-slides" class="pd-slides">
+
+    <div class="pd-slide active">
+      <h3>ForgeVerse</h3>
+      <p>A Pixel Economy on Solana<br><br>ForgeVerse Labs</p>
+    </div>
+
+    <div class="pd-slide">
+      <h3>Problem</h3>
+      <p>
+        • Web3 games lack real utility<br>
+        • NFT ecosystems collapse fast<br>
+        • No skill-based earning loops
+      </p>
+    </div>
+
+    <div class="pd-slide">
+      <h3>Solution</h3>
+      <p>
+        NFTs with functional roles:<br>
+        • Traders → $DOLLAR<br>
+        • Farmers → $FOOD<br>
+        • Workers → $METAL
+      </p>
+    </div>
+
+    <div class="pd-slide">
+      <h3>Ecosystem</h3>
+      <p>
+        Balanced 3-token economy powering<br>
+        crafting, staking, fusing and upgrades.
+      </p>
+    </div>
+
+    <div class="pd-slide">
+      <h3>Game Loop</h3>
+      <p>
+        Play → Earn → Upgrade → Fuse → Repeat<br>
+        Skill-based reward multiplier.
+      </p>
+    </div>
+
+    <div class="pd-slide">
+      <h3>Token Utility</h3>
+      <p>
+        $DOLLAR → Trading upgrades<br>
+        $FOOD → Energy<br>
+        $METAL → Tools & crafting
+      </p>
+    </div>
+
+    <div class="pd-slide">
+      <h3>NFT Roles</h3>
+      <p>
+        Each role has synergy.<br>
+        Fusion unlocks stronger NFTs.
+      </p>
+    </div>
+
+    <div class="pd-slide">
+      <h3>Marketplace</h3>
+      <p>
+        Trade NFTs, resources, upgrades,<br>
+        tools and forged items.
+      </p>
+    </div>
+
+    <div class="pd-slide">
+      <h3>Staking</h3>
+      <p>
+        Stake NFTs to earn resources<br>
+        based on class stats & rarity.
+      </p>
+    </div>
+
+    <div class="pd-slide">
+      <h3>Fusion</h3>
+      <p>
+        Combine NFTs using FOOD + METAL<br>
+        to generate stronger versions.
+      </p>
+    </div>
+
+    <div class="pd-slide">
+      <h3>Roadmap</h3>
+      <p>
+        Phase 1 – NFT Launch<br>
+        Phase 2 – Game Beta<br>
+        Phase 3 – Mobile Expansion
+      </p>
+    </div>
+
+    <div class="pd-slide">
+      <h3>Team</h3>
+      <p>
+        ForgeVerse Labs – Blockchain engineers,<br>
+        artists & game developers.
+      </p>
+    </div>
+
+    <div class="pd-slide">
+      <h3>Call to Action</h3>
+      <p>
+        Join the ForgeVerse.<br>
+        Mint • Play • Earn • Build.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- Pitchdeck Script -->
+<script>
+(function(){
+  const slides = document.querySelectorAll(".pd-slide");
+  let index = 0;
+
+  const counter = document.getElementById("pd-counter");
+  const prev = document.getElementById("pd-prev");
+  const next = document.getElementById("pd-next");
+
+  function update(){
+    slides.forEach(s => s.classList.remove("active"));
+    slides[index].classList.add("active");
+    counter.textContent = "Slide " + (index+1) + " / " + slides.length;
+  }
+
+  next.onclick = () => { index = (index+1) % slides.length; update(); };
+  prev.onclick = () => { index = (index-1+slides.length) % slides.length; update(); };
+
+  update();
+})();
+</script>
+
   <!-- MINT -->
   <section id="mint" class="section">
     <div class="container">
