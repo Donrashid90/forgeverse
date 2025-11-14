@@ -11,19 +11,245 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet"/>
 
-  <!-- Styles -->
-  <link rel="stylesheet" href="css/styles.css?v=12"/>
+  <!-- STYLES (inline, alles in einer Datei) -->
+  <style>
+    /* =========================
+       ForgeVerse - styles.css
+       Neon Pixel Theme + Game
+       ========================= */
+
+    *{ margin:0; padding:0; box-sizing:border-box; }
+    html,body{
+      font-family:'VT323', monospace;
+      font-size:18px; color:#fff; background:#0D0D0F;
+      scroll-behavior:smooth;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    a{ color:inherit; text-decoration:none; }
+    .container{ width:90%; max-width:1200px; margin:0 auto; }
+
+    body{ position:relative; }
+    body::before{
+      content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+      background:
+        repeating-linear-gradient(to right, rgba(102,250,255,.08) 0 1px, transparent 1px 32px),
+        repeating-linear-gradient(to bottom, rgba(102,250,255,.08) 0 1px, transparent 1px 32px);
+      opacity:.28;
+    }
+    .header,.hero,.section,.footer{ position:relative; z-index:1; }
+
+    .header{ background:#0D0D0F; border-bottom:2px solid #66FAFF; padding:18px 0; position:sticky; top:0; z-index:50; }
+    .header__inner{ display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .brand__name{ font-family:'Press Start 2P'; font-size:16px; color:#66FAFF; text-shadow:0 0 5px #66FAFF, 0 0 15px #33F0FF, 0 0 25px #00BFFF; }
+    .nav{ display:flex; flex-wrap:wrap; gap:16px; font-family:'Press Start 2P'; font-size:10px; }
+    .nav a{ color:#fff; transition:color .2s ease, text-shadow .2s ease; }
+    .nav a:hover{ color:#66FAFF; text-shadow:0 0 6px #33F0FF; }
+
+    .btn{
+      font-family:'Press Start 2P'; border:2px solid #66FAFF; color:#66FAFF; background:transparent;
+      padding:12px 20px; font-size:12px; cursor:pointer; letter-spacing:1px; transition:all .2s ease;
+    }
+    .btn--primary{ background:#FFB347; color:#0D0D0F; border-color:#FFB347; }
+    .btn--primary:hover{ box-shadow:0 0 20px #FFB347AA; transform:translateY(-2px); }
+    .btn--secondary{ border-color:#66FAFF; color:#66FAFF; }
+    .btn--secondary:hover{ box-shadow:0 0 20px #66FAFFAA; transform:translateY(-2px); }
+    .btn--wallet{
+      background:#FFB347; color:#0D0D0F; border-color:#FFB347; font-size:10px; padding:10px 14px;
+      box-shadow:0 0 8px #FFB34755;
+    }
+    .btn--wallet:hover{ box-shadow:0 0 16px #FFB347AA; transform:translateY(-2px); }
+    .btn--connected{ background:#66FAFF; border-color:#66FAFF; color:#0D0D0F; }
+
+    .hero{ position:relative; text-align:center; padding:100px 0; overflow:hidden; }
+    .title{
+      font-family:'Press Start 2P'; font-size:28px; color:#66FAFF;
+      text-shadow:0 0 4px #66FAFF, 0 0 10px #66FAFF, 0 0 20px #33F0FF;
+      margin-bottom:20px;
+    }
+    .subtitle{ font-size:22px; color:#fff; margin-bottom:30px; }
+    .hero__cta{ display:flex; justify-content:center; gap:20px; }
+
+    .section{ padding:80px 0; }
+    .section__title{ font-family:'Press Start 2P'; color:#FFB347; font-size:16px; margin-bottom:25px; }
+    .section__text{ font-size:20px; line-height:1.6; max-width:900px; margin-bottom:30px; }
+
+    .cards{ display:flex; gap:20px; flex-wrap:wrap; margin-top:22px; }
+    .fv-card{
+      flex:1 1 220px; min-height:72px; background:#0D0D0F; color:#66FAFF; cursor:pointer;
+      border:2px solid #66FAFF; border-radius:8px; font-family:'Press Start 2P'; font-size:12px;
+      display:flex; align-items:center; justify-content:center; transition:transform .1s ease, box-shadow .15s ease;
+    }
+    .fv-card:hover{ transform:translateY(-2px); box-shadow:0 0 14px #66FAFF55; }
+
+    .fv-viewer{
+      position:relative; border:2px solid #66FAFF; box-shadow:0 0 20px #00ffff55; border-radius:12px;
+      background:#0D0D0F; overflow:hidden; max-height:0; opacity:0; margin-top:0;
+      transition:max-height .5s ease, opacity .4s ease, margin-top .3s ease;
+    }
+    .fv-viewer.show{ max-height:900px; opacity:1; margin-top:24px; }
+    .fv-viewer iframe{ border:none; width:100%; height:820px; border-radius:12px; }
+    .fv-close{
+      position:absolute; top:10px; right:15px; background:#0D0D0F; color:#FFB347;
+      border:2px solid #FFB347; border-radius:6px; font-family:'Press Start 2P'; font-size:10px;
+      padding:8px 10px; cursor:pointer; box-shadow:0 0 10px #FFB34755; transition:all .2s ease; z-index:2;
+    }
+    .fv-close:hover{ background:#FFB347; color:#0D0D0F; }
+
+    .btn--ghost-cyan{
+      background:transparent; color:#66FAFF; border:2px solid #66FAFF;
+      font-family:'Press Start 2P',monospace; padding:10px 16px;
+      display:inline-flex; align-items:center; gap:8px;
+      box-shadow:0 0 10px rgba(102,250,255,.35);
+      transition:box-shadow .2s ease,transform .1s ease;
+    }
+    .btn--ghost-cyan:hover{ box-shadow:0 0 18px rgba(102,250,255,.65); transform:translateY(-2px); }
+
+    .chat-users{
+      background:#66FAFF22; color:#FFB347;
+      border:1px solid #66FAFF55; border-radius:6px;
+      padding:4px 6px; font-size:10px;
+    }
+    .btn--close-orange{
+      background:#FFB347; color:#0D0D0F; border:2px solid #FFB347;
+      font-family:'Press Start 2P',monospace; padding:8px 12px;
+      transition:box-shadow .2s ease,transform .1s ease;
+    }
+    .btn--close-orange:hover{ box-shadow:0 0 16px rgba(255,179,71,.65); transform:translateY(-2px); }
+
+    .chat-panel{
+      overflow:hidden; max-height:0; opacity:0; margin-top:0;
+      transition:max-height .5s ease,opacity .4s ease,margin-top .3s ease;
+    }
+    .chat-panel.show{ max-height:820px; opacity:1; margin-top:18px; }
+    .chat-container{
+      border:2px solid #66FAFF; border-radius:12px; background:#0D0D0F;
+      box-shadow:0 0 20px rgba(0,255,255,.35); padding:12px;
+    }
+    .chat-actions{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:10px; }
+    .powered-by-minnit{ margin:0; font-size:10px; color:#8aa; }
+    .powered-by-minnit a{ color:#66FAFF; }
+    .powered-by-minnit a:hover{ color:#FFB347; text-decoration:underline; }
+
+    .modal{ position:fixed; inset:0; display:none; z-index:1000; }
+    .modal.show{ display:block; }
+    .modal__backdrop{ position:absolute; inset:0; background:rgba(0,0,0,.6); backdrop-filter: blur(2px); }
+    .modal__content{
+      position:relative; margin:6vh auto 0; width:min(720px,92%);
+      background:#0D0D0F; border:2px solid #66FAFF; border-radius:12px;
+      box-shadow:0 0 24px rgba(0,255,255,.35);
+      padding:22px 18px 18px; animation:popIn .18s ease-out;
+    }
+    @keyframes popIn{ from{ transform:scale(.98); opacity:.7 } to{ transform:scale(1); opacity:1 } }
+    .modal__close{
+      position:absolute; right:12px; top:10px; background:#0D0D0F; color:#FFB347;
+      border:2px solid #FFB347; border-radius:6px; font-family:'Press Start 2P'; font-size:10px;
+      padding:6px 8px; cursor:pointer;
+    }
+    .modal__close:hover{ background:#FFB347; color:#0D0D0F; }
+    .modal__title{ font-family:'Press Start 2P'; color:#66FAFF; font-size:16px; margin-bottom:10px; text-shadow:0 0 6px #33F0FF; }
+    .modal__subtitle{ color:#ddd; font-size:18px; margin-bottom:18px; }
+    .mint-form{ display:flex; flex-direction:column; gap:16px; }
+    .mint-row{ display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+    .mint-label{ width:140px; font-family:'Press Start 2P'; font-size:10px; color:#FFB347; }
+    .mint-options{ display:flex; gap:14px; flex-wrap:wrap; }
+    .opt{ display:inline-flex; align-items:center; gap:8px; font-size:18px; cursor:pointer; }
+    .opt input{ transform:scale(1.2); }
+    .mint-input{
+      flex:1 1 180px; max-width:180px; background:#0D0D0F; color:#fff;
+      border:2px solid #66FAFF; border-radius:8px; padding:10px 12px; font-size:18px; outline:none;
+      box-shadow:0 0 10px rgba(102,250,255,.25) inset;
+    }
+    .mint-input:focus{ box-shadow:0 0 16px rgba(102,250,255,.5) inset; }
+    .mint-chip{
+      display:inline-block; padding:8px 10px; border:2px solid #66FAFF; border-radius:8px;
+      color:#66FAFF; font-family:'Press Start 2P'; font-size:10px;
+    }
+    .mint-summary{
+      border:2px solid #66FAFF; border-radius:12px; padding:12px;
+      box-shadow:0 0 16px rgba(0,255,255,.2) inset;
+    }
+    .sum-line{ display:flex; align-items:center; justify-content:space-between; font-size:18px; margin:6px 0; }
+    .sum-line.total span{ color:#FFB347; font-family:'Press Start 2P'; font-size:12px; }
+    .sum-line.total strong{ color:#FFB347; }
+    .terms{ display:flex; align-items:flex-start; gap:10px; font-size:16px; line-height:1.4; color:#ccc; }
+    .terms input{ transform:translateY(2px) scale(1.1); }
+    .mint-actions{ display:flex; gap:12px; justify-content:flex-end; margin-top:8px; }
+    .mint-status{ margin-top:14px; min-height:24px; font-size:16px; color:#66FAFF; white-space:pre-line; }
+
+    .footer{ border-top:2px solid #66FAFF; background:#0D0D0F; padding:60px 0 30px; }
+    .footer__grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:40px; margin-bottom:30px; }
+    .footer__title{ color:#FFB347; font-family:'Press Start 2P'; font-size:12px; margin-bottom:15px; }
+    .footer__list{ list-style:none; font-size:14px; }
+    .footer__list li{ margin-bottom:8px; }
+    .footer__list a{ color:#fff; }
+    .footer__list a:hover{ color:#66FAFF; }
+    .brand--footer{ display:flex; align-items:center; gap:10px; }
+    .brand__box{
+      width:36px; height:36px; display:flex; align-items:center; justify-content:center;
+      border:2px solid #66FAFF; color:#0D0D0F; background:#66FAFF; font-weight:bold;
+    }
+    .muted{ color:#ccc; }
+    .divider{ height:1px; background:linear-gradient(90deg,#66FAFF,#FFB347,#66FAFF); margin:30px 0; }
+    .neon-glow{
+      text-shadow:0 0 4px #66FAFF, 0 0 10px #66FAFF, 0 0 20px #33F0FF;
+    }
+    @keyframes glowPulse{
+      0%,100%{ text-shadow:0 0 4px #66FAFF,0 0 10px #66FAFF,0 0 20px #33F0FF; }
+      50%{ text-shadow:0 0 2px #66FAFF,0 0 6px #33F0FF,0 0 14px #00E0FF; }
+    }
+    .neon-glow-animated{ animation:glowPulse 2.5s infinite ease-in-out; }
+
+    /* Game (Pixel Pac) */
+    .game-wrap{
+      border:2px solid #66FAFF; border-radius:12px;
+      padding:16px; background:#0D0D0F;
+      box-shadow:0 0 20px rgba(0,255,255,.25) inset, 0 0 20px rgba(0,255,255,.25);
+    }
+    .game-hud{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      margin-bottom:12px; flex-wrap:wrap;
+    }
+    .hud-group{ display:flex; align-items:center; gap:8px; }
+    .hud-label{ font-family:'Press Start 2P'; font-size:10px; color:#FFB347; }
+    .hud-val{ font-size:20px; color:#66FAFF; min-width:40px; display:inline-block; text-align:right; }
+    .hud-actions .btn{ padding:8px 12px; font-size:10px; }
+    .game-stage{
+      position:relative; display:flex; justify-content:center; align-items:center;
+      background:#020205; border:2px solid #66FAFF; border-radius:10px; overflow:hidden;
+    }
+    #pmCanvas{ display:block; width:100%; height:auto; image-rendering:pixelated; }
+    .game-overlay{
+      position:absolute; inset:0; display:none; align-items:center; justify-content:center;
+      background:linear-gradient(180deg, rgba(13,13,15,.0), rgba(13,13,15,.8));
+      color:#66FAFF; text-shadow:0 0 8px #33F0FF; font-family:'Press Start 2P'; font-size:14px; text-align:center; padding:20px;
+    }
+    .game-overlay.show{ display:flex; }
+    .game-hint{ font-size:16px; color:#a8d; margin-top:10px; text-align:center; }
+
+    @media (min-width:900px){
+      .game-stage{ max-width:448px; margin:0 auto; }
+    }
+
+    @media (max-width:900px){
+      .title{ font-size:24px; }
+      .hero__cta{ flex-direction:column; gap:12px; }
+      .btn{ width:100%; }
+      .fv-viewer iframe{ height:620px; }
+      .fv-viewer.show{ max-height:700px; }
+      .chat-panel.show{ max-height:680px; }
+    }
+    @media (max-width:560px){
+      .nav{ display:none; }
+    }
+  </style>
 </head>
 
 <body id="top">
-  <!-- ===== HEADER ===== -->
-  <header class="header" role="banner">
+  <!-- HEADER -->
+  <header class="header">
     <div class="container header__inner">
-      <a class="brand" href="#top" aria-label="ForgeVerse Home">
-        <span class="brand__name neon-glow neon-glow-animated">ForgeVerse</span>
-      </a>
-
-      <nav class="nav" role="navigation" aria-label="Main">
+      <a class="brand" href="#top"><span class="brand__name neon-glow neon-glow-animated">ForgeVerse</span></a>
+      <nav class="nav">
         <a href="#about">About</a>
         <a href="#mint">Mint</a>
         <a href="#nfts">NFTs</a>
@@ -34,12 +260,11 @@
         <a href="#merch">Merch</a>
         <a href="#chat">Chat</a>
       </nav>
-
-      <button id="connectBtn" class="btn btn--wallet" aria-label="Connect Phantom Wallet">Install Phantom</button>
+      <button id="connectBtn" class="btn btn--wallet">Install Phantom</button>
     </div>
   </header>
 
-  <!-- ===== HERO ===== -->
+  <!-- HERO -->
   <section class="hero">
     <div class="container hero__inner">
       <h1 class="title neon-glow-animated">A Pixel Economy on Solana</h1>
@@ -51,52 +276,48 @@
     </div>
   </section>
 
-  <!-- ===== ABOUT / DOCS VIEWER ===== -->
-  <section id="about" class="section" aria-labelledby="about-title">
+  <!-- ABOUT + DOCS -->
+  <section id="about" class="section">
     <div class="container">
-      <h2 id="about-title" class="section__title">About</h2>
+      <h2 class="section__title">About</h2>
       <p class="section__text">
         ForgeVerse connects NFTs, gaming, and a resource-driven economy. Each NFT has a role:
         <strong>Traders</strong> earn $DOLLAR, <strong>Farmers</strong> grow $FOOD, and
         <strong>Workers</strong> mine $METAL. Use resources to feed, forge, and fuse your NFTs.
       </p>
 
-      <!-- Docs Buttons -->
-      <div id="fv-docs-cards" class="cards" role="tablist" aria-label="Documents">
-        <button data-doc="whitepaper" class="fv-card" role="tab" aria-controls="fv-docs-viewer">Whitepaper</button>
-        <button data-doc="pitchdeck"  class="fv-card" role="tab" aria-controls="fv-docs-viewer">Pitchdeck</button>
-        <button data-doc="roadmap"    class="fv-card" role="tab" aria-controls="fv-docs-viewer">Roadmap</button>
+      <div id="fv-docs-cards" class="cards">
+        <button data-doc="whitepaper" class="fv-card">Whitepaper</button>
+        <button data-doc="pitchdeck"  class="fv-card">Pitchdeck</button>
+        <button data-doc="roadmap"    class="fv-card">Roadmap</button>
       </div>
 
-      <!-- Collapsible PDF Viewer -->
-      <div id="fv-docs-viewer" class="fv-viewer" role="region" aria-live="polite" aria-label="Document viewer">
-        <button id="fv-close-btn" class="fv-close" aria-label="Close document">✕ CLOSE</button>
-        <iframe id="fv-docs-frame" src="" width="100%" height="820" loading="lazy" title="ForgeVerse Document Viewer"></iframe>
+      <div id="fv-docs-viewer" class="fv-viewer">
+        <button id="fv-close-btn" class="fv-close">✕ CLOSE</button>
+        <iframe id="fv-docs-frame" src="" width="100%" height="820" loading="lazy"></iframe>
       </div>
     </div>
   </section>
 
-  <!-- ===== MINT ===== -->
-  <section id="mint" class="section" aria-labelledby="mint-title">
+  <!-- MINT -->
+  <section id="mint" class="section">
     <div class="container">
-      <h2 id="mint-title" class="section__title">Mint your NFT</h2>
+      <h2 class="section__title">Mint your NFT</h2>
       <p class="section__text">Choose your role and mint. (Demo modal until live Candy Machine is connected.)</p>
       <button id="openMintModal" class="btn btn--primary">Mint (Demo)</button>
     </div>
   </section>
 
-  <!-- ===== PLACEHOLDERS ===== -->
+  <!-- PLACEHOLDERS -->
   <section id="nfts" class="section"><div class="container"><h2 class="section__title">Your NFTs</h2><p class="section__text">Your owned NFTs will appear here after wallet connect.</p></div></section>
   <section id="stake" class="section"><div class="container"><h2 class="section__title">Stake your NFTs</h2><p class="section__text">Stake NFTs and earn $FOOD, $METAL or $DOLLAR.</p></div></section>
   <section id="fusion" class="section"><div class="container"><h2 class="section__title">Fusion Lab</h2><p class="section__text">Fuse two NFTs using resources to obtain a stronger NFT.</p></div></section>
 
-  <!-- ===== GAME – PIXEL PAC ===== -->
-  <section id="game" class="section" aria-labelledby="game-title">
+  <!-- GAME -->
+  <section id="game" class="section">
     <div class="container">
-      <h2 id="game-title" class="section__title">Game – Pixel Pac</h2>
-      <p class="section__text">
-        Collect all pellets, avoid ghosts. Use <strong>Arrow Keys</strong> or <strong>WASD</strong>.
-      </p>
+      <h2 class="section__title">Game – Pixel Pac</h2>
+      <p class="section__text">Collect all pellets, avoid ghosts. Use <strong>Arrow Keys</strong> or <strong>WASD</strong>.</p>
 
       <div class="game-wrap">
         <div class="game-hud">
@@ -107,25 +328,22 @@
             <button id="pmReset" class="btn btn--secondary">Reset</button>
           </div>
         </div>
-
         <div class="game-stage">
-          <canvas id="pmCanvas" width="448" height="496" aria-label="Pac-Man Mini Game"></canvas>
-          <div id="pmOverlay" class="game-overlay" role="status" aria-live="polite"></div>
+          <canvas id="pmCanvas" width="448" height="496"></canvas>
+          <div id="pmOverlay" class="game-overlay"></div>
         </div>
-
         <p class="game-hint">Tip: Power pellets (●) let you eat ghosts for a few seconds.</p>
       </div>
     </div>
   </section>
 
-  <!-- ===== MORE PLACEHOLDERS ===== -->
   <section id="ranking" class="section"><div class="container"><h2 class="section__title">Ranking</h2><p class="section__text">Leaderboard for top players &amp; collectors.</p></div></section>
   <section id="merch" class="section"><div class="container"><h2 class="section__title">Merch Store</h2><p class="section__text">Exclusive ForgeVerse gear with NFT-holder discounts.</p></div></section>
 
-  <!-- ===== CHAT (Minnit) ===== -->
-  <section id="chat" class="section" aria-labelledby="chat-title">
+  <!-- CHAT -->
+  <section id="chat" class="section">
     <div class="container">
-      <h2 id="chat-title" class="section__title">Community Chat</h2>
+      <h2 class="section__title">Community Chat</h2>
       <p class="section__text">Chat with ForgeVerse players in real time. Share tips, strategies and creations.</p>
 
       <button id="chatToggleBtn" class="btn btn--ghost-cyan" aria-expanded="false" aria-controls="chatPanel">
@@ -133,7 +351,7 @@
         <span id="chatUsers" class="chat-users">Online: 12</span>
       </button>
 
-      <div id="chatPanel" class="chat-panel" role="region" aria-label="ForgeVerse Chat">
+      <div id="chatPanel" class="chat-panel">
         <div class="chat-container">
           <script src="https://minnit.chat/js/embed.js?c=1758971289" defer></script>
           <span
@@ -142,7 +360,6 @@
             data-style="width:100%; height:500px; max-height:90vh;"
             data-version="1.55"
           >Chat</span>
-
           <div class="chat-actions">
             <button id="chatCloseBtn" class="btn btn--close-orange">✕ Close Chat</button>
             <p class="powered-by-minnit">
@@ -154,8 +371,8 @@
     </div>
   </section>
 
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer" role="contentinfo">
+  <!-- FOOTER -->
+  <footer class="footer">
     <div class="container">
       <div class="footer__grid">
         <div>
@@ -165,10 +382,10 @@
           </div>
           <p class="muted">A Pixel Economy on Solana</p>
           <div class="socials">
-            <a aria-label="Twitter" href="#" target="_blank" rel="noreferrer">Twitter</a>
-            <a aria-label="Telegram" href="#" target="_blank" rel="noreferrer">Telegram</a>
-            <a aria-label="GitHub" href="#" target="_blank" rel="noreferrer">GitHub</a>
-            <a aria-label="Discord" href="#" target="_blank" rel="noreferrer">Discord</a>
+            <a href="#" target="_blank">Twitter</a>
+            <a href="#" target="_blank">Telegram</a>
+            <a href="#" target="_blank">GitHub</a>
+            <a href="#" target="_blank">Discord</a>
           </div>
         </div>
         <div>
@@ -207,41 +424,36 @@
     </div>
   </footer>
 
-  <!-- ===== SCRIPTS ===== -->
-
-  <!-- Docs Viewer (open/close with animation) -->
+  <!-- DOCS SCRIPT -->
   <script>
     (function(){
-      // TODO: ersetze durch deine finalen /preview-Links:
       const DOCS = {
-        whitepaper: "https://drive.google.com/file/d/1QGnx0QtJHX5SH0qMnDksHnqTYU9S6U5o/preview",
-        pitchdeck:  "https://drive.google.com/file/d/1GAAIlu69a2IzVHh3-MJVKySi_-tdMGGG/preview",
-        roadmap:    "https://drive.google.com/file/d/1BZcNeluxr7n2-KBxQb-LPPeFNgrI-IkU/preview"
+        whitepaper:"https://drive.google.com/file/d/1QGnx0QtJHX5SH0qMnDksHnqTYU9S6U5o/preview",
+        pitchdeck :"https://drive.google.com/file/d/1GAAIlu69a2IzVHh3-MJVKySi_-tdMGGG/preview",
+        roadmap   :"https://drive.google.com/file/d/1BZcNeluxr7n2-KBxQb-LPPeFNgrI-IkU/preview"
       };
-
       const cards  = document.querySelectorAll('#fv-docs-cards .fv-card');
       const viewer = document.getElementById('fv-docs-viewer');
       const frame  = document.getElementById('fv-docs-frame');
       const close  = document.getElementById('fv-close-btn');
 
       function openDoc(url){
-        if(frame.src === url && viewer.classList.contains('show')) { closeViewer(); return; }
+        if(frame.src === url && viewer.classList.contains('show')){ closeViewer(); return; }
         frame.src = url;
         viewer.classList.add('show');
         const top = viewer.getBoundingClientRect().top + window.pageYOffset - 90;
-        window.scrollTo({ top, behavior: 'smooth' });
+        window.scrollTo({ top, behavior:'smooth' });
       }
       function closeViewer(){
         viewer.classList.remove('show');
-        setTimeout(()=>{ frame.src = ''; }, 450);
+        setTimeout(()=>{ frame.src=''; }, 450);
       }
-
-      cards.forEach(btn => btn.addEventListener('click', () => openDoc(DOCS[btn.dataset.doc])));
+      cards.forEach(btn=>btn.addEventListener('click',()=>openDoc(DOCS[btn.dataset.doc])));
       close.addEventListener('click', closeViewer);
     })();
   </script>
 
-  <!-- Chat Toggle -->
+  <!-- CHAT SCRIPT -->
   <script>
     (function(){
       const btn    = document.getElementById('chatToggleBtn');
@@ -253,7 +465,7 @@
       panel.classList.remove('show'); panel.style.maxHeight='0px'; panel.style.opacity='0';
       btn.setAttribute('aria-expanded','false'); label.textContent='▸ Open Chat';
 
-      function updateUsers(){ const n = 10 + Math.floor(Math.random()*15); users.textContent = 'Online: ' + n; }
+      function updateUsers(){ const n = 10 + Math.floor(Math.random()*15); users.textContent='Online: '+n; }
       setInterval(updateUsers, 8000);
 
       function openChat(){
@@ -269,25 +481,25 @@
         panel.style.maxHeight = panel.scrollHeight + 'px';
         requestAnimationFrame(()=>{
           panel.classList.remove('show');
-          panel.style.maxHeight = '0px';
-          panel.style.opacity   = '0';
+          panel.style.maxHeight='0px';
+          panel.style.opacity='0';
         });
         btn.setAttribute('aria-expanded','false');
-        label.textContent = '▸ Open Chat';
+        label.textContent='▸ Open Chat';
       }
 
       btn.addEventListener('click', ()=> (btn.getAttribute('aria-expanded')==='true') ? closeChat() : openChat());
-      close.addEventListener('click', (e)=>{ e.preventDefault(); closeChat(); });
-      window.addEventListener('resize', ()=>{ if (btn.getAttribute('aria-expanded') === 'true') panel.style.maxHeight = panel.scrollHeight + 'px'; });
+      close.addEventListener('click', e=>{ e.preventDefault(); closeChat(); });
+      window.addEventListener('resize', ()=>{ if(btn.getAttribute('aria-expanded')==='true') panel.style.maxHeight=panel.scrollHeight+'px'; });
     })();
   </script>
 
-  <!-- Mint Modal (Demo) -->
-  <div id="mintModal" class="modal" aria-hidden="true" aria-labelledby="mintModalTitle" role="dialog">
+  <!-- MINT MODAL SCRIPT -->
+  <div id="mintModal" class="modal" aria-hidden="true">
     <div class="modal__backdrop" data-close="true"></div>
-    <div class="modal__content" role="document">
-      <button class="modal__close" aria-label="Close mint modal" data-close="true">✕</button>
-      <h3 id="mintModalTitle" class="modal__title">Mint ForgeVerse NFT</h3>
+    <div class="modal__content">
+      <button class="modal__close" data-close="true">✕</button>
+      <h3 class="modal__title">Mint ForgeVerse NFT</h3>
       <p class="modal__subtitle">Pick your role, set quantity, confirm &amp; mint.</p>
       <form id="mintForm" class="mint-form" autocomplete="off">
         <div class="mint-row">
@@ -300,7 +512,7 @@
         </div>
         <div class="mint-row">
           <label for="mintQty" class="mint-label">Quantity</label>
-          <input id="mintQty" class="mint-input" type="number" min="1" max="10" step="1" value="1" />
+          <input id="mintQty" class="mint-input" type="number" min="1" max="10" step="1" value="1"/>
         </div>
         <div class="mint-row">
           <label class="mint-label">Network</label>
@@ -312,477 +524,466 @@
           <div class="sum-line total"><span>Total</span><strong id="totalView">0.10 SOL</strong></div>
         </div>
         <label class="terms">
-          <input type="checkbox" id="acceptTerms"/>
-          I accept that this is a demo mint (no on-chain transaction).
+          <input type="checkbox" id="acceptTerms"/> I accept that this is a demo mint (no on-chain transaction).
         </label>
         <div class="mint-actions">
           <button type="button" id="mintNowBtn" class="btn btn--primary" disabled>Mint Now</button>
           <button type="button" class="btn btn--secondary" data-close="true">Cancel</button>
         </div>
       </form>
-      <div id="mintStatus" class="mint-status" aria-live="polite"></div>
+      <div id="mintStatus" class="mint-status"></div>
     </div>
   </div>
 
   <script>
-  (function(){
-    const OPEN  = document.getElementById('openMintModal');
-    const MODAL = document.getElementById('mintModal');
-    const CLOSES= MODAL.querySelectorAll('[data-close]');
-    const QTY   = document.getElementById('mintQty');
-    const PRICE_EACH = 0.10;
-    const priceEachEl= document.getElementById('priceEach');
-    const qtyViewEl  = document.getElementById('qtyView');
-    const totalViewEl= document.getElementById('totalView');
-    const TERMS      = document.getElementById('acceptTerms');
-    const BTN_MINT   = document.getElementById('mintNowBtn');
-    const STATUS     = document.getElementById('mintStatus');
+    (function(){
+      const OPEN  = document.getElementById('openMintModal');
+      const MODAL = document.getElementById('mintModal');
+      const CLOSES= MODAL.querySelectorAll('[data-close]');
+      const QTY   = document.getElementById('mintQty');
+      const PRICE_EACH = 0.10;
+      const priceEachEl= document.getElementById('priceEach');
+      const qtyViewEl  = document.getElementById('qtyView');
+      const totalViewEl= document.getElementById('totalView');
+      const TERMS      = document.getElementById('acceptTerms');
+      const BTN_MINT   = document.getElementById('mintNowBtn');
+      const STATUS     = document.getElementById('mintStatus');
 
-    priceEachEl.textContent = PRICE_EACH.toFixed(2) + ' SOL';
-    function updateTotals(){
-      const q = Math.min(10, Math.max(1, parseInt(QTY.value||'1',10)));
-      QTY.value = q; qtyViewEl.textContent = q;
-      totalViewEl.textContent = (q * PRICE_EACH).toFixed(2) + ' SOL';
-      BTN_MINT.disabled = !TERMS.checked;
-    }
-    updateTotals(); QTY.addEventListener('input', updateTotals); TERMS.addEventListener('change', updateTotals);
+      priceEachEl.textContent = PRICE_EACH.toFixed(2)+' SOL';
+      function updateTotals(){
+        const q = Math.min(10, Math.max(1, parseInt(QTY.value||'1',10)));
+        QTY.value = q;
+        qtyViewEl.textContent = q;
+        totalViewEl.textContent = (q*PRICE_EACH).toFixed(2)+' SOL';
+        BTN_MINT.disabled = !TERMS.checked;
+      }
+      updateTotals();
+      QTY.addEventListener('input', updateTotals);
+      TERMS.addEventListener('change', updateTotals);
 
-    function openModal(){ MODAL.classList.add('show'); MODAL.setAttribute('aria-hidden','false'); STATUS.textContent=''; }
-    function closeModal(){ MODAL.classList.remove('show'); MODAL.setAttribute('aria-hidden','true'); }
+      function openModal(){ MODAL.classList.add('show'); MODAL.setAttribute('aria-hidden','false'); STATUS.textContent=''; }
+      function closeModal(){ MODAL.classList.remove('show'); MODAL.setAttribute('aria-hidden','true'); }
 
-    OPEN.addEventListener('click', openModal);
-    CLOSES.forEach(el => el.addEventListener('click', closeModal));
-    MODAL.addEventListener('click', (e)=>{ if (e.target && e.target.dataset && e.target.dataset.close === 'true') closeModal(); });
-    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && MODAL.classList.contains('show')) closeModal(); });
+      OPEN.addEventListener('click', openModal);
+      CLOSES.forEach(el=>el.addEventListener('click', closeModal));
+      MODAL.addEventListener('click', e=>{ if(e.target && e.target.dataset && e.target.dataset.close==='true') closeModal(); });
+      document.addEventListener('keydown', e=>{ if(e.key==='Escape' && MODAL.classList.contains('show')) closeModal(); });
 
-    BTN_MINT.addEventListener('click', async ()=>{
-      if (BTN_MINT.disabled) return;
-      BTN_MINT.disabled = true;
-      STATUS.textContent = 'Connecting wallet...';
-      const provider = window.solana || (window.phantom && window.phantom.solana) || null;
-      await new Promise(r=>setTimeout(r, 700));
-      STATUS.textContent = (provider && provider.isPhantom) ? 'Wallet connected.\nMinting...' : 'No Phantom detected. Proceeding in demo mode...\nMinting...';
-      await new Promise(r=>setTimeout(r, 1000));
-      const qty = parseInt(QTY.value||'1',10);
-      const role = (document.querySelector('input[name="role"]:checked')||{value:'Trader'}).value;
-      const fakeHash = '0x' + Math.random().toString(16).slice(2,10) + Math.random().toString(16).slice(2,10);
-      STATUS.innerHTML = '✅ Mint successful (demo)\nRole: ' + role + ' | Qty: ' + qty + '\nTx: <code style="font-size:14px;">' + fakeHash + '</code>';
-      BTN_MINT.disabled = false;
-    });
-  })();
+      BTN_MINT.addEventListener('click', async ()=>{
+        if (BTN_MINT.disabled) return;
+        BTN_MINT.disabled = true;
+        STATUS.textContent = 'Connecting wallet...';
+        const provider = window.solana || (window.phantom && window.phantom.solana) || null;
+        await new Promise(r=>setTimeout(r,700));
+        STATUS.textContent = (provider && provider.isPhantom)
+          ? 'Wallet connected.\nMinting...'
+          : 'No Phantom detected. Proceeding in demo mode...\nMinting...';
+        await new Promise(r=>setTimeout(r,1000));
+        const qty = parseInt(QTY.value||'1',10);
+        const role = (document.querySelector('input[name="role"]:checked')||{value:'Trader'}).value;
+        const fakeHash='0x'+Math.random().toString(16).slice(2,10)+Math.random().toString(16).slice(2,10);
+        STATUS.innerHTML='✅ Mint successful (demo)\nRole: '+role+' | Qty: '+qty+'\nTx: <code style="font-size:14px;">'+fakeHash+'</code>';
+        BTN_MINT.disabled=false;
+      });
+    })();
   </script>
 
-  <!-- Phantom Wallet Connect (Header Button) -->
+  <!-- PHANTOM CONNECT -->
   <script>
     (function () {
       const btn = document.getElementById('connectBtn');
       if (!btn) return;
-
       const provider = window.solana || (window.phantom && window.phantom.solana) || null;
 
-      function setInstall() {
-        btn.textContent = 'Install Phantom';
-        btn.onclick = () => window.open('https://phantom.app/', '_blank');
+      function setInstall(){
+        btn.textContent='Install Phantom';
+        btn.onclick=()=>window.open('https://phantom.app/','_blank');
       }
+      if (!provider || !provider.isPhantom){ setInstall(); return; }
 
-      if (!provider || !provider.isPhantom) { setInstall(); return; }
-      btn.textContent = 'Connect Wallet';
-
-      btn.addEventListener('click', async () => {
-        try {
-          const resp = await provider.connect({ onlyIfTrusted: false });
+      btn.textContent='Connect Wallet';
+      btn.addEventListener('click', async ()=>{
+        try{
+          const resp = await provider.connect({ onlyIfTrusted:false });
           const pk = resp.publicKey.toString();
-          const short = pk.slice(0,4) + '...' + pk.slice(-4);
-          btn.textContent = 'Connected: ' + short;
-          btn.disabled = true;
-          btn.classList.add('btn--connected');
-        } catch {
-          alert('Wallet-Verbindung abgebrochen.');
-        }
+          const short = pk.slice(0,4)+'...'+pk.slice(-4);
+          btn.textContent='Connected: '+short;
+          btn.disabled=true; btn.classList.add('btn--connected');
+        }catch{ alert('Wallet-Verbindung abgebrochen.'); }
       });
 
-      if (provider.on) {
-        provider.on('connect', (pk) => {
-          const s = pk.toString();
-          const short = s.slice(0,4) + '...' + s.slice(-4);
-          btn.textContent = 'Connected: ' + short;
-          btn.disabled = true;
-          btn.classList.add('btn--connected');
+      if (provider.on){
+        provider.on('connect', pk=>{
+          const s=pk.toString(); const short=s.slice(0,4)+'...'+s.slice(-4);
+          btn.textContent='Connected: '+short; btn.disabled=true; btn.classList.add('btn--connected');
         });
-        provider.on('disconnect', () => {
-          btn.textContent = 'Connect Wallet';
-          btn.disabled = false;
-          btn.classList.remove('btn--connected');
+        provider.on('disconnect', ()=>{
+          btn.textContent='Connect Wallet'; btn.disabled=false; btn.classList.remove('btn--connected');
         });
       }
     })();
   </script>
 
-  <!-- ===== GAME SCRIPT (Pixel Pac – vereinfachte Version) ===== -->
-<script>
-(function(){
-  const TILE = 16;
-  const COLS = 28;
-  const ROWS = 31;
+  <!-- GAME SCRIPT: Pixel Pac mit Ghost-Release -->
+  <script>
+  (function(){
+    const TILE = 16;
+    const COLS = 28;
+    const ROWS = 31;
 
-  const COLORS = {
-    bg: '#000214',
-    wall: '#0cc',
-    pellet: '#9df',
-    power: '#FFB347',
-    pac: '#FFEF00',
-    ghostR: '#ff4d4d',
-    ghostP: '#ff68ff',
-    ghostB: '#66a3ff',
-    ghostO: '#ffb347',
-    eyes: '#fff',
-    fright: '#2aa',
-    gate: '#66FAFF'
-  };
+    const COLORS = {
+      bg: '#000214',
+      wall: '#0cc',
+      pellet: '#9df',
+      power: '#FFB347',
+      pac: '#FFEF00',
+      ghostR: '#ff4d4d',
+      ghostP: '#ff68ff',
+      ghostB: '#66a3ff',
+      ghostO: '#ffb347',
+      eyes: '#fff',
+      fright: '#2aa',
+      gate: '#66FAFF'
+    };
 
-  const cv = document.getElementById('pmCanvas');
-  const cx = cv.getContext('2d');
-  const scoreEl = document.getElementById('pmScore');
-  const livesEl = document.getElementById('pmLives');
-  const startBtn = document.getElementById('pmStart');
-  const resetBtn = document.getElementById('pmReset');
-  const overlay = document.getElementById('pmOverlay');
+    const cv = document.getElementById('pmCanvas');
+    const cx = cv.getContext('2d');
+    const scoreEl = document.getElementById('pmScore');
+    const livesEl = document.getElementById('pmLives');
+    const startBtn = document.getElementById('pmStart');
+    const resetBtn = document.getElementById('pmReset');
+    const overlay = document.getElementById('pmOverlay');
 
-  // Map: 0 = pellet, 1 = wall, 2 = empty, 3 = power, 4 = gate
-  const BASE_MAP = [
-    "1111111111111111111111111111",
-    "1000000000110000000000000001",
-    "1011110110110110110111111101",
-    "1030000100000000000100000301",
-    "1011110101111111100101111101",
-    "1000000101000000100100000001",
-    "1111100101011110100101111101",
-    "2000100001000000100001000102",
-    "1110101111114111111101010111",
-    "1000101000000000000101000101",
-    "1011101011110111110101110101",
-    "1030001000000100000100000301",
-    "1011101111100101111101111101",
-    "1000000000100101000000000001",
-    "1111111110100101011111111111",
-    "2000000000100001000000000002",
-    "1111111110111111011111111111",
-    "1000000000000000000000000001",
-    "1011111111110111111111111101",
-    "1010000000030100000000000101",
-    "1010111111110111111111100101",
-    "1010000000000000000000100101",
-    "1011111111111111111110100101",
-    "1000000000000000000000100001",
-    "1111111111111111111111111111"
-  ];
-  while (BASE_MAP.length < ROWS) BASE_MAP.push(BASE_MAP[BASE_MAP.length - 1]);
-
-  let grid;
-  let pac;
-  let ghosts;
-  let score = 0;
-  let lives = 3;
-  let pelletsLeft = 0;
-  let running = false;
-  let frightened = false;
-  let frightTimeout = null;
-  let ghostTimer = null;
-
-  function initGrid(){
-    grid = BASE_MAP.map(row => row.split('').map(c => +c));
-    pelletsLeft = 0;
-    for(let r=0;r<ROWS;r++){
-      for(let c=0;c<COLS;c++){
-        if(grid[r][c]===0 || grid[r][c]===3) pelletsLeft++;
-      }
-    }
-  }
-
-  function initEntities(){
-    pac = { cx:14, cy:23 };
-    ghosts = [
-      { cx:13, cy:11, color:COLORS.ghostR, home:{cx:13,cy:11}, eyes:false },
-      { cx:14, cy:11, color:COLORS.ghostP, home:{cx:14,cy:11}, eyes:false },
-      { cx:13, cy:13, color:COLORS.ghostB, home:{cx:13,cy:13}, eyes:false },
-      { cx:14, cy:13, color:COLORS.ghostO, home:{cx:14,cy:13}, eyes:false },
+    const BASE_MAP = [
+      "1111111111111111111111111111",
+      "1000000000110000000000000001",
+      "1011110110110110110111111101",
+      "1030000100000000000100000301",
+      "1011110101111111100101111101",
+      "1000000101000000100100000001",
+      "1111100101011110100101111101",
+      "2000100001000000100001000102",
+      "1110101111114111111101010111",
+      "1000101000000000000101000101",
+      "1011101011110111110101110101",
+      "1030001000000100000100000301",
+      "1011101111100101111101111101",
+      "1000000000100101000000000001",
+      "1111111110100101011111111111",
+      "2000000000100001000000000002",
+      "1111111110111111011111111111",
+      "1000000000000000000000000001",
+      "1011111111110111111111111101",
+      "1010000000030100000000000101",
+      "1010111111110111111111100101",
+      "1010000000000000000000100101",
+      "1011111111111111111110100101",
+      "1000000000000000000000100001",
+      "1111111111111111111111111111"
     ];
-  }
+    while (BASE_MAP.length < ROWS) BASE_MAP.push(BASE_MAP[BASE_MAP.length-1]);
 
-  function resetGame(full=true){
-    if (full){
-      score = 0;
-      lives = 3;
-    }
-    running = false;
-    frightened = false;
-    if (frightTimeout) clearTimeout(frightTimeout);
-    if (ghostTimer) clearInterval(ghostTimer);
+    let grid;
+    let pac;
+    let ghosts;
+    let score = 0;
+    let lives = 3;
+    let pelletsLeft = 0;
+    let running = false;
+    let frightened = false;
+    let frightTimeout = null;
+    let ghostTimer = null;
+    let ghostReleaseTimers = [];
+    let ghostReleased = [false,false,false,false];
 
-    initGrid();
-    initEntities();
-    updateHUD();
-    overlay.classList.remove('show');
-    overlay.textContent = '';
-    draw();
-  }
-
-  function updateHUD(){
-    scoreEl.textContent = score;
-    livesEl.textContent = lives;
-  }
-
-  function startGame(){
-    if (running) return;
-    running = true;
-    overlay.classList.remove('show');
-    ghostTimer = setInterval(stepGhosts, 280);
-  }
-
-  function endGame(message){
-    running = false;
-    if (ghostTimer) clearInterval(ghostTimer);
-    overlay.textContent = message;
-    overlay.classList.add('show');
-  }
-
-  // --- Drawing ---
-  function draw(){
-    cx.fillStyle = COLORS.bg;
-    cx.fillRect(0,0,cv.width,cv.height);
-
-    for(let r=0;r<ROWS;r++){
-      for(let c=0;c<COLS;c++){
-        const v = grid[r][c];
-        const x = c*TILE, y = r*TILE;
-        if (v===1){
-          cx.fillStyle = COLORS.wall;
-          cx.fillRect(x,y,TILE,TILE);
-          cx.fillStyle = "#001c1c";
-          cx.fillRect(x+2,y+2,TILE-4,TILE-4);
-        } else if (v===0){
-          cx.fillStyle = COLORS.pellet;
-          cx.beginPath(); cx.arc(x+TILE/2, y+TILE/2, 2, 0, Math.PI*2); cx.fill();
-        } else if (v===3){
-          cx.fillStyle = COLORS.power;
-          cx.beginPath(); cx.arc(x+TILE/2, y+TILE/2, 5, 0, Math.PI*2); cx.fill();
-        } else if (v===4){
-          cx.fillStyle = COLORS.gate;
-          cx.fillRect(x+2, y+TILE/2-1, TILE-4, 2);
+    function initGrid(){
+      grid = BASE_MAP.map(row => row.split('').map(c => +c));
+      pelletsLeft = 0;
+      for(let r=0;r<ROWS;r++){
+        for(let c=0;c<COLS;c++){
+          if(grid[r][c]===0 || grid[r][c]===3) pelletsLeft++;
         }
       }
     }
 
-    // Pac
-    drawPac(pac.cx, pac.cy);
-
-    // Ghosts
-    ghosts.forEach(g => drawGhost(g));
-  }
-
-  function drawPac(cxTile, cyTile){
-    const x = cxTile*TILE + TILE/2;
-    const y = cyTile*TILE + TILE/2;
-    cx.fillStyle = COLORS.pac;
-    cx.beginPath();
-    cx.arc(x, y, TILE*0.45, 0, Math.PI*2);
-    cx.fill();
-  }
-
-  function drawGhost(g){
-    const x = g.cx*TILE, y = g.cy*TILE;
-    const bodyColor = g.eyes ? '#99c' : (frightened ? COLORS.fright : g.color);
-    const r = TILE*0.45;
-
-    cx.fillStyle = bodyColor;
-    cx.beginPath();
-    cx.arc(x+TILE/2, y+TILE/2, r, Math.PI, 0);
-    cx.lineTo(x+TILE*0.9, y+TILE*0.9);
-    cx.lineTo(x+TILE*0.7, y+TILE*0.8);
-    cx.lineTo(x+TILE*0.5, y+TILE*0.9);
-    cx.lineTo(x+TILE*0.3, y+TILE*0.8);
-    cx.lineTo(x+TILE*0.1, y+TILE*0.9);
-    cx.closePath();
-    cx.fill();
-
-    cx.fillStyle = COLORS.eyes;
-    cx.beginPath();
-    cx.arc(x+TILE*0.42, y+TILE*0.46, 2.5, 0, Math.PI*2);
-    cx.fill();
-    cx.beginPath();
-    cx.arc(x+TILE*0.58, y+TILE*0.46, 2.5, 0, Math.PI*2);
-    cx.fill();
-  }
-
-  // --- Helpers ---
-  function inBounds(cx,cy){
-    return cx>=0 && cx<COLS && cy>=0 && cy<ROWS;
-  }
-  function isWall(cx,cy){
-    if (!inBounds(cx,cy)) return true;
-    const v = grid[cy][cx];
-    return v===1 || v===4;
-  }
-
-  function movePac(dx,dy){
-    if (!running) return;
-    const nx = pac.cx + dx;
-    const ny = pac.cy + dy;
-    if (isWall(nx,ny)) return;
-
-    // Tunnel Wrap
-    let fx = nx, fy = ny;
-    if (fx < 0) fx = COLS-1;
-    if (fx >= COLS) fx = 0;
-
-    pac.cx = fx;
-    pac.cy = fy;
-
-    const cell = grid[fy][fx];
-    if (cell===0){
-      grid[fy][fx] = 2;
-      score += 10; pelletsLeft--;
-    } else if (cell===3){
-      grid[fy][fx] = 2;
-      score += 50; pelletsLeft--;
-      triggerFright();
-    }
-
-    checkCollisions();
-    updateHUD();
-
-    if (pelletsLeft <= 0){
-      endGame("YOU WIN! 🎉");
-    }
-
-    draw();
-  }
-
-  function triggerFright(){
-    frightened = true;
-    if (frightTimeout) clearTimeout(frightTimeout);
-    frightTimeout = setTimeout(()=>{ frightened = false; draw(); }, 6000);
-  }
-
-  function stepGhosts(){
-    if (!running) return;
-
-    ghosts.forEach(g=>{
-      if (g.eyes){
-        // Auf Heimatfeld zurück
-        let dx = Math.sign(g.home.cx - g.cx);
-        let dy = Math.sign(g.home.cy - g.cy);
-        const options = shuffle([
-          {dx,dy:0},
-          {dx:0,dy},
-          {dx:-dx,dy:0},
-          {dx:0,dy:-dy}
-        ]);
-        for (const o of options){
-          const nx=g.cx+o.dx, ny=g.cy+o.dy;
-          if (!isWall(nx,ny)){
-            g.cx=nx; g.cy=ny;
-            break;
-          }
-        }
-        if (g.cx === g.home.cx && g.cy === g.home.cy){
-          g.eyes=false;
-        }
-        return;
-      }
-
-      // normale Jagd / Flucht
-      const dirs = [
-        {dx:1,dy:0},{dx:-1,dy:0},{dx:0,dy:1},{dx:0,dy:-1}
+    function initEntities(){
+      pac = { cx:14, cy:23 };
+      ghosts = [
+        { cx:13, cy:11, color:COLORS.ghostR, home:{cx:13,cy:11}, eyes:false },
+        { cx:14, cy:11, color:COLORS.ghostP, home:{cx:14,cy:11}, eyes:false },
+        { cx:13, cy:13, color:COLORS.ghostB, home:{cx:13,cy:13}, eyes:false },
+        { cx:14, cy:13, color:COLORS.ghostO, home:{cx:14,cy:13}, eyes:false },
       ];
-      const valid = dirs.filter(o => !isWall(g.cx+o.dx,g.cy+o.dy));
-      if (valid.length === 0) return;
+      ghostReleased = [false,false,false,false];
+    }
 
-      let best;
-      if (!frightened){
-        // in Richtung Pac-Mann
-        let bestDist = Infinity;
-        valid.forEach(o=>{
-          const nx=g.cx+o.dx, ny=g.cy+o.dy;
-          const d2 = (nx-pac.cx)*(nx-pac.cx)+(ny-pac.cy)*(ny-pac.cy);
-          if (d2 < bestDist){ bestDist=d2; best=o; }
-        });
-      } else {
-        // von Pac weg
-        let bestDist = -1;
-        valid.forEach(o=>{
-          const nx=g.cx+o.dx, ny=g.cy+o.dy;
-          const d2 = (nx-pac.cx)*(nx-pac.cx)+(ny-pac.cy)*(ny-pac.cy);
-          if (d2 > bestDist){ bestDist=d2; best=o; }
-        });
-      }
-      if (!best) best = valid[Math.floor(Math.random()*valid.length)];
-      let nx = g.cx+best.dx, ny=g.cy+best.dy;
+    function inBounds(cx,cy){
+      return cx>=0 && cx<COLS && cy>=0 && cy<ROWS;
+    }
 
-      // Tunnel wrap für Geister
-      if (nx < 0) nx = COLS-1;
-      if (nx >= COLS) nx = 0;
+    function isWallPac(cx,cy){
+      if (!inBounds(cx,cy)) return true;
+      const v = grid[cy][cx];
+      if (v === 1 || v === 4) return true; // Gate blockiert Pac
+      return false;
+    }
 
-      g.cx = nx; g.cy = ny;
-    });
+    function isWallGhost(cx,cy){
+      if (!inBounds(cx,cy)) return true;
+      const v = grid[cy][cx];
+      if (v === 1) return true; // Walls
+      // v===4 (Gate) ist für Geister PASSIERBAR
+      return false;
+    }
 
-    checkCollisions();
-    draw();
-  }
+    function resetGame(full=true){
+      if (full){ score = 0; lives = 3; }
+      running = false;
+      frightened = false;
+      if (frightTimeout) clearTimeout(frightTimeout);
+      if (ghostTimer) clearInterval(ghostTimer);
+      ghostReleaseTimers.forEach(t=>clearTimeout(t));
+      ghostReleaseTimers = [];
 
-  function checkCollisions(){
-    ghosts.forEach(g=>{
-      if (g.cx===pac.cx && g.cy===pac.cy){
-        if (frightened && !g.eyes){
-          // Geist essen
-          g.eyes = true;
-          score += 200;
-          updateHUD();
-        } else if (!g.eyes){
-          // Pac-Mann verliert Leben
-          lives--;
-          updateHUD();
-          if (lives <= 0){
-            endGame("GAME OVER");
-          } else {
-            // nur Positionen zurücksetzen
-            initEntities();
-            overlay.textContent = "Life Lost";
-            overlay.classList.add('show');
-            setTimeout(()=>overlay.classList.remove('show'), 700);
+      initGrid();
+      initEntities();
+      updateHUD();
+      overlay.classList.remove('show');
+      overlay.textContent = '';
+      scheduleGhostRelease();
+      draw();
+    }
+
+    function updateHUD(){
+      scoreEl.textContent = score;
+      livesEl.textContent = lives;
+    }
+
+    function startGame(){
+      if (running) return;
+      running = true;
+      overlay.classList.remove('show');
+      ghostTimer = setInterval(stepGhosts, 260);
+    }
+
+    function endGame(message){
+      running = false;
+      if (ghostTimer) clearInterval(ghostTimer);
+      overlay.textContent = message;
+      overlay.classList.add('show');
+    }
+
+    function draw(){
+      cx.fillStyle = COLORS.bg;
+      cx.fillRect(0,0,cv.width,cv.height);
+
+      for(let r=0;r<ROWS;r++){
+        for(let c=0;c<COLS;c++){
+          const v = grid[r][c];
+          const x=c*TILE, y=r*TILE;
+          if (v===1){
+            cx.fillStyle = COLORS.wall;
+            cx.fillRect(x,y,TILE,TILE);
+            cx.fillStyle = "#001c1c";
+            cx.fillRect(x+2,y+2,TILE-4,TILE-4);
+          } else if (v===0){
+            cx.fillStyle = COLORS.pellet;
+            cx.beginPath(); cx.arc(x+TILE/2,y+TILE/2,2,0,Math.PI*2); cx.fill();
+          } else if (v===3){
+            cx.fillStyle = COLORS.power;
+            cx.beginPath(); cx.arc(x+TILE/2,y+TILE/2,5,0,Math.PI*2); cx.fill();
+          } else if (v===4){
+            cx.fillStyle = COLORS.gate;
+            cx.fillRect(x+2, y+TILE/2-1, TILE-4, 2);
           }
         }
       }
-    });
-  }
 
-  function shuffle(arr){
-    const copy = arr.slice();
-    for(let i=copy.length-1;i>0;i--){
-      const j = Math.floor(Math.random()*(i+1));
-      [copy[i],copy[j]] = [copy[j],copy[i]];
+      drawPac(pac.cx,pac.cy);
+      ghosts.forEach(g=>drawGhost(g));
     }
-    return copy;
-  }
 
-  // --- Input ---
-  window.addEventListener('keydown', (e)=>{
-    const k = e.key.toLowerCase();
-    if (!running) return;
-    if (k==='arrowup'||k==='w') movePac(0,-1);
-    else if (k==='arrowdown'||k==='s') movePac(0,1);
-    else if (k==='arrowleft'||k==='a') movePac(-1,0);
-    else if (k==='arrowright'||k==='d') movePac(1,0);
-  });
+    function drawPac(cxTile, cyTile){
+      const x = cxTile*TILE + TILE/2;
+      const y = cyTile*TILE + TILE/2;
+      cx.fillStyle = COLORS.pac;
+      cx.beginPath();
+      cx.arc(x,y,TILE*0.45,0,Math.PI*2);
+      cx.fill();
+    }
 
-  // Buttons
-  startBtn.addEventListener('click', ()=>{ startGame(); });
-  resetBtn.addEventListener('click', ()=>{ resetGame(true); });
+    function drawGhost(g){
+      const x=g.cx*TILE, y=g.cy*TILE;
+      const bodyColor = g.eyes ? '#99c' : (frightened ? COLORS.fright : g.color);
+      const r=TILE*0.45;
+      cx.fillStyle=bodyColor;
+      cx.beginPath();
+      cx.arc(x+TILE/2,y+TILE/2,r,Math.PI,0);
+      cx.lineTo(x+TILE*0.9,y+TILE*0.9);
+      cx.lineTo(x+TILE*0.7,y+TILE*0.8);
+      cx.lineTo(x+TILE*0.5,y+TILE*0.9);
+      cx.lineTo(x+TILE*0.3,y+TILE*0.8);
+      cx.lineTo(x+TILE*0.1,y+TILE*0.9);
+      cx.closePath(); cx.fill();
 
-  // Erstinitialisierung
-  resetGame(true);
-})();
-</script>
+      cx.fillStyle = COLORS.eyes;
+      cx.beginPath(); cx.arc(x+TILE*0.42, y+TILE*0.46, 2.5, 0, Math.PI*2); cx.fill();
+      cx.beginPath(); cx.arc(x+TILE*0.58, y+TILE*0.46, 2.5, 0, Math.PI*2); cx.fill();
+    }
 
+    function movePac(dx,dy){
+      if (!running) return;
+      let nx = pac.cx + dx;
+      let ny = pac.cy + dy;
+      if (isWallPac(nx,ny)) return;
+
+      if (nx<0) nx=COLS-1;
+      if (nx>=COLS) nx=0;
+
+      pac.cx = nx;
+      pac.cy = ny;
+
+      const cell = grid[ny][nx];
+      if (cell===0){
+        grid[ny][nx]=2; score+=10; pelletsLeft--;
+      } else if (cell===3){
+        grid[ny][nx]=2; score+=50; pelletsLeft--;
+        triggerFright();
+      }
+      checkCollisions();
+      updateHUD();
+
+      if (pelletsLeft<=0) endGame("YOU WIN! 🎉");
+      draw();
+    }
+
+    function triggerFright(){
+      frightened = true;
+      if (frightTimeout) clearTimeout(frightTimeout);
+      frightTimeout = setTimeout(()=>{ frightened=false; draw(); },6000);
+    }
+
+    function ghostBlocked(g, nx, ny){
+      if (!inBounds(nx,ny)) return true;
+      const v = grid[ny][nx];
+      if (v===1) return true;  // walls
+      // gate (4) ist passierbar für Geister
+      return false;
+    }
+
+    function scheduleGhostRelease(){
+      ghostReleaseTimers.forEach(t=>clearTimeout(t));
+      ghostReleaseTimers=[];
+      ghostReleased=[false,false,false,false];
+      ghostReleaseTimers.push(setTimeout(()=>ghostReleased[0]=true,  500));  // Blinky
+      ghostReleaseTimers.push(setTimeout(()=>ghostReleased[1]=true, 1500)); // Pinky
+      ghostReleaseTimers.push(setTimeout(()=>ghostReleased[2]=true, 3000)); // Inky
+      ghostReleaseTimers.push(setTimeout(()=>ghostReleased[3]=true, 4500)); // Clyde
+    }
+
+    function stepGhosts(){
+      if (!running) return;
+      ghosts.forEach((g,i)=>{
+        if (!ghostReleased[i]){
+          const dirs=[{dx:1,dy:0},{dx:-1,dy:0},{dx:0,dy:1},{dx:0,dy:-1}];
+          const valid = dirs.filter(o=>!ghostBlocked(g,g.cx+o.dx,g.cy+o.dy));
+          if (valid.length>0){
+            const o=valid[Math.floor(Math.random()*valid.length)];
+            g.cx+=o.dx; g.cy+=o.dy;
+          }
+          return;
+        }
+
+        if (g.eyes){
+          let dx=Math.sign(g.home.cx-g.cx), dy=Math.sign(g.home.cy-g.cy);
+          const tryDirs=shuffle([
+            {dx,dy:0},{dx:0,dy},{dx:-dx,dy:0},{dx:0,dy:-dy}
+          ]);
+          for(const o of tryDirs){
+            const nx=g.cx+o.dx, ny=g.cy+o.dy;
+            if (!ghostBlocked(g,nx,ny)){
+              g.cx=nx; g.cy=ny;
+              break;
+            }
+          }
+          if(g.cx===g.home.cx && g.cy===g.home.cy){ g.eyes=false; }
+          return;
+        }
+
+        const dirs=[{dx:1,dy:0},{dx:-1,dy:0},{dx:0,dy:1},{dx:0,dy:-1}];
+        const valid = dirs.filter(o=>!ghostBlocked(g,g.cx+o.dx,g.cy+o.dy));
+        if (valid.length===0) return;
+
+        let best;
+        if (!frightened){
+          let bestDist=Infinity;
+          valid.forEach(o=>{
+            const nx=g.cx+o.dx, ny=g.cy+o.dy;
+            const d2=(nx-pac.cx)*(nx-pac.cx)+(ny-pac.cy)*(ny-pac.cy);
+            if(d2<bestDist){ bestDist=d2; best=o; }
+          });
+        }else{
+          let bestDist=-1;
+          valid.forEach(o=>{
+            const nx=g.cx+o.dx, ny=g.cy+o.dy;
+            const d2=(nx-pac.cx)*(nx-pac.cx)+(ny-pac.cy)*(ny-pac.cy);
+            if(d2>bestDist){ bestDist=d2; best=o; }
+          });
+        }
+        if(!best) best = valid[Math.floor(Math.random()*valid.length)];
+
+        let nx=g.cx+best.dx, ny=g.cy+best.dy;
+        if (nx<0) nx=COLS-1;
+        if (nx>=COLS) nx=0;
+
+        g.cx=nx; g.cy=ny;
+      });
+
+      checkCollisions();
+      draw();
+    }
+
+    function checkCollisions(){
+      ghosts.forEach(g=>{
+        if(g.cx===pac.cx && g.cy===pac.cy){
+          if(frightened && !g.eyes){
+            g.eyes=true; score+=200; updateHUD();
+          }else if(!g.eyes){
+            lives--; updateHUD();
+            if(lives<=0){ endGame("GAME OVER"); }
+            else{
+              initEntities(); scheduleGhostRelease();
+              overlay.textContent="Life Lost"; overlay.classList.add('show');
+              setTimeout(()=>overlay.classList.remove('show'),700);
+            }
+          }
+        }
+      });
+    }
+
+    function shuffle(arr){
+      const copy=arr.slice();
+      for(let i=copy.length-1;i>0;i--){
+        const j=Math.floor(Math.random()*(i+1));
+        [copy[i],copy[j]]=[copy[j],copy[i]];
+      }
+      return copy;
+    }
+
+    window.addEventListener('keydown', e=>{
+      const k=e.key.toLowerCase();
+      if(!running) return;
+      if(k==='arrowup'||k==='w') movePac(0,-1);
+      else if(k==='arrowdown'||k==='s') movePac(0,1);
+      else if(k==='arrowleft'||k==='a') movePac(-1,0);
+      else if(k==='arrowright'||k==='d') movePac(1,0);
+    });
+
+    startBtn.addEventListener('click', ()=>{ startGame(); });
+    resetBtn.addEventListener('click', ()=>{ resetGame(true); });
+
+    resetGame(true); // init
+  })();
+  </script>
 </body>
 </html>
