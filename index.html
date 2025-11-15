@@ -370,7 +370,7 @@
       color: #ffb347;
       border: 2px solid #ffb347;
       border-radius: 6px;
-      font-family: "Press Start 2P", monospace;
+      font-family: "Press Start 2P", monosspace;
       font-size: 10px;
       padding: 6px 10px;
       cursor: pointer;
@@ -486,6 +486,64 @@
       text-align: center;
     }
 
+    /* ====== SWAP BLOCK ====== */
+    .swap-box {
+      max-width: 520px;
+      margin: 18px auto 0 auto;
+      background: #05070c;
+      border-radius: 14px;
+      border: 2px solid #00eaff;
+      box-shadow: 0 0 20px #00eaff66;
+      padding: 18px 16px 20px 16px;
+      font-family: "Press Start 2P", monospace;
+      font-size: 11px;
+    }
+    .swap-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .swap-row label {
+      flex: 0 0 60px;
+      display: flex;
+      align-items: center;
+    }
+    .swap-row select,
+    .swap-row input {
+      flex: 1 1 auto;
+      background: #020509;
+      border-radius: 6px;
+      border: 1px solid #00eaff;
+      color: #ffffff;
+      padding: 6px 8px;
+      font-family: "Press Start 2P", monospace;
+      font-size: 11px;
+    }
+    .swap-row input {
+      text-align: right;
+    }
+    .swap-info {
+      font-size: 10px;
+      color: #b8f7ff;
+      margin-top: 4px;
+      line-height: 1.6;
+    }
+    .swap-result {
+      margin-top: 10px;
+      font-size: 11px;
+      color: #fffbcc;
+      min-height: 20px;
+    }
+    .swap-balances {
+      margin-top: 12px;
+      font-size: 11px;
+      color: #66FAFF;
+    }
+    .swap-balances span {
+      margin-right: 12px;
+    }
+
     /* FOOTER */
     .footer {
       border-top: 2px solid #00eaff;
@@ -562,6 +620,13 @@
       .footer__grid {
         grid-template-columns: 1fr;
       }
+      .swap-box {
+        font-size: 10px;
+      }
+      .swap-row label {
+        flex: 0 0 auto;
+        min-width: 50px;
+      }
     }
   </style>
 </head>
@@ -579,6 +644,7 @@
         <a href="#nfts">Your NFTs</a>
         <a href="#stake">Stake</a>
         <a href="#fusion">Fusion Lab</a>
+        <a href="#swap">Swap</a>
         <a href="#game">Game</a>
         <a href="#ranking">Ranking</a>
         <a href="#merch">Merch</a>
@@ -764,6 +830,49 @@
       </div>
     </section>
 
+    <!-- SWAP (Forge Swap Demo) -->
+    <section id="swap" class="section">
+      <div class="container">
+        <h2 class="section__title">Forge Swap</h2>
+        <p class="section__text">
+          Demo swap between $FOOD, $METAL and $DOLLAR using a simple internal rate.
+          1 $DOLLAR = 10 $METAL = 100 $FOOD.
+        </p>
+
+        <div class="swap-box">
+          <div class="swap-row">
+            <label for="swapFrom">From</label>
+            <select id="swapFrom">
+              <option value="FOOD">$FOOD</option>
+              <option value="METAL">$METAL</option>
+              <option value="DOLLAR">$DOLLAR</option>
+            </select>
+          </div>
+          <div class="swap-row">
+            <label for="swapTo">To</label>
+            <select id="swapTo">
+              <option value="METAL">$METAL</option>
+              <option value="FOOD">$FOOD</option>
+              <option value="DOLLAR">$DOLLAR</option>
+            </select>
+          </div>
+          <div class="swap-row">
+            <label for="swapAmount">Amount</label>
+            <input id="swapAmount" type="number" min="0" step="1" value="10" />
+          </div>
+          <div class="swap-info">
+            Rates (demo): 1 $DOLLAR = 10 $METAL = 100 $FOOD.<br/>
+            This is a front-end preview only – not an on-chain swap.
+          </div>
+          <div style="margin-top:10px; text-align:right;">
+            <button id="swapBtn" class="btn btn--secondary">Swap (Demo)</button>
+          </div>
+          <div id="swapResult" class="swap-result"></div>
+          <div id="swapBalances" class="swap-balances"></div>
+        </div>
+      </div>
+    </section>
+
     <!-- GAME (Pac-Forge Mini Game) -->
     <section id="game" class="section">
       <div class="container">
@@ -882,10 +991,8 @@
   <!-- Docs: Whitepaper PDF / Pitchdeck / Roadmap Toggle -->
   <script>
     (function () {
-      const DOCS = {
-        whitepaper:
-          "https://drive.google.com/file/d/1QGnx0QtJHX5SH0qMnDksHnqTYU9S6U5o/preview"
-      };
+      // Lokales Whitepaper – falls du whitepaper.pdf im Projekt hast
+      const WHITEPAPER_URL = "whitepaper.pdf";
 
       const cards   = document.querySelectorAll("#fv-docs-cards .fv-card");
       const viewer  = document.getElementById("fv-docs-viewer");
@@ -894,13 +1001,14 @@
       const pitchdeckSection = document.getElementById("pitchdeck");
       const roadmapWrapper   = document.getElementById("fv-roadmap");
 
-      function openDoc(url) {
+      function openWhitepaper() {
         if (!viewer || !frame) return;
-        frame.src = url;
+        frame.src = WHITEPAPER_URL + "#toolbar=0&navpanes=0";
         viewer.classList.add("show");
         const top = viewer.getBoundingClientRect().top + window.pageYOffset - 90;
         window.scrollTo({ top, behavior: "smooth" });
       }
+
       function closeViewer() {
         if (!viewer || !frame) return;
         viewer.classList.remove("show");
@@ -912,13 +1020,15 @@
           e.preventDefault();
           const key = btn.getAttribute("data-doc");
 
+          // Whitepaper
           if (key === "whitepaper") {
             if (roadmapWrapper) roadmapWrapper.classList.remove("show");
             closeViewer();
-            openDoc(DOCS.whitepaper);
+            openWhitepaper();
             return;
           }
 
+          // Pitchdeck
           if (key === "pitchdeck") {
             if (roadmapWrapper) roadmapWrapper.classList.remove("show");
             closeViewer();
@@ -932,6 +1042,7 @@
             return;
           }
 
+          // Roadmap
           if (key === "roadmap") {
             closeViewer();
             if (roadmapWrapper) {
@@ -1081,7 +1192,7 @@
     })();
   </script>
 
-  <!-- Roadmap Close Button logic (zusätzlich zum Docs-Script) -->
+  <!-- Roadmap Close Button -->
   <script>
     (function () {
       const wrapper = document.getElementById("fv-roadmap");
@@ -1100,6 +1211,99 @@
     }
   </script>
 
+  <!-- Swap Demo Logic -->
+  <script>
+    (function () {
+      const BAL_KEY = "fv-demo-balances";
+      const defaultBalances = { FOOD: 1000, METAL: 200, DOLLAR: 50 };
+
+      let balances;
+      try {
+        const saved = localStorage.getItem(BAL_KEY);
+        balances = saved ? JSON.parse(saved) : { ...defaultBalances };
+      } catch (e) {
+        balances = { ...defaultBalances };
+      }
+
+      const prices = {
+        FOOD: 1,      // 1 FOOD
+        METAL: 10,    // 10 FOOD
+        DOLLAR: 100   // 100 FOOD
+      };
+
+      const fromSel = document.getElementById("swapFrom");
+      const toSel   = document.getElementById("swapTo");
+      const amount  = document.getElementById("swapAmount");
+      const btn     = document.getElementById("swapBtn");
+      const result  = document.getElementById("swapResult");
+      const balBox  = document.getElementById("swapBalances");
+
+      function renderBalances() {
+        if (!balBox) return;
+        balBox.innerHTML =
+          "<span>$FOOD: "   + balances.FOOD.toFixed(0)   + "</span>" +
+          "<span>$METAL: "  + balances.METAL.toFixed(0)  + "</span>" +
+          "<span>$DOLLAR: " + balances.DOLLAR.toFixed(0) + "</span>";
+      }
+
+      function saveBalances() {
+        try {
+          localStorage.setItem(BAL_KEY, JSON.stringify(balances));
+        } catch (e) {
+          // ignore
+        }
+      }
+
+      function swap() {
+        if (!fromSel || !toSel || !amount || !result) return;
+        const from = fromSel.value;
+        const to   = toSel.value;
+        const amt  = parseFloat(amount.value);
+
+        if (!from || !to || from === to) {
+          result.textContent = "Choose two different tokens.";
+          return;
+        }
+        if (!amt || amt <= 0) {
+          result.textContent = "Enter a valid amount.";
+          return;
+        }
+
+        if (balances[from] < amt) {
+          result.textContent = "Not enough balance in $" + from + ".";
+          return;
+        }
+
+        const valFrom = prices[from];
+        const valTo   = prices[to];
+        if (!valFrom || !valTo) {
+          result.textContent = "Invalid token selection.";
+          return;
+        }
+
+        const outAmt = (amt * valFrom) / valTo;
+
+        balances[from] -= amt;
+        balances[to]   += outAmt;
+
+        saveBalances();
+        renderBalances();
+        result.textContent =
+          "Swapped " + amt.toFixed(0) + " $" + from +
+          " → " + outAmt.toFixed(2) + " $" + to + " (demo only)";
+      }
+
+      if (btn) {
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          swap();
+        });
+      }
+
+      renderBalances();
+    })();
+  </script>
+
   <!-- Pac-Forge Mini Game -->
   <script>
     (function() {
@@ -1110,19 +1314,17 @@
       const cols = canvas.width / tileSize;
       const rows = canvas.height / tileSize;
 
-      // Simple map: 0 empty, 1 wall, 2 pellet
       const map = [];
       for (let y = 0; y < rows; y++) {
         map[y] = [];
         for (let x = 0; x < cols; x++) {
           if (y === 0 || y === rows - 1 || x === 0 || x === cols - 1) {
-            map[y][x] = 1; // border wall
+            map[y][x] = 1;
           } else {
-            map[y][x] = Math.random() < 0.15 ? 1 : 2; // some walls, otherwise pellet
+            map[y][x] = Math.random() < 0.15 ? 1 : 2;
           }
         }
       }
-      // ensure center is open
       map[rows-2][Math.floor(cols/2)] = 0;
 
       let pac = { x: Math.floor(cols/2), y: rows-2, dx: 0, dy: 0 };
@@ -1203,7 +1405,6 @@
             {dx: 0, dy: 1},
             {dx: 0, dy: -1}
           ];
-          // simple chase: sort by distance to pac
           dirs.sort((a,b)=>{
             const da = Math.hypot((g.x+a.dx)-pac.x,(g.y+a.dy)-pac.y);
             const db = Math.hypot((g.x+b.dx)-pac.x,(g.y+b.dy)-pac.y);
