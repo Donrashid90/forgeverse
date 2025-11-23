@@ -1,5 +1,5 @@
 diff --git a/css/styles.css b/css/styles.css
-index 54dd8b298ea4f44a0781c0ca6277c9d4c972a5df..0efcd1bfc75f6ed0cfe5973d6fea1164ef2c2da9 100644
+index 54dd8b298ea4f44a0781c0ca6277c9d4c972a5df..9b7e436354acb7b4373db1c2d4b9cb2832bde3dc 100644
 --- a/css/styles.css
 +++ b/css/styles.css
 @@ -44,50 +44,62 @@ body::before{
@@ -65,7 +65,13 @@ index 54dd8b298ea4f44a0781c0ca6277c9d4c972a5df..0efcd1bfc75f6ed0cfe5973d6fea1164
  }
  .btn:hover{transform:translateY(-2px); box-shadow:0 0 14px rgba(102,250,255,.5)}
  .btn--primary{
-@@ -213,75 +225,104 @@ a:hover{color:var(--gold)}
+@@ -207,81 +219,115 @@ a:hover{color:var(--gold)}
+ .swap-box{
+   max-width:520px;
+   border:2px solid rgba(102,250,255,.6);
+   border-radius:12px;
+   padding:14px;
+   background:rgba(0,0,0,.55);
  }
  .swap-row{
    display:grid; grid-template-columns:70px 1fr 120px;
@@ -85,6 +91,11 @@ index 54dd8b298ea4f44a0781c0ca6277c9d4c972a5df..0efcd1bfc75f6ed0cfe5973d6fea1164
    border-radius:10px; padding:10px 12px;
    background:rgba(0,0,0,.45);
  }
++.game-status{
++  margin:4px 0 10px;
++  color:var(--muted);
++  font-size:16px;
++}
  .game-left{display:flex; gap:18px}
  .game-mount{
    border:2px solid var(--neon);
