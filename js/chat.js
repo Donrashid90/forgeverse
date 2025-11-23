@@ -1,11 +1,13 @@
-/* ===== ForgeVerse Chat Toggle ===== */
 (function(){
-  const chatBtn = document.querySelector('[data-doc="chat"]'); // falls du Button hast
-  const chatPanel = document.getElementById('chatPanel');
+  const btn = document.getElementById("chatToggleBtn");
+  const panel = document.getElementById("chatPanel");
+  if(!btn || !panel) return;
 
-  if(!chatBtn || !chatPanel) return;
-
-  chatBtn.addEventListener('click', ()=>{
-    chatPanel.classList.toggle('show');
+  btn.addEventListener("click", ()=>{
+    panel.classList.toggle("show");
+    btn.textContent = panel.classList.contains("show") ? "Close Chat" : "Open Chat";
+    // Minnit span anzeigen wenn geöffnet
+    const span = panel.querySelector(".minnit-chat-sembed");
+    if(span) span.style.display = panel.classList.contains("show") ? "inline-block" : "none";
   });
 })();
