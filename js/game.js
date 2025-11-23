@@ -1,8 +1,8 @@
 diff --git a/js/game.js b/js/game.js
-index 84155038eeb395c1283dbc8662715afb58761940..d99528bcc597c6cefa744c78658932fb01355683 100644
+index 84155038eeb395c1283dbc8662715afb58761940..6367e1dc9d143a9dbb3ccd57a7780b5d9088d75f 100644
 --- a/js/game.js
 +++ b/js/game.js
-@@ -28,112 +28,123 @@
+@@ -28,172 +28,206 @@
      [1,2,1,1,1,2,1,0,1,1,0,1,1,0,1,2,1,1,1,2,1],
      [1,2,2,2,1,2,2,2,2,2,0,2,2,2,2,2,1,2,2,2,1],
      [1,2,1,2,1,1,1,1,1,2,2,2,1,1,1,1,1,2,1,2,1],
@@ -34,6 +34,7 @@ index 84155038eeb395c1283dbc8662715afb58761940..d99528bcc597c6cefa744c78658932fb
 -  const resetBtn = document.getElementById("resetGameBtn");
 +  const scoreEl = document.getElementById("scoreEl");
 +  const livesEl = document.getElementById("livesEl");
++  const statusEl = document.getElementById("gameStatus");
 +  const startBtn = document.getElementById("gameStartBtn");
 +  const resetBtn = document.getElementById("gameResetBtn");
    const nameInput = document.getElementById("playerName");
@@ -46,26 +47,37 @@ index 84155038eeb395c1283dbc8662715afb58761940..d99528bcc597c6cefa744c78658932fb
    let dir = {x:0,y:0}, nextDir = {x:0,y:0};
    let powerUntil = 0;
  
++  const setStatus = (msg) => { statusEl && (statusEl.textContent = msg); };
++
    function cloneMap() { return MAP.map(r => r.slice()); }
    const isWall = (x,y) => grid[y]?.[x] === 1;
    const cellVal = (x,y) => grid[y]?.[x];
  
++  const ghostSpawns = [{x:10,y:9},{x:9,y:9},{x:11,y:9}];
++
++  function createGhosts(){
++    const colors = ["#ff5a5a","#5affc7","#c58cff"];
++    return ghostSpawns.map((s,i)=>({ x:s.x, y:s.y, vx:0, vy:0, color: colors[i], scared:false }));
++  }
++
    function resetGame() {
      grid = cloneMap();
      score = 0; lives = 3; running = false; powerUntil = 0;
      pac = {x:10, y:15};
  
-     ghosts = [];
-     const spawns = [{x:10,y:9},{x:9,y:9},{x:11,y:9}];
-     for (let i=0;i<GHOST_COUNT;i++){
-       ghosts.push({
-         x: spawns[i].x, y: spawns[i].y, vx:0, vy:0,
-         color: ["#ff5a5a","#5affc7","#c58cff"][i], scared:false
-       });
-     }
+-    ghosts = [];
+-    const spawns = [{x:10,y:9},{x:9,y:9},{x:11,y:9}];
+-    for (let i=0;i<GHOST_COUNT;i++){
+-      ghosts.push({
+-        x: spawns[i].x, y: spawns[i].y, vx:0, vy:0,
+-        color: ["#ff5a5a","#5affc7","#c58cff"][i], scared:false
+-      });
+-    }
++    ghosts = createGhosts();
  
      dir={x:0,y:0}; nextDir={x:0,y:0};
 +    if(submitMsg) submitMsg.textContent = "";
++    setStatus("Press Start or arrow keys to begin.");
      updateHud(); draw();
    }
  
@@ -134,7 +146,8 @@ index 84155038eeb395c1283dbc8662715afb58761940..d99528bcc597c6cefa744c78658932fb
              return dist<manhattan({x:g.x+acc.x,y:g.y+acc.y},pac)?d:acc;
            },choices[0]);
          } else {
-@@ -142,50 +153,51 @@
+           best=choices.reduce((acc,d)=>{
+             const dist=manhattan({x:g.x+d.x,y:g.y+d.y},pac);
              return dist>manhattan({x:g.x+acc.x,y:g.y+acc.y},pac)?d:acc;
            },choices[0]);
          }
@@ -148,9 +161,10 @@ index 84155038eeb395c1283dbc8662715afb58761940..d99528bcc597c6cefa744c78658932fb
          if(powered){
            score+=200; g.x=10; g.y=9; g.vx=0; g.vy=0;
          } else {
-           lives--; updateHud();
-           if(lives<=0) stopGame();
-           else { pac.x=10; pac.y=15; dir={x:0,y:0}; nextDir={x:0,y:0}; }
+-          lives--; updateHud();
+-          if(lives<=0) stopGame();
+-          else { pac.x=10; pac.y=15; dir={x:0,y:0}; nextDir={x:0,y:0}; }
++          handleLifeLoss();
          }
        }
      });
@@ -158,17 +172,38 @@ index 84155038eeb395c1283dbc8662715afb58761940..d99528bcc597c6cefa744c78658932fb
      updateHud(); draw();
    }
  
++  function handleLifeLoss(){
++    lives--; updateHud();
++    if(lives<=0){
++      stopGame("Game over! Press Start to play again.");
++      draw();
++      return;
++    }
++
++    running=false;
++    clearInterval(tickTimer); tickTimer=null;
++    pac={x:10,y:15}; dir={x:0,y:0}; nextDir={x:0,y:0};
++    ghosts=createGhosts();
++    powerUntil=0;
++    setStatus(`Life lost. Lives left: ${lives}. Press Start or use arrows/D-pad to resume.`);
++    draw();
++  }
++
    function startGame(){
      if(running) return;
 +    if(lives<=0) resetGame();
++    if(nextDir.x===0 && nextDir.y===0) nextDir={x:1,y:0};
      running=true;
++    setStatus("Game running! Eat dots, grab power pellets, avoid ghosts.");
      tickTimer=setInterval(step,SPEED_MS);
    }
  
-   function stopGame(){
+-  function stopGame(){
++  function stopGame(message){
      running=false;
      clearInterval(tickTimer);
      tickTimer=null;
++    if(message) setStatus(message);
    }
  
    function draw(){
@@ -186,7 +221,15 @@ index 84155038eeb395c1283dbc8662715afb58761940..d99528bcc597c6cefa744c78658932fb
          } else if(c===2){
            ctx.fillStyle="#fff"; ctx.beginPath();
            ctx.arc(px+TILE/2,py+TILE/2,2,0,Math.PI*2); ctx.fill();
-@@ -224,34 +236,44 @@
+         } else if(c===3){
+           ctx.fillStyle="#FFB347"; ctx.beginPath();
+           ctx.arc(px+TILE/2,py+TILE/2,4,0,Math.PI*2); ctx.fill();
+         }
+       }
+     }
+ 
+     ctx.fillStyle="#FFB347";
+@@ -224,34 +258,44 @@
  
    function loadBoard(){
      try{ return JSON.parse(localStorage.getItem("fv_pac_board")||"[]"); }
