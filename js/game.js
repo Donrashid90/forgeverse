@@ -1,254 +1,257 @@
-(function(){
-  const mount = document.getElementById("gameMount");
-  if(!mount) return;
+/* ForgeVerse Pac-Forge MiniGame
+   - Canvas Pac-Man style
+   - Ghosts move & can leave spawn
+   - Start / Reset
+   - Name input + Submit Score
+   - Leaderboard via localStorage
+*/
 
-  const scoreEl = document.getElementById("scoreEl");
-  const livesEl = document.getElementById("livesEl");
-  const startBtn = document.getElementById("gameStartBtn");
-  const resetBtn = document.getElementById("gameResetBtn");
+(() => {
+  const TILE = 18;
+  const COLS = 21;
+  const ROWS = 21;
+  const SPEED_MS = 130;
+  const POWER_MS = 6000;
+  const GHOST_COUNT = 3;
 
-  const nameInput = document.getElementById("playerName");
-  const submitBtn = document.getElementById("submitScoreBtn");
-  const submitMsg = document.getElementById("submitMsg");
-  const listEl = document.getElementById("leaderboardList");
-
-  // Simple leaderboard localStorage
-  function loadBoard(){
-    return JSON.parse(localStorage.getItem("fv_board")||"[]");
-  }
-  function saveBoard(b){
-    localStorage.setItem("fv_board", JSON.stringify(b.slice(0,10)));
-  }
-  function renderBoard(){
-    const b = loadBoard();
-    listEl.innerHTML = b.map(x=>`<li>${x.name} – ${x.score}</li>`).join("");
-  }
-  renderBoard();
-
-  submitBtn.addEventListener("click", ()=>{
-    const name = (nameInput.value||"anon").trim().slice(0,12);
-    const b = loadBoard();
-    b.push({name, score});
-    b.sort((a,b)=>b.score-a.score);
-    saveBoard(b);
-    renderBoard();
-    submitMsg.textContent = "Saved!";
-    setTimeout(()=>submitMsg.textContent="",1200);
-  });
-
-  // Canvas
-  const tile = 20;
-  const cols = 21;
-  const rows = 21;
-  const w = cols*tile;
-  const h = rows*tile;
-
-  const canvas = document.createElement("canvas");
-  canvas.width = w;
-  canvas.height = h;
-  const ctx = canvas.getContext("2d");
-
-  mount.innerHTML = "";
-  mount.appendChild(canvas);
-
-  // Map (0 empty, 1 wall, 2 pellet, 3 power, 4 ghost gate)
-  const map = [
-    "111111111111111111111",
-    "122222222111222222221",
-    "121111112111211111121",
-    "123222212222212222321",
-    "121111212111212111121",
-    "122222212111212222221",
-    "111111212111212111111",
-    "000001212222212100000",
-    "111101211111112101111",
-    "000001214444412100000",
-    "111101214000412101111",
-    "000001214000412100000",
-    "111101211111112101111",
-    "000001212222212100000",
-    "111111212111212111111",
-    "122222212111212222221",
-    "121111212111212111121",
-    "123222212222212222321",
-    "121111112111211111121",
-    "122222222111222222221",
-    "111111111111111111111",
-  ].map(r=>r.split("").map(n=>+n));
-
-  let score = 0;
-  let lives = 3;
-  let running = false;
-
-  const player = {x:10,y:15,dir:{x:0,y:0},next:{x:0,y:0}};
-  const ghosts = [
-    {x:10,y:10,dir:{x:1,y:0},color:"#ff5c5c",out:false},
-    {x:9,y:10, dir:{x:-1,y:0},color:"#66FAFF",out:false},
-    {x:11,y:10,dir:{x:0,y:1},color:"#ffb347",out:false},
+  const MAP = [
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    [1,2,2,2,2,2,2,1,2,2,2,2,2,1,2,2,2,2,2,2,1],
+    [1,2,1,1,1,2,2,1,2,1,1,1,2,1,2,2,1,1,1,2,1],
+    [1,3,1,0,1,2,2,2,2,2,2,2,2,2,2,2,1,0,1,3,1],
+    [1,2,1,0,1,2,1,1,2,1,1,1,2,1,1,2,1,0,1,2,1],
+    [1,2,2,2,2,2,2,1,2,2,2,2,2,1,2,2,2,2,2,2,1],
+    [1,2,1,1,1,2,2,1,1,1,0,1,1,1,2,2,1,1,1,2,1],
+    [1,2,2,2,1,2,2,2,2,2,0,2,2,2,2,2,1,2,2,2,1],
+    [1,1,1,2,1,2,1,1,1,2,2,2,1,1,1,2,1,2,1,1,1],
+    [1,2,2,2,2,2,1,0,2,2,0,2,2,0,1,2,2,2,2,2,1],
+    [1,2,1,1,1,2,1,0,1,1,0,1,1,0,1,2,1,1,1,2,1],
+    [1,2,2,2,1,2,2,2,2,2,0,2,2,2,2,2,1,2,2,2,1],
+    [1,2,1,2,1,1,1,1,1,2,2,2,1,1,1,1,1,2,1,2,1],
+    [1,2,1,2,2,2,2,2,1,2,2,2,1,2,2,2,2,2,1,2,1],
+    [1,2,1,1,1,2,1,2,1,1,1,1,1,2,1,2,1,1,1,2,1],
+    [1,2,2,2,2,2,1,2,2,2,2,2,2,2,1,2,2,2,2,2,1],
+    [1,2,1,1,1,2,1,1,1,2,1,2,1,1,1,2,1,1,1,2,1],
+    [1,3,2,2,1,2,2,2,2,2,2,2,2,2,2,2,1,2,2,3,1],
+    [1,2,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,2,1],
+    [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   ];
 
-  function isWall(x,y){
-    return map[y]?.[x]===1;
+  const mount = document.getElementById("gameMount");
+  if (!mount) return console.warn("gameMount not found.");
+  mount.innerHTML = "";
+
+  const canvas = document.createElement("canvas");
+  canvas.width = COLS * TILE;
+  canvas.height = ROWS * TILE;
+  canvas.style.display = "block";
+  canvas.style.margin = "0 auto";
+  mount.appendChild(canvas);
+  const ctx = canvas.getContext("2d");
+
+  const scoreEl = document.getElementById("scoreVal");
+  const livesEl = document.getElementById("livesVal");
+  const startBtn = document.getElementById("startGameBtn");
+  const resetBtn = document.getElementById("resetGameBtn");
+  const nameInput = document.getElementById("playerName");
+  const submitBtn = document.getElementById("submitScoreBtn");
+  const boardList = document.getElementById("leaderboardList");
+
+  let grid, pac, ghosts, score, lives, running, tickTimer;
+  let dir = {x:0,y:0}, nextDir = {x:0,y:0};
+  let powerUntil = 0;
+
+  function cloneMap() { return MAP.map(r => r.slice()); }
+  const isWall = (x,y) => grid[y]?.[x] === 1;
+  const cellVal = (x,y) => grid[y]?.[x];
+
+  function resetGame() {
+    grid = cloneMap();
+    score = 0; lives = 3; running = false; powerUntil = 0;
+    pac = {x:10, y:15};
+
+    ghosts = [];
+    const spawns = [{x:10,y:9},{x:9,y:9},{x:11,y:9}];
+    for (let i=0;i<GHOST_COUNT;i++){
+      ghosts.push({
+        x: spawns[i].x, y: spawns[i].y, vx:0, vy:0,
+        color: ["#ff5a5a","#5affc7","#c58cff"][i], scared:false
+      });
+    }
+
+    dir={x:0,y:0}; nextDir={x:0,y:0};
+    updateHud(); draw();
+  }
+
+  function updateHud(){
+    scoreEl && (scoreEl.textContent = score);
+    livesEl && (livesEl.textContent = lives);
+  }
+
+  function tryMove(e, vx, vy){
+    const nx=e.x+vx, ny=e.y+vy;
+    if(!isWall(nx,ny)){ e.x=nx; e.y=ny; return true; }
+    return false;
+  }
+
+  function availableDirs(x,y, forbidReverse){
+    const dirs=[{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}];
+    return dirs.filter(d=>{
+      if(isWall(x+d.x,y+d.y)) return false;
+      if(forbidReverse && d.x===-forbidReverse.x && d.y===-forbidReverse.y) return false;
+      return true;
+    });
+  }
+
+  const manhattan=(a,b)=>Math.abs(a.x-b.x)+Math.abs(a.y-b.y);
+
+  window.addEventListener("keydown",(e)=>{
+    const k=e.key.toLowerCase();
+    if(k==="arrowleft"||k==="a") nextDir={x:-1,y:0};
+    if(k==="arrowright"||k==="d") nextDir={x:1,y:0};
+    if(k==="arrowup"||k==="w") nextDir={x:0,y:-1};
+    if(k==="arrowdown"||k==="s") nextDir={x:0,y:1};
+  });
+
+  function step(){
+    if(!isWall(pac.x+nextDir.x,pac.y+nextDir.y)) dir=nextDir;
+    tryMove(pac,dir.x,dir.y);
+
+    const v=cellVal(pac.x,pac.y);
+    if(v===2){ grid[pac.y][pac.x]=0; score+=10; }
+    if(v===3){ grid[pac.y][pac.x]=0; score+=50; powerUntil=Date.now()+POWER_MS; }
+
+    const powered=Date.now()<powerUntil;
+
+    ghosts.forEach(g=>{
+      g.scared=powered;
+      const blocked=isWall(g.x+g.vx,g.y+g.vy);
+      const choices=availableDirs(g.x,g.y, blocked?null:{x:g.vx,y:g.vy});
+
+      if(blocked || choices.length>=3 || (choices.length>1 && Math.random()<0.25)){
+        let best=choices[0];
+        if(!g.scared){
+          best=choices.reduce((acc,d)=>{
+            const dist=manhattan({x:g.x+d.x,y:g.y+d.y},pac);
+            return dist<manhattan({x:g.x+acc.x,y:g.y+acc.y},pac)?d:acc;
+          },choices[0]);
+        } else {
+          best=choices.reduce((acc,d)=>{
+            const dist=manhattan({x:g.x+d.x,y:g.y+d.y},pac);
+            return dist>manhattan({x:g.x+acc.x,y:g.y+acc.y},pac)?d:acc;
+          },choices[0]);
+        }
+        g.vx=best.x; g.vy=best.y;
+      }
+      tryMove(g,g.vx,g.vy);
+    });
+
+    ghosts.forEach(g=>{
+      if(g.x===pac.x && g.y===pac.y){
+        if(powered){
+          score+=200; g.x=10; g.y=9; g.vx=0; g.vy=0;
+        } else {
+          lives--; updateHud();
+          if(lives<=0) stopGame();
+          else { pac.x=10; pac.y=15; dir={x:0,y:0}; nextDir={x:0,y:0}; }
+        }
+      }
+    });
+
+    updateHud(); draw();
+  }
+
+  function startGame(){
+    if(running) return;
+    running=true;
+    tickTimer=setInterval(step,SPEED_MS);
+  }
+
+  function stopGame(){
+    running=false;
+    clearInterval(tickTimer);
+    tickTimer=null;
   }
 
   function draw(){
-    ctx.clearRect(0,0,w,h);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle="#050508";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
 
-    // draw map
-    for(let y=0;y<rows;y++){
-      for(let x=0;x<cols;x++){
-        const v = map[y][x];
-        if(v===1){
-          ctx.fillStyle="#0b5560";
-          ctx.fillRect(x*tile,y*tile,tile,tile);
-        }else if(v===2){
-          ctx.fillStyle="#fff";
-          ctx.fillRect(x*tile+8,y*tile+8,4,4);
-        }else if(v===3){
-          ctx.fillStyle="#FFB347";
-          ctx.beginPath();
-          ctx.arc(x*tile+10,y*tile+10,5,0,Math.PI*2);
-          ctx.fill();
-        }else if(v===4){
-          // ghost gate
-          ctx.fillStyle="#0b5560";
-          ctx.fillRect(x*tile,y*tile+8,tile,4);
+    for(let y=0;y<ROWS;y++){
+      for(let x=0;x<COLS;x++){
+        const c=grid[y][x];
+        const px=x*TILE, py=y*TILE;
+        if(c===1){
+          ctx.fillStyle="#66FAFF"; ctx.fillRect(px,py,TILE,TILE);
+          ctx.fillStyle="#081014"; ctx.fillRect(px+3,py+3,TILE-6,TILE-6);
+        } else if(c===2){
+          ctx.fillStyle="#fff"; ctx.beginPath();
+          ctx.arc(px+TILE/2,py+TILE/2,2,0,Math.PI*2); ctx.fill();
+        } else if(c===3){
+          ctx.fillStyle="#FFB347"; ctx.beginPath();
+          ctx.arc(px+TILE/2,py+TILE/2,4,0,Math.PI*2); ctx.fill();
         }
       }
     }
 
-    // player
-    ctx.fillStyle="#FFEB3B";
+    ctx.fillStyle="#FFB347";
     ctx.beginPath();
-    ctx.arc(player.x*tile+10, player.y*tile+10, 8, 0, Math.PI*2);
+    ctx.arc(pac.x*TILE+TILE/2,pac.y*TILE+TILE/2,TILE*0.38,0,Math.PI*2);
     ctx.fill();
 
-    // ghosts
     ghosts.forEach(g=>{
-      ctx.fillStyle=g.color;
+      const gx=g.x*TILE+TILE/2, gy=g.y*TILE+TILE/2;
+      ctx.fillStyle=g.scared?"#66FAFF":g.color;
+      ctx.beginPath(); ctx.arc(gx,gy,TILE*0.38,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle="#000";
       ctx.beginPath();
-      ctx.arc(g.x*tile+10, g.y*tile+10, 8, 0, Math.PI*2);
+      ctx.arc(gx-3,gy-2,2,0,Math.PI*2);
+      ctx.arc(gx+3,gy-2,2,0,Math.PI*2);
       ctx.fill();
     });
-  }
 
-  function moveEntity(ent){
-    // allow turning if next is free
-    const nx = ent.x + ent.next.x;
-    const ny = ent.y + ent.next.y;
-    if(!isWall(nx,ny) && map[ny][nx]!==4){
-      ent.dir = {...ent.next};
-    }
-
-    const tx = ent.x + ent.dir.x;
-    const ty = ent.y + ent.dir.y;
-
-    if(!isWall(tx,ty) && map[ty][tx]!==4){
-      ent.x = tx; ent.y = ty;
+    if(!running && lives<=0){
+      ctx.fillStyle="rgba(0,0,0,0.6)";
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.fillStyle="#FFB347";
+      ctx.font="16px 'Press Start 2P', monospace";
+      ctx.textAlign="center";
+      ctx.fillText("GAME OVER", canvas.width/2, canvas.height/2);
     }
   }
 
-  function playerStep(){
-    moveEntity(player);
-    const v = map[player.y][player.x];
-    if(v===2){ map[player.y][player.x]=0; score+=10; }
-    if(v===3){ map[player.y][player.x]=0; score+=50; }
+  function loadBoard(){
+    try{ return JSON.parse(localStorage.getItem("fv_pac_board")||"[]"); }
+    catch{ return []; }
   }
-
-  function ghostStep(g){
-    // first: get them out of pen through gate line (v=4)
-    if(!g.out){
-      // move upward until leaving gate area
-      if(map[g.y][g.x]===0){
-        g.out=true;
-      }else{
-        // inside pen, move up to gate opening
-        const upFree = map[g.y-1][g.x]!==1;
-        if(upFree){ g.y -= 1; }
-        return;
-      }
-    }
-
-    // random turn at intersections
-    const dirs = [
-      {x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}
-    ].filter(d=>{
-      const nx=g.x+d.x, ny=g.y+d.y;
-      return !isWall(nx,ny) && map[ny][nx]!==4;
+  function saveBoard(list){
+    localStorage.setItem("fv_pac_board", JSON.stringify(list.slice(0,10)));
+  }
+  function renderBoard(){
+    if(!boardList) return;
+    const list=loadBoard();
+    boardList.innerHTML="";
+    list.forEach((e,i)=>{
+      const li=document.createElement("li");
+      li.textContent=`${i+1}. ${e.name} — ${e.score}`;
+      boardList.appendChild(li);
     });
-
-    // choose new dir sometimes
-    if(dirs.length>=3 || Math.random()<0.25){
-      g.dir = dirs[Math.floor(Math.random()*dirs.length)];
-    }
-
-    const nx=g.x+g.dir.x, ny=g.y+g.dir.y;
-    if(!isWall(nx,ny) && map[ny][nx]!==4){
-      g.x=nx; g.y=ny;
-    }else{
-      if(dirs.length) g.dir=dirs[Math.floor(Math.random()*dirs.length)];
-    }
+  }
+  function submitScore(){
+    const name=(nameInput?.value||"").trim()||"Anon";
+    const list=loadBoard();
+    list.push({name, score, t:Date.now()});
+    list.sort((a,b)=>b.score-a.score);
+    saveBoard(list);
+    renderBoard();
   }
 
-  function checkCollisions(){
-    for(const g of ghosts){
-      if(g.x===player.x && g.y===player.y){
-        lives--;
-        livesEl.textContent=lives;
-        player.x=10; player.y=15; player.dir={x:0,y:0}; player.next={x:0,y:0};
-        if(lives<=0){ running=false; }
-      }
-    }
-  }
+  startBtn?.addEventListener("click", startGame);
+  resetBtn?.addEventListener("click", ()=>{ stopGame(); resetGame(); });
+  submitBtn?.addEventListener("click", submitScore);
 
-  function loop(){
-    if(!running) return;
-    playerStep();
-    ghosts.forEach(ghostStep);
-    checkCollisions();
-
-    scoreEl.textContent=score;
-    livesEl.textContent=lives;
-    draw();
-
-    requestAnimationFrame(loop);
-  }
-
-  // input
-  window.addEventListener("keydown",(e)=>{
-    const k=e.key.toLowerCase();
-    if(k==="arrowleft"||k==="a") player.next={x:-1,y:0};
-    if(k==="arrowright"||k==="d") player.next={x:1,y:0};
-    if(k==="arrowup"||k==="w") player.next={x:0,y:-1};
-    if(k==="arrowdown"||k==="s") player.next={x:0,y:1};
-  });
-
-  startBtn.addEventListener("click",()=>{
-    if(running) return;
-    running=true;
-    loop();
-  });
-
-  resetBtn.addEventListener("click",()=>{
-    // reset state
-    score=0; lives=3; running=false;
-    player.x=10; player.y=15; player.dir={x:0,y:0}; player.next={x:0,y:0};
-    ghosts.forEach((g,i)=>{
-      g.x=10+(i-1); g.y=10; g.dir={x:1,y:0}; g.out=false;
-    });
-    // restore pellets quickly
-    for(let y=0;y<rows;y++){
-      for(let x=0;x<cols;x++){
-        if(map[y][x]===0 && (y>0&&y<rows-1&&x>0&&x<cols-1)){
-          // don't refill walls or gate
-          if(!isWall(x,y)) map[y][x]=2;
-        }
-      }
-    }
-    draw();
-    scoreEl.textContent=score;
-    livesEl.textContent=lives;
-  });
-
-  draw();
+  resetGame();
+  renderBoard();
 })();
