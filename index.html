@@ -2,24 +2,349 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>ForgeVerse – A Pixel Economy on Solana</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ForgeVerse – A Pixel Economy on Solana</title>
   <meta name="description" content="ForgeVerse – Pixel economy on Solana. Stake, Forge and Trade to grow your NFT empire."/>
+
+  <!-- Pixel Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 
-  <!-- Externe CSS -->
-  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    :root{
+      --bg:#050507;
+      --bg2:#0D0D0F;
+      --neon:#66FAFF;
+      --neon-soft:rgba(102,250,255,.35);
+      --yellow:#FFB347;
+      --text:#EDEDED;
+      --muted:#9AA0A6;
+      --grid:rgba(102,250,255,.08);
+      --grid-strong:rgba(102,250,255,.14);
+      --radius:14px;
+    }
+
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      font-family:'VT323', monospace;
+      color:var(--text);
+      background:var(--bg);
+      overflow-x:hidden;
+    }
+
+    /* ==== GRID BACKGROUND ==== */
+    body::before{
+      content:"";
+      position:fixed; inset:0;
+      background-image:
+        linear-gradient(to right, var(--grid) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+      background-size:40px 40px;
+      pointer-events:none;
+      z-index:-2;
+    }
+    body::after{
+      content:"";
+      position:fixed; inset:0;
+      background-image:
+        radial-gradient(circle at 50% 0%, rgba(102,250,255,.12), transparent 40%),
+        radial-gradient(circle at 0% 100%, rgba(255,179,71,.08), transparent 45%);
+      pointer-events:none;
+      z-index:-1;
+    }
+
+    a{color:inherit; text-decoration:none;}
+    .container{max-width:1200px; margin:0 auto; padding:0 18px;}
+
+    /* ==== HEADER ==== */
+    .header{
+      position:sticky; top:0; z-index:50;
+      background:rgba(5,5,7,.95);
+      border-bottom:2px solid var(--neon);
+      box-shadow:0 0 20px var(--neon-soft);
+      backdrop-filter: blur(6px);
+    }
+    .header__inner{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:10px 0;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-family:'Press Start 2P', monospace;
+      color:var(--neon);
+      text-shadow:0 0 10px var(--neon);
+      font-size:14px;
+      white-space:nowrap;
+    }
+    .brand__box{
+      width:38px; height:38px;
+      display:grid; place-items:center;
+      border:2px solid var(--neon);
+      box-shadow:0 0 12px var(--neon-soft);
+      border-radius:8px;
+      font-size:10px;
+    }
+    .nav{
+      display:flex; gap:14px; flex-wrap:wrap;
+      font-family:'Press Start 2P', monospace;
+      font-size:10px;
+      color:#fff;
+    }
+    .nav a{opacity:.9;}
+    .nav a:hover{color:var(--neon); text-shadow:0 0 8px var(--neon);}
+
+    .btn{
+      font-family:'Press Start 2P', monospace;
+      font-size:10px;
+      padding:10px 14px;
+      border-radius:8px;
+      cursor:pointer;
+      border:2px solid transparent;
+      transition:.15s;
+      display:inline-flex; align-items:center; justify-content:center;
+      text-transform:uppercase;
+      letter-spacing:.5px;
+    }
+    .btn--wallet{
+      background:var(--yellow);
+      color:#000;
+      border-color:#000;
+      box-shadow:0 0 10px rgba(255,179,71,.45);
+    }
+    .btn--wallet:hover{transform:translateY(-1px);}
+
+    .btn--primary{
+      background:var(--yellow);
+      color:#000;
+      border-color:#000;
+      box-shadow:0 0 12px rgba(255,179,71,.55);
+    }
+    .btn--secondary{
+      background:transparent;
+      color:var(--neon);
+      border-color:var(--neon);
+      box-shadow:0 0 12px var(--neon-soft);
+    }
+    .btn--secondary:hover{background:rgba(102,250,255,.06);}
+
+    /* ==== HERO ==== */
+    .hero{
+      position:relative;
+      padding:70px 0 60px;
+      border-bottom:2px solid var(--neon);
+      box-shadow:0 0 20px var(--neon-soft);
+      background:linear-gradient(180deg, rgba(13,13,15,.45), transparent);
+    }
+    .hero__inner{text-align:left;}
+    .title{
+      font-family:'Press Start 2P', monospace;
+      font-size:32px; line-height:1.3;
+      color:var(--neon);
+      text-shadow:0 0 12px var(--neon);
+      margin:0 0 16px;
+    }
+    .subtitle{
+      font-size:22px; color:#fff; margin:0 0 24px;
+      opacity:.95;
+    }
+    .hero__cta{display:flex; gap:16px; flex-wrap:wrap;}
+
+    /* ==== SECTIONS ==== */
+    .section{padding:60px 0;}
+    .section__title{
+      font-family:'Press Start 2P', monospace;
+      color:var(--yellow);
+      text-shadow:0 0 8px rgba(255,179,71,.65);
+      font-size:18px;
+      margin:0 0 14px;
+    }
+    .section__text{font-size:20px; line-height:1.5; max-width:900px;}
+
+    /* ==== DOCS BUTTONS ==== */
+    .docs-buttons{
+      display:flex; gap:16px; flex-wrap:wrap; margin-top:22px;
+    }
+    .docs-btn{
+      flex:1 1 220px; min-height:70px;
+      background:var(--bg2); color:var(--neon);
+      border:2px solid var(--neon);
+      border-radius:10px;
+      font-family:'Press Start 2P', monospace;
+      font-size:12px;
+      box-shadow:0 0 14px var(--neon-soft);
+    }
+    .docs-btn:hover{transform:translateY(-2px);}
+
+    /* ==== DOCS PANEL (ONE BOX FOR ALL) ==== */
+    .docs-panel{
+      position:relative;
+      margin-top:26px;
+      border:2px solid var(--neon);
+      border-radius:16px;
+      background:var(--bg2);
+      box-shadow:0 0 22px var(--neon-soft);
+      overflow:hidden;
+
+      /* collapsible without empty space */
+      max-height:0;
+      opacity:0;
+      padding:0 0;
+      transition:max-height .5s ease, opacity .35s ease, padding .25s ease, margin-top .25s ease;
+    }
+    .docs-panel.show{
+      max-height:2000px;
+      opacity:1;
+      padding:0 0 18px;
+    }
+
+    .docs-header{
+      display:flex; align-items:center; justify-content:center;
+      padding:16px 12px;
+      border-bottom:2px solid var(--neon);
+      background:rgba(5,5,7,.9);
+      position:relative;
+    }
+    .docs-title{
+      font-family:'Press Start 2P', monospace;
+      font-size:16px;
+      color:var(--yellow);
+      text-shadow:0 0 8px rgba(255,179,71,.7);
+      text-align:center;
+    }
+    .docs-close{
+      position:absolute; left:12px; top:10px;
+      font-family:'Press Start 2P', monospace;
+      font-size:9px;
+      padding:6px 8px;
+      background:#111;
+      color:#fff;
+      border:2px solid #fff;
+      border-radius:6px;
+      cursor:pointer;
+    }
+    .docs-close:hover{background:#fff; color:#000;}
+
+    .docs-body{padding:18px 18px 10px; font-size:18px; line-height:1.5;}
+
+    /* ==== WHITEPAPER ==== */
+    .wp h3{
+      font-family:'Press Start 2P', monospace;
+      color:var(--neon);
+      font-size:12px;
+      margin:18px 0 8px;
+    }
+    .wp ul{margin:0 0 8px 18px;}
+    .wp li{margin-bottom:6px;}
+
+    /* ==== PITCHDECK SLIDER ==== */
+    .pd-nav{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 14px;
+      border-bottom:2px solid var(--grid-strong);
+      font-family:'Press Start 2P', monospace;
+      font-size:10px; color:var(--neon);
+    }
+    .pd-btn{
+      background:transparent; color:var(--neon);
+      border:2px solid var(--neon);
+      padding:6px 8px; border-radius:6px; cursor:pointer;
+      font-family:'Press Start 2P', monospace; font-size:9px;
+    }
+    .pd-btn:hover{background:rgba(102,250,255,.08);}
+    .pd-slide{
+      padding:18px;
+    }
+    .pd-slide h3{
+      font-family:'Press Start 2P', monospace;
+      color:var(--yellow);
+      font-size:13px; margin:0 0 10px;
+    }
+    .pd-slide ul{margin:0 0 0 18px;}
+    .pd-slide li{margin-bottom:6px;}
+
+    /* ==== ROADMAP TREE / TIMELINE ==== */
+    .rm-grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:14px;
+      position:relative;
+      padding-left:18px;
+    }
+    .rm-grid::before{
+      content:"";
+      position:absolute; left:6px; top:0; bottom:0;
+      width:2px; background:var(--neon);
+      box-shadow:0 0 10px var(--neon-soft);
+    }
+    .rm-node{
+      position:relative;
+      padding:12px 12px 12px 18px;
+      border:1px solid var(--grid-strong);
+      border-radius:10px;
+      background:#070709;
+    }
+    .rm-node::before{
+      content:"";
+      position:absolute; left:-3px; top:16px;
+      width:12px; height:12px; border-radius:50%;
+      border:2px solid var(--yellow);
+      background:#000;
+      box-shadow:0 0 8px rgba(255,179,71,.7);
+    }
+    .rm-node h4{
+      margin:0 0 6px;
+      font-family:'Press Start 2P', monospace;
+      font-size:11px; color:var(--yellow);
+    }
+    .rm-node ul{margin:0 0 0 18px;}
+    .rm-node li{margin-bottom:4px;}
+
+    /* ==== FOOTER ==== */
+    .footer{
+      border-top:2px solid var(--neon);
+      padding:40px 0;
+      margin-top:40px;
+      background:#050507;
+    }
+    .footer__grid{
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:20px;
+    }
+    .footer__title{
+      font-family:'Press Start 2P', monospace;
+      color:var(--yellow);
+      font-size:11px;
+      margin:0 0 10px;
+    }
+    .footer__list{list-style:none; padding:0; margin:0;}
+    .footer__list li{margin-bottom:6px; font-size:18px;}
+    .divider{height:2px; background:var(--neon); margin:18px 0; opacity:.7;}
+    .copyright{font-size:18px; text-align:center;}
+
+    /* ==== RESPONSIVE ==== */
+    @media (max-width:768px){
+      .title{font-size:24px;}
+      .section__text{font-size:18px;}
+      .docs-title{font-size:13px;}
+    }
+
+  </style>
 </head>
+
 <body>
+
   <!-- HEADER -->
   <header class="header">
     <div class="container header__inner">
       <div class="brand">
-        <div class="brand__logo">FV</div>
-        <span class="brand__name">ForgeVerse</span>
+        <div class="brand__box">FV</div>
+        <span>ForgeVerse</span>
       </div>
+
       <nav class="nav">
         <a href="#about">About</a>
         <a href="#mint">Mint your NFT</a>
@@ -32,7 +357,8 @@
         <a href="#merch">Merch</a>
         <a href="#chat">Chat</a>
       </nav>
-      <button id="connectBtn" class="btn">Connect Wallet</button>
+
+      <button id="connectBtn" class="btn btn--wallet">Connect Wallet</button>
     </div>
   </header>
 
@@ -40,339 +366,254 @@
   <section class="hero">
     <div class="container hero__inner">
       <h1 class="title">A Pixel Economy on Solana</h1>
-      <p class="subtitle">Stake, Forge &amp; Trade to grow your NFT empire.</p>
+      <p class="subtitle">Stake, Forge & Trade to grow your NFT empire.</p>
       <div class="hero__cta">
-        <a href="#mint" class="btn">Mint your NFT</a>
-        <a href="#about" class="btn btn--secondary">Read Whitepaper</a>
+        <a href="#mint" class="btn btn--primary">Mint your NFT</a>
+        <a href="#about" class="btn btn--secondary">Read Docs</a>
       </div>
     </div>
   </section>
 
-  <main class="main">
-    <!-- ABOUT + DOCS BUTTONS -->
+  <main>
+
+    <!-- ABOUT -->
     <section id="about" class="section">
       <div class="container">
-        <h2 class="section__title">About ForgeVerse</h2>
+        <h2 class="section__title">About</h2>
         <p class="section__text">
-          ForgeVerse connects NFTs, gaming, and a resource-driven economy.
-          Traders earn $DOLLAR, Farmers grow $FOOD, and Workers mine $METAL.
-          Use resources to feed, forge, and fuse your NFTs.
+          ForgeVerse connects NFTs, gaming, and a resource-driven economy. Each NFT has a role:
+          <strong>Traders</strong> earn $DOLLAR, <strong>Farmers</strong> grow $FOOD,
+          and <strong>Workers</strong> mine $METAL. Use resources to feed, forge, and fuse your NFTs.
         </p>
 
-        <!-- Cards / Buttons -->
-        <div id="fv-docs-cards">
-          <button class="fv-card" data-doc="whitepaper">Whitepaper</button>
-          <button class="fv-card" data-doc="pitchdeck">Pitchdeck</button>
-          <button class="fv-card" data-doc="roadmap">Roadmap</button>
+        <!-- Buttons -->
+        <div class="docs-buttons">
+          <button class="docs-btn" data-doc="whitepaper">Whitepaper</button>
+          <button class="docs-btn" data-doc="pitchdeck">Pitchdeck</button>
+          <button class="docs-btn" data-doc="roadmap">Roadmap</button>
         </div>
-      </div>
-    </section>
 
-    <!-- WHITEPAPER (HTML, collapsible, wie Roadmap) -->
-    <section id="fv-whitepaper" class="fv-whitepaper-wrapper">
-      <button id="fv-whitepaper-close" class="fv-whitepaper-close">✕ CLOSE</button>
-
-      <div class="container">
-        <h2 class="section__title">ForgeVerse Whitepaper</h2>
-
-        <div class="fv-whitepaper-frame">
-          <div class="fv-whitepaper-content">
-
-            <h3>1. Vision</h3>
-            <p>
-              ForgeVerse is a retro pixel economy on Solana where NFTs generate tradable resources.
-              Every Builder belongs to one role: Traders earn $DOLLAR, Farmers earn $FOOD, Workers mine $METAL.
-            </p>
-
-            <h3>2. Core Loop</h3>
-            <ul>
-              <li>Mint / buy Builders (NFTs)</li>
-              <li>Stake them to generate resources</li>
-              <li>Spend resources to upgrade production</li>
-              <li>Fuse Builders for stronger units</li>
-              <li>Play the mini-game for boosts</li>
-            </ul>
-
-            <h3>3. NFTs & Roles</h3>
-            <p>
-              Total supply: 1000 Builders.
-              10% Traders, 30% Farmers, 60% Workers.
-              Every role has different yields and upgrade paths.
-            </p>
-
-            <h3>4. Resources</h3>
-            <ul>
-              <li><strong>$DOLLAR</strong> – trading power, premium upgrades, marketplace utility</li>
-              <li><strong>$FOOD</strong> – feeding NFTs to increase efficiency & sustain growth</li>
-              <li><strong>$METAL</strong> – forging tools and crafting upgrades</li>
-            </ul>
-
-            <h3>5. Upgrades & Sinks</h3>
-            <p>
-              Resources are not inflationary forever.
-              Each token fuels its own sink:
-              FOOD → feeding, METAL → forging tools, DOLLAR → trading rigs and premium features.
-            </p>
-
-            <h3>6. Fusion Lab</h3>
-            <p>
-              Two Builders + resources can be fused into one stronger Builder.
-              Fusion burns NFTs, reducing supply over time and stabilizing rewards.
-            </p>
-
-            <h3>7. Game & Social</h3>
-            <p>
-              Pac-Forge mini-game rewards active players with temporary boosts.
-              Chat & guilds create community retention and long-term engagement.
-            </p>
-
-            <h3>8. Roadmap</h3>
-            <p>
-              Progressive rollout: Genesis → Economy → Fusion → Game Expansion → Social Forge → DAO-lite.
-            </p>
-
+        <!-- ONE PANEL (switch content inside) -->
+        <div id="docsPanel" class="docs-panel">
+          <div class="docs-header">
+            <button id="docsClose" class="docs-close">X CLOSE</button>
+            <div id="docsTitle" class="docs-title">ForgeVerse Docs</div>
           </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- PITCHDECK (HTML Slider) -->
-    <section id="pitchdeck" class="fv-pitchdeck-section">
-      <div class="container">
-        <h2 class="section__title">ForgeVerse Pitchdeck</h2>
+          <div id="docsBody" class="docs-body">
 
-        <div id="fv-pitchdeck" class="fv-pitchdeck">
-          <div class="fv-pd-header">
-            <span id="fv-prev" class="fv-pd-nav">&lt; Prev</span>
-            <span id="fv-counter" class="fv-pd-counter">Slide 1/13</span>
-            <span id="fv-next" class="fv-pd-nav">Next &gt;</span>
-          </div>
-          <div id="fv-slide" class="fv-pd-slide">
-            <!-- JS füllt Inhalt -->
-          </div>
-        </div>
-      </div>
-    </section>
+            <!-- WHITEPAPER CONTENT -->
+            <div id="doc-whitepaper" class="doc wp" style="display:none;">
+              <h3>1. Vision</h3>
+              <p>
+                ForgeVerse is a retro pixel economy on Solana where NFTs generate tradable resources.
+                Every Builder belongs to one role: Traders earn $DOLLAR, Farmers grow $FOOD,
+                Workers mine $METAL.
+              </p>
 
-    <!-- ROADMAP (Collapsible Neon Tree) -->
-    <section id="fv-roadmap" class="fv-roadmap-wrapper">
-      <button id="fv-roadmap-close" class="fv-roadmap-close">✕ CLOSE</button>
+              <h3>2. Core Loop</h3>
+              <ul>
+                <li>Mint / buy Builders (NFTs)</li>
+                <li>Stake them to generate resources</li>
+                <li>Spend resources to upgrade production</li>
+                <li>Fuse Builders for stronger units</li>
+                <li>Play the mini-game for boosts</li>
+              </ul>
 
-      <div class="container">
-        <h2 class="section__title">ForgeVerse Roadmap</h2>
+              <h3>3. NFTs & Roles</h3>
+              <p>
+                Total supply: 1000 Builders. 10% Traders, 30% Farmers, 60% Workers.
+                Every role has different yields and upgrade paths.
+              </p>
 
-        <div class="fv-roadmap-frame">
-          <div class="fv-roadmap-tree">
+              <h3>4. Resources</h3>
+              <ul>
+                <li>$DOLLAR – trading power, premium upgrades, marketplace utility</li>
+                <li>$FOOD – feeding NFTs to increase efficiency & sustain growth</li>
+                <li>$METAL – forging tools and crafting upgrades</li>
+              </ul>
 
-            <div class="fv-roadmap-item">
-              <div class="fv-roadmap-dot"></div>
-              <div class="fv-roadmap-card">
-                <h3>Q4 2025 – Genesis Launch</h3>
-                <p>
-                  • Genesis NFT Collection<br>
-                  • Website &amp; Wallet Connect<br>
-                  • Staking MVP &amp; Rewards<br>
-                  • Pixel Game Alpha
-                </p>
-              </div>
+              <h3>5. Upgrades & Sinks</h3>
+              <p>
+                Resources are not inflationary forever. Each token fuels its own sink:
+                FOOD → feeding, METAL → forging tools, DOLLAR → trading rigs and premium features.
+              </p>
+
+              <h3>6. Fusion Lab</h3>
+              <p>
+                Two Builders + resources can be fused into one stronger Builder.
+                Fusion burns NFTs, reducing supply over time and stabilizing rewards.
+              </p>
+
+              <h3>7. Game & Social</h3>
+              <p>
+                Pac-Forge mini-game rewards active players with temporary boosts.
+                Chat & guilds create community retention and long-term engagement.
+              </p>
+
+              <h3>8. Roadmap</h3>
+              <p>
+                Progressive rollout: Genesis → Economy → Fusion → Game Expansion → Social Forge → DAO-lite.
+              </p>
             </div>
 
-            <div class="fv-roadmap-item">
-              <div class="fv-roadmap-dot"></div>
-              <div class="fv-roadmap-card">
-                <h3>Q1 2026 – Economy Build-Up</h3>
-                <p>
-                  • Fusion Lab Prototype<br>
-                  • $FOOD, $METAL, $DOLLAR live<br>
-                  • Balancing Updates<br>
-                  • Closed Beta für Holder
-                </p>
+            <!-- PITCHDECK CONTENT -->
+            <div id="doc-pitchdeck" class="doc" style="display:none;">
+              <div class="pd-nav">
+                <button id="pdPrev" class="pd-btn">&lt; Prev</button>
+                <div id="pdCounter">Slide 1/8</div>
+                <button id="pdNext" class="pd-btn">Next &gt;</button>
               </div>
+
+              <div id="pdSlide" class="pd-slide"></div>
             </div>
 
-            <div class="fv-roadmap-item">
-              <div class="fv-roadmap-dot"></div>
-              <div class="fv-roadmap-card">
-                <h3>Q2 2026 – Game &amp; Tools</h3>
-                <p>
-                  • Crafting &amp; Tools (METAL Sinks)<br>
-                  • Ranking &amp; Seasons<br>
-                  • Partner-NFT Integration
-                </p>
-              </div>
-            </div>
+            <!-- ROADMAP CONTENT -->
+            <div id="doc-roadmap" class="doc" style="display:none;">
+              <div class="rm-grid">
+                <div class="rm-node">
+                  <h4>Q4 2025 – Genesis Launch</h4>
+                  <ul>
+                    <li>Genesis NFT Collection</li>
+                    <li>Website & Wallet Connect</li>
+                    <li>Staking MVP & Rewards</li>
+                    <li>Pixel Game Alpha</li>
+                  </ul>
+                </div>
 
-            <div class="fv-roadmap-item">
-              <div class="fv-roadmap-dot"></div>
-              <div class="fv-roadmap-card">
-                <h3>Q3 2026 – Social Forge</h3>
-                <p>
-                  • In-Site Chat &amp; Guilds<br>
-                  • Co-op Events &amp; Challenges<br>
-                  • Mobile-UI Upgrade
-                </p>
-              </div>
-            </div>
+                <div class="rm-node">
+                  <h4>Q1 2026 – Economy Build-Up</h4>
+                  <ul>
+                    <li>Fusion Lab Prototype</li>
+                    <li>$FOOD, $METAL, $DOLLAR live</li>
+                    <li>Balancing updates</li>
+                    <li>Closed Beta for holders</li>
+                  </ul>
+                </div>
 
-            <div class="fv-roadmap-item">
-              <div class="fv-roadmap-dot"></div>
-              <div class="fv-roadmap-card">
-                <h3>Q4 2026 – ForgeVerse 2.0</h3>
-                <p>
-                  • DAO-Lite Voting<br>
-                  • Neue Maps &amp; Game Modes<br>
-                  • Multi-Chain Experimente
-                </p>
+                <div class="rm-node">
+                  <h4>Q2 2026 – Game & Tools</h4>
+                  <ul>
+                    <li>Crafting & Tools (METAL sinks)</li>
+                    <li>Ranking & Seasons</li>
+                    <li>Partner NFT integration</li>
+                  </ul>
+                </div>
+
+                <div class="rm-node">
+                  <h4>Q3 2026 – Social Forge</h4>
+                  <ul>
+                    <li>In-site Chat & Guilds</li>
+                    <li>Co-op events & challenges</li>
+                    <li>Mobile UI upgrade</li>
+                  </ul>
+                </div>
+
+                <div class="rm-node">
+                  <h4>Q4 2026 – ForgeVerse 2.0</h4>
+                  <ul>
+                    <li>DAO-Lite voting</li>
+                    <li>New maps & game modes</li>
+                    <li>Multi-Chain experiments</li>
+                  </ul>
+                </div>
               </div>
             </div>
 
           </div>
         </div>
+
       </div>
     </section>
 
-    <!-- MINT -->
+    <!-- MINT (only once!) -->
     <section id="mint" class="section">
       <div class="container">
         <h2 class="section__title">Mint your NFT</h2>
         <p class="section__text">
-          Genesis mint coming soon. Until then, try the demo button.
+          Choose your role and mint. (Demo modal until live Candy Machine is connected.)
         </p>
-        <div class="mint-box">
-          <button class="btn" onclick="demoMint()">Mint (Demo)</button>
-        </div>
+        <button class="btn btn--primary" onclick="demoMint()">Mint (Demo)</button>
       </div>
     </section>
 
-    <!-- YOUR NFTs -->
     <section id="nfts" class="section">
       <div class="container">
         <h2 class="section__title">Your NFTs</h2>
-        <p class="section__text">
-          After wallet connection, your ForgeVerse NFTs will be displayed here.
-        </p>
+        <p class="section__text">After wallet connect, your NFTs can be displayed here.</p>
       </div>
     </section>
 
-    <!-- STAKE -->
     <section id="stake" class="section">
       <div class="container">
         <h2 class="section__title">Stake your NFTs</h2>
-        <p class="section__text">
-          Stake Traders, Farmers and Workers to earn $DOLLAR, $FOOD and $METAL.
-        </p>
+        <p class="section__text">Staking UI placeholder (Anchor program later).</p>
       </div>
     </section>
 
-    <!-- FUSION LAB -->
     <section id="fusion" class="section">
       <div class="container">
         <h2 class="section__title">Fusion Lab</h2>
-        <p class="section__text">
-          Fuse two NFTs using $FOOD and $METAL to obtain a stronger Builder.
-        </p>
+        <p class="section__text">Fuse two NFTs using $FOOD and $METAL to obtain a stronger NFT.</p>
       </div>
     </section>
 
-    <!-- SWAP -->
     <section id="swap" class="section">
       <div class="container">
-        <h2 class="section__title">Forge Swap</h2>
-        <p class="section__text">
-          Demo swap between $FOOD, $METAL and $DOLLAR using a simple internal rate.
-          1 $DOLLAR = 10 $METAL = 100 $FOOD.
-        </p>
-
-        <div class="swap-box">
-          <div class="swap-row">
-            <label for="swapFrom">From</label>
-            <select id="swapFrom">
-              <option value="FOOD">$FOOD</option>
-              <option value="METAL">$METAL</option>
-              <option value="DOLLAR">$DOLLAR</option>
-            </select>
-          </div>
-          <div class="swap-row">
-            <label for="swapTo">To</label>
-            <select id="swapTo">
-              <option value="METAL">$METAL</option>
-              <option value="FOOD">$FOOD</option>
-              <option value="DOLLAR">$DOLLAR</option>
-            </select>
-          </div>
-          <div class="swap-row">
-            <label for="swapAmount">Amount</label>
-            <input id="swapAmount" type="number" min="0" step="1" value="10" />
-          </div>
-          <div class="swap-info">
-            Rates (demo): 1 $DOLLAR = 10 $METAL = 100 $FOOD.<br/>
-            This is a front-end preview only – not an on-chain swap.
-          </div>
-          <div style="margin-top:10px; text-align:right;">
-            <button id="swapBtn" class="btn btn--secondary">Swap (Demo)</button>
-          </div>
-          <div id="swapResult" class="swap-result"></div>
-          <div id="swapBalances" class="swap-balances"></div>
-        </div>
+        <h2 class="section__title">Swap</h2>
+        <p class="section__text">Swap-UI placeholder. Later you can embed Jupiter / Raydium.</p>
       </div>
     </section>
 
-    <!-- GAME -->
     <section id="game" class="section">
       <div class="container">
-        <h2 class="section__title">Game – Pac-Forge Demo</h2>
+        <h2 class="section__title">Game</h2>
         <p class="section__text">
-          Use arrow keys (or WASD) to move. Collect pellets, avoid ghosts.
+          Pac-Forge Mini-Game area. (Dein Pacman-Script bleibt wie bisher in /js, hier ist nur der Platzhalter.)
         </p>
-        <canvas id="gameCanvas" width="448" height="480"></canvas>
-        <div class="game-controls">
-          <p>↑ ↓ ← → or WASD to move • Try to collect as many pellets as possible.</p>
+        <!-- If you already have a canvas/game block, keep it here -->
+        <div id="gameMount" style="margin-top:16px; border:2px solid var(--neon); border-radius:12px; padding:16px;">
+          Game loaded from your JS file…
         </div>
       </div>
     </section>
 
-    <!-- RANKING -->
     <section id="ranking" class="section">
       <div class="container">
         <h2 class="section__title">Ranking</h2>
-        <p class="section__text">
-          Leaderboards of top players and collectors will appear here.
-        </p>
+        <p class="section__text">Leaderboard placeholder.</p>
       </div>
     </section>
 
-    <!-- MERCH -->
     <section id="merch" class="section">
       <div class="container">
         <h2 class="section__title">Merch Store</h2>
-        <p class="section__text">
-          ForgeVerse merch with holder discounts will be linked here.
-        </p>
+        <p class="section__text">NFT holder discounts. Embed Shopify/WooCommerce later.</p>
       </div>
     </section>
 
     <!-- CHAT -->
     <section id="chat" class="section">
       <div class="container">
-        <h2 class="section__title">Community Chat</h2>
-        <p class="section__text">
-          Chat live with other ForgeVerse players.
+        <h2 class="section__title">Chat</h2>
+        <p class="section__text">Community chat (Minnit Embed):</p>
+
+        <!-- Minnit Chat Embed -->
+        <script src="https://minnit.chat/js/embed.js?c=1758971289" defer></script>
+        <span style="display:none;"
+              class="minnit-chat-sembed"
+              data-chatname="https://organizations.minnit.chat/363196062352045/c/Main?embed"
+              data-style="width:90%; height:500px; max-height:90vh;"
+              data-version="1.55">Chat</span>
+
+        <p style="font-size:14px; margin-top:8px;">
+          <a href="https://minnit.chat" target="_blank" rel="noreferrer" style="color:var(--muted);">
+            Free embeddable chatroom powered by Minnit Chat
+          </a>
         </p>
-        <div class="chat-embed">
-          <script src="https://minnit.chat/js/embed.js?c=1758971289" defer></script>
-          <span
-            style="display: none;"
-            class="minnit-chat-sembed"
-            data-chatname="https://organizations.minnit.chat/363196062352045/c/Main?embed"
-            data-style="width:90%; height:500px; max-height:90vh;"
-            data-version="1.55"
-          >Chat</span>
-          <p class="powered-by-minnit">
-            <a href="https://minnit.chat" target="_blank">Free embeddable chatroom powered by Minnit Chat</a>
-          </p>
-        </div>
       </div>
     </section>
+
   </main>
 
   <!-- FOOTER -->
@@ -380,20 +621,19 @@
     <div class="container">
       <div class="footer__grid">
         <div>
-          <div class="brand brand--footer">
-            <div class="brand__logo">FV</div>
-            <span class="brand__name">ForgeVerse</span>
+          <div class="brand">
+            <div class="brand__box">FV</div>
+            <span>ForgeVerse</span>
           </div>
-          <p class="section__text" style="font-size:14px; margin-top:8px;">
-            A Pixel Economy on Solana
-          </p>
-          <div class="socials">
+          <p style="font-size:18px; color:var(--muted);">A Pixel Economy on Solana</p>
+          <div style="display:flex; gap:10px; font-size:18px; margin-top:8px;">
             <a href="#" target="_blank">Twitter</a>
             <a href="#" target="_blank">Telegram</a>
             <a href="#" target="_blank">GitHub</a>
             <a href="#" target="_blank">Discord</a>
           </div>
         </div>
+
         <div>
           <h3 class="footer__title">Quick Links</h3>
           <ul class="footer__list">
@@ -403,6 +643,7 @@
             <li><a href="#fusion">Fusion Lab</a></li>
           </ul>
         </div>
+
         <div>
           <h3 class="footer__title">Community</h3>
           <ul class="footer__list">
@@ -412,6 +653,7 @@
             <li><a href="#chat">Chat</a></li>
           </ul>
         </div>
+
         <div>
           <h3 class="footer__title">Legal</h3>
           <ul class="footer__list">
@@ -422,27 +664,204 @@
           </ul>
         </div>
       </div>
+
       <div class="divider"></div>
       <div class="copyright">
-        <p>© 2025 ForgeVerse Labs</p>
+        <p style="color:var(--neon); font-family:'Press Start 2P', monospace; font-size:10px;">
+          © 2025 ForgeVerse Labs
+        </p>
         <p>Built on Solana • Powered by the Community</p>
       </div>
     </div>
   </footer>
 
-  <!-- JS-Dateien einbinden -->
-  <script src="js/docs.js"></script>
-  <script src="js/pitchdeck.js"></script>
-  <script src="js/roadmap.js"></script>
-  <script src="js/swap.js"></script>
-  <script src="js/game.js"></script>
-  <script src="js/wallet.js"></script>
-
-  <!-- Kleine globale Funktion für Mint-Demo -->
+  <!-- ===== JS ===== -->
   <script>
-    function demoMint() {
-      alert("Mint demo: In the real version this will open the ForgeVerse mint on Solana.");
+    /* =============================
+       DOCS PANEL SWITCHER
+    ============================== */
+    (function(){
+      const buttons = document.querySelectorAll('.docs-btn');
+      const panel   = document.getElementById('docsPanel');
+      const close   = document.getElementById('docsClose');
+      const title   = document.getElementById('docsTitle');
+
+      const docEls = {
+        whitepaper: document.getElementById('doc-whitepaper'),
+        pitchdeck:  document.getElementById('doc-pitchdeck'),
+        roadmap:    document.getElementById('doc-roadmap')
+      };
+
+      function hideAll(){
+        Object.values(docEls).forEach(el => el.style.display='none');
+      }
+
+      function openDoc(key){
+        if(!docEls[key]) return;
+        hideAll();
+        docEls[key].style.display='block';
+        title.textContent =
+          key === 'whitepaper' ? 'ForgeVerse Whitepaper' :
+          key === 'pitchdeck'  ? 'ForgeVerse Pitchdeck' :
+          'ForgeVerse Roadmap';
+
+        panel.classList.add('show');
+
+        const top = panel.getBoundingClientRect().top + window.pageYOffset - 90;
+        window.scrollTo({top, behavior:'smooth'});
+      }
+
+      function closePanel(){
+        panel.classList.remove('show');
+        hideAll();
+      }
+
+      buttons.forEach(b=>{
+        b.addEventListener('click', ()=>{
+          const key = b.getAttribute('data-doc');
+          if(panel.classList.contains('show') && docEls[key].style.display==='block'){
+            closePanel(); return;
+          }
+          openDoc(key);
+        });
+      });
+
+      close.addEventListener('click', closePanel);
+    })();
+
+    /* =============================
+       PITCHDECK SLIDES (NO PDF)
+    ============================== */
+    (function(){
+      const slides = [
+        { t:"Title", b:[
+          "ForgeVerse",
+          "A Pixel Economy on Solana",
+          "by ForgeVerse Labs"
+        ]},
+        { t:"Problem", b:[
+          "Web3 games lack real utility",
+          "NFT ecosystems become unsustainable",
+          "No skill-based earning loops"
+        ]},
+        { t:"Solution", b:[
+          "Builders (NFTs) with roles",
+          "Stake to produce resources",
+          "Spend resources on upgrades & fusion"
+        ]},
+        { t:"Roles", b:[
+          "10% Traders → earn $DOLLAR",
+          "30% Farmers → earn $FOOD",
+          "60% Workers → earn $METAL"
+        ]},
+        { t:"Economy Loop", b:[
+          "$FOOD feeds NFTs → boosts output",
+          "$METAL crafts tools & upgrades",
+          "$DOLLAR unlocks trading rigs & premium"
+        ]},
+        { t:"Fusion Lab", b:[
+          "Fuse 2 Builders into a stronger one",
+          "Fusion burns supply",
+          "Long-term balancing mechanic"
+        ]},
+        { t:"Game + Social", b:[
+          "Pac-Forge mini-game for boost rewards",
+          "In-site chat & guilds",
+          "Rankings & seasons"
+        ]},
+        { t:"Roadmap", b:[
+          "Genesis → Economy → Fusion",
+          "Game Expansion → Social Forge",
+          "DAO-lite governance"
+        ]}
+      ];
+
+      let i=0;
+      const pdSlide   = document.getElementById('pdSlide');
+      const pdCounter = document.getElementById('pdCounter');
+      const pdPrev    = document.getElementById('pdPrev');
+      const pdNext    = document.getElementById('pdNext');
+
+      function render(){
+        if(!pdSlide) return;
+        const s = slides[i];
+        pdCounter.textContent = `Slide ${i+1}/${slides.length}`;
+        pdSlide.innerHTML = `
+          <h3>${s.t}</h3>
+          <ul>${s.b.map(x=>`<li>${x}</li>`).join("")}</ul>
+        `;
+      }
+
+      pdPrev && pdPrev.addEventListener('click', ()=>{
+        i = (i-1+slides.length)%slides.length; render();
+      });
+      pdNext && pdNext.addEventListener('click', ()=>{
+        i = (i+1)%slides.length; render();
+      });
+
+      render();
+    })();
+
+    /* =============================
+       DEMO MINT
+    ============================== */
+    function demoMint(){
+      alert("Mint Demo – Candy Machine will be connected later.");
     }
+
+    /* =============================
+       SIMPLE PHANTOM CONNECT
+    ============================== */
+    (function () {
+      const btn = document.getElementById('connectBtn');
+      if (!btn) return;
+
+      function setInstall() {
+        btn.textContent = 'Install Phantom';
+        btn.disabled = false;
+        btn.onclick = () => window.open('https://phantom.app/', '_blank');
+      }
+
+      const provider =
+        window.solana ||
+        (window.phantom && window.phantom.solana) ||
+        null;
+
+      if (!provider || !provider.isPhantom) {
+        setInstall();
+        return;
+      }
+
+      btn.addEventListener('click', async () => {
+        try {
+          const resp = await provider.connect({ onlyIfTrusted: false });
+          const pubkey = resp.publicKey.toString();
+          const short = pubkey.slice(0, 4) + '...' + pubkey.slice(-4);
+          btn.textContent = 'Connected: ' + short;
+          btn.disabled = true;
+          btn.style.backgroundColor = '#66FAFF';
+        } catch (e) {
+          alert('Wallet connection cancelled.');
+        }
+      });
+
+      if (provider.isConnected && provider.publicKey) {
+        const pk = provider.publicKey.toString();
+        const short = pk.slice(0, 4) + '...' + pk.slice(-4);
+        btn.textContent = 'Connected: ' + short;
+        btn.disabled = true;
+        btn.style.backgroundColor = '#66FAFF';
+      }
+
+      if (provider.on) {
+        provider.on('disconnect', () => {
+          btn.textContent = 'Connect Wallet';
+          btn.disabled = false;
+          btn.style.backgroundColor = '#FFB347';
+        });
+      }
+    })();
   </script>
+
 </body>
 </html>
