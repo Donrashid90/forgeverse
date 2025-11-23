@@ -1,0 +1,17 @@
+/* ===== ForgeVerse Chat ===== */
+
+#chatPanel{
+  margin-top:18px;
+  border:2px solid #66FAFF;
+  border-radius:12px;
+  background:#0D0D0F;
+  box-shadow:0 0 18px #00ffff55;
+  overflow:hidden;
+
+  max-height:0;
+  opacity:0;
+  transition:max-height .4s ease, opacity .3s ease, margin-top .25s ease;
+}
+#chatPanel.show{
+  max-height:800px; opacity:1; margin-top:18px;
+}

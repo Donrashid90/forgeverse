@@ -1,0 +1,74 @@
+/* ===== ForgeVerse Docs (Whitepaper / Pitchdeck / Roadmap) ===== */
+
+.fv-docs-cards{
+  display:flex; gap:20px; flex-wrap:wrap; margin-top:22px;
+}
+
+.fv-card{
+  flex:1 1 220px; min-height:72px;
+  background:#0D0D0F; color:#66FAFF; cursor:pointer;
+  border:2px solid #66FAFF; border-radius:8px;
+  font-family:'Press Start 2P', monospace; font-size:12px;
+  display:flex; align-items:center; justify-content:center;
+  transition:transform .1s ease, box-shadow .15s ease, background .15s ease;
+}
+.fv-card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 14px #66FAFF55;
+}
+
+/* Panel */
+.fv-viewer{
+  position:relative;
+  border:2px solid #66FAFF;
+  box-shadow:0 0 20px #00ffff55;
+  border-radius:12px;
+  background:#0D0D0F;
+  overflow:hidden;
+
+  max-height:0;
+  opacity:0;
+  margin-top:0;
+  transition:max-height .5s ease, opacity .4s ease, margin-top .3s ease;
+}
+.fv-viewer.show{
+  max-height:1600px;
+  opacity:1;
+  margin-top:24px;
+}
+
+.fv-close{
+  position:absolute; top:10px; right:15px;
+  background:#0D0D0F; color:#FFB347;
+  border:2px solid #FFB347; border-radius:6px;
+  font-family:'Press Start 2P', monospace; font-size:10px;
+  padding:8px 10px; cursor:pointer;
+  box-shadow:0 0 10px #FFB34755; z-index:2;
+}
+.fv-close:hover{
+  background:#FFB347; color:#0D0D0F;
+  box-shadow:0 0 15px #FFB34788;
+}
+
+/* Inhalte */
+.fv-doc-content{
+  padding:26px 24px 30px;
+  line-height:1.7;
+  font-family:'VT323', monospace;
+  font-size:20px;
+  color:#fff;
+}
+.fv-doc-title{
+  text-align:center;
+  font-family:'Press Start 2P', monospace;
+  font-size:22px;
+  color:#FFB347;
+  margin-bottom:18px;
+  text-shadow:0 0 10px #FFB34777;
+}
+
+@media (max-width:900px){
+  .fv-doc-title{ font-size:18px; }
+  .fv-doc-content{ font-size:18px; }
+  .fv-viewer.show{ max-height:2000px; }
+}
