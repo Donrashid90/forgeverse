@@ -1,8 +1,8 @@
 diff --git a/index.html b/index.html
-index 75820f18e6f73e122e7db620be91adb40e349998..dae37d3a897bab41c46c2317098c73a883db2d34 100644
+index 75820f18e6f73e122e7db620be91adb40e349998..95e3dc2c4f4b440038e0bbcb7feec0bd9ead2d2d 100644
 --- a/index.html
 +++ b/index.html
-@@ -1,50 +1,51 @@
+@@ -1,65 +1,67 @@
  <!DOCTYPE html>
  <html lang="en">
  <head>
@@ -44,6 +44,7 @@ index 75820f18e6f73e122e7db620be91adb40e349998..dae37d3a897bab41c46c2317098c73a8
  
        <button id="connectBtn" class="btn btn--wallet">Connect Wallet</button>
      </div>
++    <p id="walletStatus" class="wallet-status">Wallet: not connected</p>
    </header>
  
    <!-- HERO -->
@@ -54,7 +55,165 @@ index 75820f18e6f73e122e7db620be91adb40e349998..dae37d3a897bab41c46c2317098c73a8
        <div class="hero__cta">
          <a href="#mint" class="btn btn--primary">Mint your NFT</a>
          <a href="#about" class="btn btn--secondary">Read Docs</a>
-@@ -241,50 +242,59 @@
+       </div>
+     </div>
+   </section>
+ 
+   <main class="main">
+ 
+     <!-- ABOUT + DOCS (Whitepaper / Pitchdeck / Roadmap as panels) -->
+     <section id="about" class="section">
+       <div class="container">
+         <h2 class="section__title">About</h2>
+         <p class="section__text">
+           ForgeVerse connects NFTs, gaming, and a resource-driven economy. Each NFT has a role:
+           <strong>Traders</strong> earn $DOLLAR, <strong>Farmers</strong> grow $FOOD, and
+           <strong>Workers</strong> mine $METAL. Use resources to feed, forge, and fuse your NFTs.
+         </p>
+@@ -154,137 +156,192 @@
+               </div>
+ 
+               <div class="roadmap-branch"></div>
+ 
+               <div class="roadmap-node">
+                 <div class="node-title">Q4 2026 – ForgeVerse 2.0</div>
+                 <ul>
+                   <li>DAO-lite voting</li>
+                   <li>New maps & game modes</li>
+                   <li>Multi-chain experiments</li>
+                 </ul>
+               </div>
+             </div>
+           </div>
+ 
+         </div>
+       </div>
+     </section>
+ 
+ 
+     <!-- MINT (ONLY ONCE) -->
+     <section id="mint" class="section">
+       <div class="container">
+         <h2 class="section__title">Mint your NFT</h2>
+         <p class="section__text">
+-          Choose your role and mint. (Demo modal until live Candy Machine is connected.)
++          Choose your role and mint. This is an in-browser demo that lets you copy/paste a fully working flow.
+         </p>
+-        <button class="btn btn--primary" onclick="demoMint()">Mint (Demo)</button>
++        <div class="mint-grid">
++          <label class="mint-card" data-role="Trader">
++            <input type="radio" name="mintRole" value="Trader" checked>
++            <div>
++              <div class="mint-title">Trader</div>
++              <p>Prints $DOLLAR. Faster marketplace flips.</p>
++            </div>
++          </label>
++          <label class="mint-card" data-role="Farmer">
++            <input type="radio" name="mintRole" value="Farmer">
++            <div>
++              <div class="mint-title">Farmer</div>
++              <p>Harvests $FOOD for boosts and feeding.</p>
++            </div>
++          </label>
++          <label class="mint-card" data-role="Worker">
++            <input type="radio" name="mintRole" value="Worker">
++            <div>
++              <div class="mint-title">Worker</div>
++              <p>Mines $METAL to build and fuse stronger NFTs.</p>
++            </div>
++          </label>
++        </div>
++
++        <div class="mint-form">
++          <input id="mintName" type="text" maxlength="16" placeholder="Name your NFT (optional)">
++          <button id="mintBtn" class="btn btn--primary">Mint (Demo)</button>
++          <button id="seedBtn" class="btn btn--secondary">Load demo set</button>
++          <div id="mintMsg" class="inline-msg"></div>
++        </div>
+       </div>
+     </section>
+ 
+     <!-- YOUR NFTS -->
+     <section id="nfts" class="section">
+       <div class="container">
+         <h2 class="section__title">Your NFTs</h2>
+-        <p class="section__text">
+-          After wallet connect, your NFTs can be displayed here (gallery / API).
+-        </p>
++        <p class="section__text">Instantly shows whatever you mint in the demo. When you connect Phantom, replace the data hook with on-chain results.</p>
++
++        <div class="nft-stats" id="nftStats"></div>
++        <div id="nftList" class="nft-grid"></div>
+       </div>
+     </section>
+ 
+     <!-- STAKE -->
+     <section id="stake" class="section">
+       <div class="container">
+         <h2 class="section__title">Stake your NFTs</h2>
+-        <p class="section__text">
+-          Staking UI placeholder. Anchor program comes later.
+-        </p>
++        <p class="section__text">Toggle stake on any demo NFT. Rewards accrue virtually so you can see how the UI should react.</p>
++        <div id="stakeList" class="list-box"></div>
++        <div id="stakeLog" class="inline-msg"></div>
+       </div>
+     </section>
+ 
+     <!-- FUSION -->
+     <section id="fusion" class="section">
+       <div class="container">
+         <h2 class="section__title">Fusion Lab</h2>
+-        <p class="section__text">
+-          Fuse two NFTs using $FOOD and $METAL to obtain a stronger Builder.
+-        </p>
++        <p class="section__text">Select two unstaked NFTs and instantly create a fused upgrade. Both originals are marked as used.</p>
++        <div class="fusion-grid">
++          <div>
++            <label class="fusion-label">NFT A</label>
++            <select id="fusionA"></select>
++          </div>
++          <div>
++            <label class="fusion-label">NFT B</label>
++            <select id="fusionB"></select>
++          </div>
++          <div>
++            <label class="fusion-label">Cost (demo)</label>
++            <div class="fusion-cost">150 $FOOD + 90 $METAL</div>
++          </div>
++        </div>
++        <button id="fusionBtn" class="btn btn--primary">Fuse (Demo)</button>
++        <div id="fusionMsg" class="inline-msg"></div>
+       </div>
+     </section>
+ 
+     <!-- SWAP -->
+     <section id="swap" class="section">
+       <div class="container">
+         <h2 class="section__title">Swap</h2>
+-        <p class="section__text">Future CoinSwap / Futures block (Demo).</p>
++        <p class="section__text">Simple simulator for swapping game resources. Edit the rates in <code>js/demos.js</code>.</p>
+         <div class="swap-box">
+           <div class="swap-row">
+             <label>From</label>
+             <input id="swapFromAmt" type="number" min="0" placeholder="0.0"/>
+             <select id="swapFromToken">
+               <option>DOLLAR</option>
+               <option>FOOD</option>
+               <option>METAL</option>
+             </select>
+           </div>
+           <div class="swap-row">
+             <label>To</label>
+             <input id="swapToAmt" type="text" disabled placeholder="auto"/>
+             <select id="swapToToken">
+               <option>FOOD</option>
+               <option>METAL</option>
+               <option>DOLLAR</option>
+             </select>
+           </div>
+           <button id="swapBtn" class="btn btn--secondary">Swap (Demo)</button>
+           <div id="swapMsg" class="swap-msg"></div>
          </div>
        </div>
      </section>
@@ -78,6 +237,8 @@ index 75820f18e6f73e122e7db620be91adb40e349998..dae37d3a897bab41c46c2317098c73a8
            </div>
          </div>
  
++        <div id="gameStatus" class="game-status">Press Start or arrow keys to begin.</div>
++
          <div id="gameMount" class="game-mount"></div>
  
 +        <div class="game-controls" aria-label="Touch controls">
@@ -114,3 +275,36 @@ index 75820f18e6f73e122e7db620be91adb40e349998..dae37d3a897bab41c46c2317098c73a8
  
      <!-- MERCH -->
      <section id="merch" class="section">
+@@ -362,31 +419,32 @@
+ 
+         <div>
+           <h3 class="footer__title">Legal</h3>
+           <ul class="footer__list">
+             <li><a href="#">Terms of Service</a></li>
+             <li><a href="#">Privacy Policy</a></li>
+             <li><a href="#about">Whitepaper</a></li>
+             <li><a href="#">FAQ</a></li>
+           </ul>
+         </div>
+       </div>
+ 
+       <div class="divider"></div>
+ 
+       <div class="copyright">
+         <p class="neon-glow">© 2025 ForgeVerse Labs</p>
+         <p>Built on Solana • Powered by the Community</p>
+       </div>
+     </div>
+   </footer>
+ 
+ 
+   <!-- JS -->
+   <script src="js/main.js"></script>
+   <script src="js/docs.js"></script>
++  <script src="js/demos.js"></script>
+   <script src="js/game.js"></script>
+   <script src="js/chat.js"></script>
+   <script src="js/swap.js"></script>
+ 
+ </body>
+ </html>
