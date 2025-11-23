@@ -11,401 +11,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 
-  <style>
-    :root{
-      --bg:#050507;
-      --bg2:#0D0D0F;
-      --neon:#66FAFF;
-      --neon-soft:rgba(102,250,255,.35);
-      --yellow:#FFB347;
-      --text:#EDEDED;
-      --muted:#9AA0A6;
-      --grid:rgba(102,250,255,.08);
-      --grid-strong:rgba(102,250,255,.14);
-      --radius:14px;
-    }
-    *{box-sizing:border-box;}
-    body{
-      margin:0;
-      font-family:'VT323', monospace;
-      color:var(--text);
-      background:var(--bg);
-      overflow-x:hidden;
-      scroll-behavior:smooth;
-    }
-    a{color:inherit; text-decoration:none;}
-
-    /* ==== GRID BACKGROUND ==== */
-    body::before{
-      content:"";
-      position:fixed; inset:0;
-      background-image:
-        linear-gradient(to right, var(--grid) 1px, transparent 1px),
-        linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
-      background-size:40px 40px;
-      pointer-events:none;
-      z-index:-2;
-    }
-    body::after{
-      content:"";
-      position:fixed; inset:0;
-      background-image:
-        radial-gradient(circle at 50% 0%, rgba(102,250,255,.12), transparent 40%),
-        radial-gradient(circle at 0% 100%, rgba(255,179,71,.08), transparent 45%);
-      pointer-events:none;
-      z-index:-1;
-    }
-
-    .container{max-width:1200px; margin:0 auto; padding:0 18px;}
-
-    /* ==== HEADER ==== */
-    .header{
-      position:sticky; top:0; z-index:50;
-      background:rgba(5,5,7,.95);
-      border-bottom:2px solid var(--neon);
-      box-shadow:0 0 20px var(--neon-soft);
-      backdrop-filter: blur(6px);
-    }
-    .header__inner{
-      display:flex; align-items:center; justify-content:space-between;
-      padding:10px 0;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-    .brand{
-      display:flex; align-items:center; gap:10px;
-      font-family:'Press Start 2P', monospace;
-      color:var(--neon);
-      text-shadow:0 0 10px var(--neon);
-      font-size:14px;
-      white-space:nowrap;
-    }
-    .brand__box{
-      width:38px; height:38px;
-      display:grid; place-items:center;
-      border:2px solid var(--neon);
-      box-shadow:0 0 12px var(--neon-soft);
-      border-radius:8px;
-      font-size:10px;
-    }
-    .nav{
-      display:flex; gap:14px; flex-wrap:wrap;
-      font-family:'Press Start 2P', monospace;
-      font-size:10px;
-      color:#fff;
-    }
-    .nav a{opacity:.9;}
-    .nav a:hover{color:var(--neon); text-shadow:0 0 8px var(--neon);}
-
-    .btn{
-      font-family:'Press Start 2P', monospace;
-      font-size:10px;
-      padding:10px 14px;
-      border-radius:8px;
-      cursor:pointer;
-      border:2px solid transparent;
-      transition:.15s;
-      display:inline-flex; align-items:center; justify-content:center;
-      text-transform:uppercase;
-      letter-spacing:.5px;
-      white-space:nowrap;
-    }
-    .btn--wallet{
-      background:var(--yellow);
-      color:#000;
-      border-color:#000;
-      box-shadow:0 0 10px rgba(255,179,71,.45);
-    }
-    .btn--wallet:hover{transform:translateY(-1px);}
-
-    .btn--primary{
-      background:var(--yellow);
-      color:#000;
-      border-color:#000;
-      box-shadow:0 0 12px rgba(255,179,71,.55);
-    }
-    .btn--secondary{
-      background:transparent;
-      color:var(--neon);
-      border-color:var(--neon);
-      box-shadow:0 0 12px var(--neon-soft);
-    }
-    .btn--secondary:hover{background:rgba(102,250,255,.06);}
-
-    /* ==== HERO ==== */
-    .hero{
-      position:relative;
-      padding:70px 0 60px;
-      border-bottom:2px solid var(--neon);
-      box-shadow:0 0 20px var(--neon-soft);
-      background:linear-gradient(180deg, rgba(13,13,15,.45), transparent);
-    }
-    .hero__inner{text-align:left;}
-    .title{
-      font-family:'Press Start 2P', monospace;
-      font-size:32px; line-height:1.3;
-      color:var(--neon);
-      text-shadow:0 0 12px var(--neon);
-      margin:0 0 16px;
-    }
-    .subtitle{
-      font-size:22px; color:#fff; margin:0 0 24px;
-      opacity:.95;
-    }
-    .hero__cta{display:flex; gap:16px; flex-wrap:wrap;}
-
-    /* ==== SECTIONS ==== */
-    .section{padding:60px 0;}
-    .section__title{
-      font-family:'Press Start 2P', monospace;
-      color:var(--yellow);
-      text-shadow:0 0 8px rgba(255,179,71,.65);
-      font-size:18px;
-      margin:0 0 14px;
-      text-align:left;
-    }
-    .section__text{font-size:20px; line-height:1.5; max-width:900px;}
-
-    /* ==== DOCS BUTTONS ==== */
-    .docs-buttons{
-      display:flex; gap:16px; flex-wrap:wrap; margin-top:22px;
-    }
-    .docs-btn{
-      flex:1 1 220px; min-height:70px;
-      background:var(--bg2); color:var(--neon);
-      border:2px solid var(--neon);
-      border-radius:10px;
-      font-family:'Press Start 2P', monospace;
-      font-size:12px;
-      box-shadow:0 0 14px var(--neon-soft);
-    }
-    .docs-btn:hover{transform:translateY(-2px);}
-
-    /* ==== DOCS PANEL (ONE BOX FOR ALL) ==== */
-    .docs-panel{
-      position:relative;
-      margin-top:26px;
-      border:2px solid var(--neon);
-      border-radius:16px;
-      background:var(--bg2);
-      box-shadow:0 0 22px var(--neon-soft);
-      overflow:hidden;
-
-      max-height:0;
-      opacity:0;
-      padding:0;
-      transition:max-height .5s ease, opacity .35s ease, padding .25s ease, margin-top .25s ease;
-    }
-    .docs-panel.show{
-      max-height:2200px;
-      opacity:1;
-      padding:0 0 18px;
-    }
-
-    .docs-header{
-      display:flex; align-items:center; justify-content:center;
-      padding:16px 12px;
-      border-bottom:2px solid var(--neon);
-      background:rgba(5,5,7,.9);
-      position:relative;
-    }
-    .docs-title{
-      font-family:'Press Start 2P', monospace;
-      font-size:16px;
-      color:var(--yellow);
-      text-shadow:0 0 8px rgba(255,179,71,.7);
-      text-align:center;
-    }
-    .docs-close{
-      position:absolute; left:12px; top:10px;
-      font-family:'Press Start 2P', monospace;
-      font-size:9px;
-      padding:6px 8px;
-      background:#111;
-      color:#fff;
-      border:2px solid #fff;
-      border-radius:6px;
-      cursor:pointer;
-    }
-    .docs-close:hover{background:#fff; color:#000;}
-
-    .docs-body{padding:18px 18px 10px; font-size:18px; line-height:1.6;}
-    .doc{display:none;}
-
-    /* ==== WHITEPAPER ==== */
-    .wp h3{
-      font-family:'Press Start 2P', monospace;
-      color:var(--neon);
-      font-size:12px;
-      margin:18px 0 8px;
-    }
-    .wp ul{margin:0 0 8px 18px;}
-    .wp li{margin-bottom:6px;}
-
-    /* ==== PITCHDECK SLIDER ==== */
-    .pd-nav{
-      display:flex; align-items:center; justify-content:space-between;
-      padding:14px 14px;
-      border-bottom:2px solid var(--grid-strong);
-      font-family:'Press Start 2P', monospace;
-      font-size:10px; color:var(--neon);
-    }
-    .pd-btn{
-      background:transparent; color:var(--neon);
-      border:2px solid var(--neon);
-      padding:6px 8px; border-radius:6px; cursor:pointer;
-      font-family:'Press Start 2P', monospace; font-size:9px;
-    }
-    .pd-btn:hover{background:rgba(102,250,255,.08);}
-    .pd-slide{padding:18px;}
-    .pd-slide h3{
-      font-family:'Press Start 2P', monospace;
-      color:var(--yellow);
-      font-size:13px; margin:0 0 10px;
-    }
-    .pd-slide ul{margin:0 0 0 18px;}
-    .pd-slide li{margin-bottom:6px;}
-
-    /* ==== ROADMAP TREE ==== */
-    .rm-grid{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:14px;
-      position:relative;
-      padding-left:18px;
-    }
-    .rm-grid::before{
-      content:"";
-      position:absolute; left:6px; top:0; bottom:0;
-      width:2px; background:var(--neon);
-      box-shadow:0 0 10px var(--neon-soft);
-    }
-    .rm-node{
-      position:relative;
-      padding:12px 12px 12px 18px;
-      border:1px solid var(--grid-strong);
-      border-radius:10px;
-      background:#070709;
-    }
-    .rm-node::before{
-      content:"";
-      position:absolute; left:-3px; top:16px;
-      width:12px; height:12px; border-radius:50%;
-      border:2px solid var(--yellow);
-      background:#000;
-      box-shadow:0 0 8px rgba(255,179,71,.7);
-    }
-    .rm-node h4{
-      margin:0 0 6px;
-      font-family:'Press Start 2P', monospace;
-      font-size:11px; color:var(--yellow);
-    }
-    .rm-node ul{margin:0 0 0 18px;}
-    .rm-node li{margin-bottom:4px;}
-
-    /* ==== SWAP DEMO ==== */
-    .swap-box {
-      max-width: 520px;
-      margin: 18px 0 0 0;
-      background: #05070c;
-      border-radius: 14px;
-      border: 2px solid var(--neon);
-      box-shadow: 0 0 20px var(--neon-soft);
-      padding: 18px 16px 20px 16px;
-      font-family: "Press Start 2P", monospace;
-      font-size: 11px;
-    }
-    .swap-row {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 10px;
-      flex-wrap: wrap;
-      align-items:center;
-    }
-    .swap-row label {
-      flex: 0 0 60px;
-      display: flex;
-      align-items: center;
-      color:#fff;
-    }
-    .swap-row select,
-    .swap-row input {
-      flex: 1 1 auto;
-      background: #020509;
-      border-radius: 6px;
-      border: 1px solid var(--neon);
-      color: #ffffff;
-      padding: 6px 8px;
-      font-family: "Press Start 2P", monospace;
-      font-size: 11px;
-    }
-    .swap-row input { text-align: right; }
-    .swap-info { font-size: 10px; color: #b8f7ff; margin-top: 4px; line-height: 1.6; }
-    .swap-result { margin-top: 10px; font-size: 11px; color: #fffbcc; min-height: 20px; }
-    .swap-balances { margin-top: 12px; font-size: 11px; color: var(--neon); }
-    .swap-balances span { margin-right: 12px; }
-
-    /* ==== GAME WRAP ==== */
-    #gameMount{
-      margin-top:16px;
-      border:2px solid var(--neon);
-      border-radius:12px;
-      padding:16px;
-      background:#0B0B0E;
-      box-shadow:0 0 14px var(--neon-soft);
-      font-size:18px;
-    }
-
-    /* ==== CHAT ==== */
-    .chat-embed{
-      margin-top:16px;
-      border:2px solid var(--neon);
-      border-radius:12px;
-      padding:12px;
-      background:#0B0B0E;
-      box-shadow:0 0 14px var(--neon-soft);
-    }
-
-    /* ==== FOOTER ==== */
-    .footer{
-      border-top:2px solid var(--neon);
-      padding:40px 0;
-      margin-top:40px;
-      background:#050507;
-    }
-    .footer__grid{
-      display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-      gap:20px;
-    }
-    .footer__title{
-      font-family:'Press Start 2P', monospace;
-      color:var(--yellow);
-      font-size:11px;
-      margin:0 0 10px;
-    }
-    .footer__list{list-style:none; padding:0; margin:0;}
-    .footer__list li{margin-bottom:6px; font-size:18px;}
-    .divider{height:2px; background:var(--neon); margin:18px 0; opacity:.7;}
-    .copyright{font-size:18px; text-align:center;}
-
-    /* ==== RESPONSIVE ==== */
-    @media (max-width:768px){
-      .title{font-size:24px;}
-      .section__text{font-size:18px;}
-      .docs-title{font-size:13px;}
-      .swap-box{font-size:10px;}
-    }
-  </style>
+  <link rel="stylesheet" href="css/styles.css"/>
 </head>
-
 <body>
 
   <!-- HEADER -->
   <header class="header">
     <div class="container header__inner">
       <div class="brand">
-        <div class="brand__box">FV</div>
-        <span>ForgeVerse</span>
+        <img src="assets/forgeverse-logo.svg" alt="ForgeVerse logo" class="brand__logo"/>
+        <span class="brand__name neon-glow">ForgeVerse</span>
       </div>
 
       <nav class="nav">
@@ -428,8 +43,8 @@
   <!-- HERO -->
   <section class="hero">
     <div class="container hero__inner">
-      <h1 class="title">A Pixel Economy on Solana</h1>
-      <p class="subtitle">Stake, Forge & Trade to grow your NFT empire.</p>
+      <h1 class="title neon-glow">A Pixel Economy on Solana</h1>
+      <p class="subtitle">Stake, Forge &amp; Trade to grow your NFT empire.</p>
       <div class="hero__cta">
         <a href="#mint" class="btn btn--primary">Mint your NFT</a>
         <a href="#about" class="btn btn--secondary">Read Docs</a>
@@ -437,229 +52,192 @@
     </div>
   </section>
 
-  <main>
+  <main class="main">
 
-    <!-- ABOUT -->
+    <!-- ABOUT + DOCS (Whitepaper / Pitchdeck / Roadmap as panels) -->
     <section id="about" class="section">
       <div class="container">
         <h2 class="section__title">About</h2>
         <p class="section__text">
           ForgeVerse connects NFTs, gaming, and a resource-driven economy. Each NFT has a role:
-          <strong>Traders</strong> earn $DOLLAR, <strong>Farmers</strong> grow $FOOD,
-          and <strong>Workers</strong> mine $METAL. Use resources to feed, forge, and fuse your NFTs.
+          <strong>Traders</strong> earn $DOLLAR, <strong>Farmers</strong> grow $FOOD, and
+          <strong>Workers</strong> mine $METAL. Use resources to feed, forge, and fuse your NFTs.
         </p>
 
-        <!-- Buttons -->
-        <div class="docs-buttons">
-          <button class="docs-btn" data-doc="whitepaper">Whitepaper</button>
-          <button class="docs-btn" data-doc="pitchdeck">Pitchdeck</button>
-          <button class="docs-btn" data-doc="roadmap">Roadmap</button>
+        <div id="fv-docs-cards" class="docs-cards">
+          <button data-doc="whitepaper" class="fv-card">Whitepaper</button>
+          <button data-doc="pitchdeck"  class="fv-card">Pitchdeck</button>
+          <button data-doc="roadmap"    class="fv-card">Roadmap</button>
         </div>
 
-        <!-- ONE PANEL (switch content inside) -->
-        <div id="docsPanel" class="docs-panel">
-          <div class="docs-header">
-            <button id="docsClose" class="docs-close">X CLOSE</button>
-            <div id="docsTitle" class="docs-title">ForgeVerse Docs</div>
+        <!-- Viewer Panel -->
+        <div id="fv-docs-viewer" class="fv-viewer">
+          <button id="fv-close-btn" class="fv-close">✕ CLOSE</button>
+
+          <!-- WHITEPAPER PANEL -->
+          <div id="doc-whitepaper" class="doc-panel">
+            <h3 class="doc-title">ForgeVerse Whitepaper</h3>
+            <ol class="doc-list">
+              <li><b>Vision</b> – Retro pixel economy where NFTs generate tradable resources on Solana.</li>
+              <li><b>Core Loop</b> – Mint → Stake → Earn → Upgrade → Fuse → Play → Repeat.</li>
+              <li><b>NFT Roles</b> – 1000 Builders: 10% Traders, 30% Farmers, 60% Workers.</li>
+              <li><b>Resources</b> – $DOLLAR (trading power), $FOOD (feeding/boosts), $METAL (tools/crafting).</li>
+              <li><b>Sinks</b> – Each token feeds its own sink to avoid runaway inflation.</li>
+              <li><b>Fusion Lab</b> – Burn 2 NFTs + resources → stronger NFT, lowering supply over time.</li>
+              <li><b>Game</b> – Pac-Forge minigame adds skill-based boosts.</li>
+              <li><b>Roadmap</b> – Genesis → Economy → Fusion → Game expansion → Social Forge.</li>
+            </ol>
           </div>
 
-          <div id="docsBody" class="docs-body">
-
-            <!-- WHITEPAPER CONTENT -->
-            <div id="doc-whitepaper" class="doc wp">
-              <h3>1. Vision</h3>
-              <p>
-                ForgeVerse is a retro pixel economy on Solana where NFTs generate tradable resources.
-                Every Builder belongs to one role: Traders earn $DOLLAR, Farmers grow $FOOD,
-                Workers mine $METAL.
-              </p>
-
-              <h3>2. Core Loop</h3>
-              <ul>
-                <li>Mint / buy Builders (NFTs)</li>
-                <li>Stake them to produce resources</li>
-                <li>Spend resources to upgrade output</li>
-                <li>Fuse Builders for stronger units</li>
-                <li>Play Pac-Forge for temporary boosts</li>
-              </ul>
-
-              <h3>3. Builders & Roles</h3>
-              <p>
-                Total supply: <strong>1000 Builders</strong>.<br>
-                10% Traders, 30% Farmers, 60% Workers.<br>
-                Every role has different yields and upgrade paths.
-              </p>
-
-              <h3>4. Resources</h3>
-              <ul>
-                <li><strong>$DOLLAR</strong> – trading power, premium features, marketplace utility</li>
-                <li><strong>$FOOD</strong> – feeding NFTs to increase efficiency & sustain growth</li>
-                <li><strong>$METAL</strong> – forging tools & crafting upgrades</li>
-              </ul>
-
-              <h3>5. Sinks & Upgrades</h3>
-              <p>
-                Resources are not inflationary forever. Each token fuels its own sink:
-                FOOD → feeding, METAL → forging tools, DOLLAR → trading rigs & boosts.
-              </p>
-
-              <h3>6. Fusion Lab</h3>
-              <p>
-                Fuse 2 Builders + resources into 1 stronger Builder.
-                Fusion burns NFTs, reduces supply and stabilizes rewards long-term.
-              </p>
-
-              <h3>7. Game & Social</h3>
-              <p>
-                Pac-Forge mini-game rewards skill with short boosts.
-                Chat & guilds drive retention and community growth.
-              </p>
-            </div>
-
-            <!-- PITCHDECK CONTENT -->
-            <div id="doc-pitchdeck" class="doc">
-              <div class="pd-nav">
-                <button id="pdPrev" class="pd-btn">&lt; Prev</button>
-                <div id="pdCounter">Slide 1/8</div>
-                <button id="pdNext" class="pd-btn">Next &gt;</button>
+          <!-- PITCHDECK PANEL (Slider) -->
+          <div id="doc-pitchdeck" class="doc-panel">
+            <div class="pitch-header">
+              <button id="pitchPrev" class="pitch-nav">‹ Prev</button>
+              <div class="pitch-title-wrap">
+                <h3 class="doc-title center">ForgeVerse Pitchdeck</h3>
+                <div id="pitchCounter" class="pitch-counter">Slide 1/13</div>
               </div>
-              <div id="pdSlide" class="pd-slide"></div>
+              <button id="pitchNext" class="pitch-nav">Next ›</button>
             </div>
 
-            <!-- ROADMAP CONTENT -->
-            <div id="doc-roadmap" class="doc">
-              <div class="rm-grid">
-                <div class="rm-node">
-                  <h4>Q4 2025 – Genesis Launch</h4>
-                  <ul>
-                    <li>Genesis NFT Collection</li>
-                    <li>Website & Wallet Connect</li>
-                    <li>Staking MVP & Rewards</li>
-                    <li>Pac-Forge Alpha</li>
-                  </ul>
-                </div>
-
-                <div class="rm-node">
-                  <h4>Q1 2026 – Economy Build-Up</h4>
-                  <ul>
-                    <li>Fusion Lab Prototype</li>
-                    <li>$FOOD, $METAL, $DOLLAR live</li>
-                    <li>Balancing updates</li>
-                    <li>Closed beta for holders</li>
-                  </ul>
-                </div>
-
-                <div class="rm-node">
-                  <h4>Q2 2026 – Game & Tools</h4>
-                  <ul>
-                    <li>Crafting & tools (METAL sinks)</li>
-                    <li>Ranking & seasons</li>
-                    <li>Partner NFT integration</li>
-                  </ul>
-                </div>
-
-                <div class="rm-node">
-                  <h4>Q3 2026 – Social Forge</h4>
-                  <ul>
-                    <li>In-site chat & guilds</li>
-                    <li>Co-op events & challenges</li>
-                    <li>Mobile UI upgrade</li>
-                  </ul>
-                </div>
-
-                <div class="rm-node">
-                  <h4>Q4 2026 – ForgeVerse 2.0</h4>
-                  <ul>
-                    <li>DAO-lite votes</li>
-                    <li>New maps & modes</li>
-                    <li>Multi-chain experiments</li>
-                  </ul>
-                </div>
-              </div>
+            <div id="pitchSlide" class="pitch-slide">
+              <!-- content injected by docs.js -->
             </div>
-
           </div>
+
+          <!-- ROADMAP PANEL (Tree style) -->
+          <div id="doc-roadmap" class="doc-panel">
+            <h3 class="doc-title">ForgeVerse Roadmap</h3>
+            <div class="roadmap-tree">
+              <div class="roadmap-node">
+                <div class="node-title">Q4 2025 – Genesis Launch</div>
+                <ul>
+                  <li>Genesis NFT Collection</li>
+                  <li>Website + Wallet Connect</li>
+                  <li>Staking MVP & Rewards</li>
+                  <li>Pixel Game Alpha</li>
+                </ul>
+              </div>
+
+              <div class="roadmap-branch"></div>
+
+              <div class="roadmap-node">
+                <div class="node-title">Q1 2026 – Economy Build-Up</div>
+                <ul>
+                  <li>Fusion Lab Prototype</li>
+                  <li>$FOOD / $METAL / $DOLLAR live</li>
+                  <li>Balancing updates</li>
+                  <li>Closed Beta for holders</li>
+                </ul>
+              </div>
+
+              <div class="roadmap-branch"></div>
+
+              <div class="roadmap-node">
+                <div class="node-title">Q2 2026 – Game & Tools</div>
+                <ul>
+                  <li>Crafting & Tools (METAL sinks)</li>
+                  <li>Ranking Seasons</li>
+                  <li>Partner NFT integration</li>
+                </ul>
+              </div>
+
+              <div class="roadmap-branch"></div>
+
+              <div class="roadmap-node">
+                <div class="node-title">Q3 2026 – Social Forge</div>
+                <ul>
+                  <li>In-site Chat & Guilds</li>
+                  <li>Co-op Events</li>
+                  <li>Mobile UI upgrade</li>
+                </ul>
+              </div>
+
+              <div class="roadmap-branch"></div>
+
+              <div class="roadmap-node">
+                <div class="node-title">Q4 2026 – ForgeVerse 2.0</div>
+                <ul>
+                  <li>DAO-lite voting</li>
+                  <li>New maps & game modes</li>
+                  <li>Multi-chain experiments</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
         </div>
-
       </div>
     </section>
 
-    <!-- MINT (only once!) -->
+
+    <!-- MINT (ONLY ONCE) -->
     <section id="mint" class="section">
       <div class="container">
         <h2 class="section__title">Mint your NFT</h2>
         <p class="section__text">
-          Choose your role and mint. (Demo until Candy Machine is connected.)
+          Choose your role and mint. (Demo modal until live Candy Machine is connected.)
         </p>
         <button class="btn btn--primary" onclick="demoMint()">Mint (Demo)</button>
       </div>
     </section>
 
+    <!-- YOUR NFTS -->
     <section id="nfts" class="section">
       <div class="container">
         <h2 class="section__title">Your NFTs</h2>
-        <p class="section__text">After wallet connect, your NFTs can be displayed here.</p>
+        <p class="section__text">
+          After wallet connect, your NFTs can be displayed here (gallery / API).
+        </p>
       </div>
     </section>
 
+    <!-- STAKE -->
     <section id="stake" class="section">
       <div class="container">
         <h2 class="section__title">Stake your NFTs</h2>
-        <p class="section__text">Staking UI placeholder (Anchor program later).</p>
+        <p class="section__text">
+          Staking UI placeholder. Anchor program comes later.
+        </p>
       </div>
     </section>
 
+    <!-- FUSION -->
     <section id="fusion" class="section">
       <div class="container">
         <h2 class="section__title">Fusion Lab</h2>
-        <p class="section__text">Fuse two NFTs using $FOOD and $METAL to obtain a stronger NFT.</p>
+        <p class="section__text">
+          Fuse two NFTs using $FOOD and $METAL to obtain a stronger Builder.
+        </p>
       </div>
     </section>
 
-    <!-- SWAP DEMO -->
+    <!-- SWAP -->
     <section id="swap" class="section">
       <div class="container">
-        <h2 class="section__title">Forge Swap (Demo)</h2>
-        <p class="section__text">
-          Demo swap between $FOOD, $METAL and $DOLLAR.  
-          1 $DOLLAR = 10 $METAL = 100 $FOOD.
-        </p>
-
+        <h2 class="section__title">Swap</h2>
+        <p class="section__text">Future CoinSwap / Futures block (Demo).</p>
         <div class="swap-box">
           <div class="swap-row">
-            <label for="swapFrom">From</label>
-            <select id="swapFrom">
-              <option value="FOOD">$FOOD</option>
-              <option value="METAL">$METAL</option>
-              <option value="DOLLAR">$DOLLAR</option>
+            <label>From</label>
+            <input id="swapFromAmt" type="number" min="0" placeholder="0.0"/>
+            <select id="swapFromToken">
+              <option>DOLLAR</option>
+              <option>FOOD</option>
+              <option>METAL</option>
             </select>
           </div>
-
           <div class="swap-row">
-            <label for="swapTo">To</label>
-            <select id="swapTo">
-              <option value="METAL">$METAL</option>
-              <option value="FOOD">$FOOD</option>
-              <option value="DOLLAR">$DOLLAR</option>
+            <label>To</label>
+            <input id="swapToAmt" type="text" disabled placeholder="auto"/>
+            <select id="swapToToken">
+              <option>FOOD</option>
+              <option>METAL</option>
+              <option>DOLLAR</option>
             </select>
           </div>
-
-          <div class="swap-row">
-            <label for="swapAmount">Amount</label>
-            <input id="swapAmount" type="number" min="0" step="1" value="10" />
-          </div>
-
-          <div class="swap-info">
-            Rates (demo): 1 $DOLLAR = 10 $METAL = 100 $FOOD.<br/>
-            Front-end preview only – not on-chain yet.
-          </div>
-
-          <div style="margin-top:10px; text-align:right;">
-            <button id="swapBtn" class="btn btn--secondary">Swap (Demo)</button>
-          </div>
-
-          <div id="swapResult" class="swap-result"></div>
-          <div id="swapBalances" class="swap-balances"></div>
+          <button id="swapBtn" class="btn btn--secondary">Swap (Demo)</button>
+          <div id="swapMsg" class="swap-msg"></div>
         </div>
       </div>
     </section>
@@ -669,25 +247,52 @@
       <div class="container">
         <h2 class="section__title">Game</h2>
         <p class="section__text">
-          Pac-Forge mini-game area. Your Pacman JS can render into the box below.
+          Pac-Forge minigame. Enter your name to submit score.
         </p>
-        <div id="gameMount">
-          Game loaded from your JS file…
+
+        <div class="game-ui">
+          <div class="game-left">
+            <div>Score: <span id="scoreEl">0</span></div>
+            <div>Lives: <span id="livesEl">3</span></div>
+          </div>
+          <div class="game-right">
+            <button id="gameStartBtn" class="btn btn--primary btn--small">Start</button>
+            <button id="gameResetBtn" class="btn btn--secondary btn--small">Reset</button>
+          </div>
+        </div>
+
+        <div id="gameMount" class="game-mount"></div>
+
+        <div class="score-submit">
+          <input id="playerName" maxlength="12" placeholder="your name"/>
+          <button id="submitScoreBtn" class="btn btn--secondary btn--small">Submit Score</button>
+          <span id="submitMsg"></span>
+        </div>
+
+        <div class="leaderboard">
+          <h3>Leaderboard</h3>
+          <ol id="leaderboardList"></ol>
         </div>
       </div>
     </section>
 
+    <!-- RANKING -->
     <section id="ranking" class="section">
       <div class="container">
         <h2 class="section__title">Ranking</h2>
-        <p class="section__text">Leaderboard placeholder.</p>
+        <p class="section__text">
+          Overall ranking placeholder (top NFTs / coins).
+        </p>
       </div>
     </section>
 
+    <!-- MERCH -->
     <section id="merch" class="section">
       <div class="container">
         <h2 class="section__title">Merch Store</h2>
-        <p class="section__text">NFT holder discounts. Embed store later.</p>
+        <p class="section__text">
+          NFT holder discounts. Shopify/WooCommerce later.
+        </p>
       </div>
     </section>
 
@@ -695,18 +300,19 @@
     <section id="chat" class="section">
       <div class="container">
         <h2 class="section__title">Chat</h2>
-        <p class="section__text">Community chat (Minnit Embed):</p>
+        <p class="section__text">Open/close community chat.</p>
 
-        <div class="chat-embed">
+        <button id="chatToggleBtn" class="btn btn--primary btn--small">Open Chat</button>
+
+        <div id="chatPanel" class="chat-panel">
+          <!-- Minnit embed -->
           <script src="https://minnit.chat/js/embed.js?c=1758971289" defer></script>
-          <span style="display:none;"
-                class="minnit-chat-sembed"
-                data-chatname="https://organizations.minnit.chat/363196062352045/c/Main?embed"
-                data-style="width:90%; height:500px; max-height:90vh;"
-                data-version="1.55">Chat</span>
-
-          <p style="font-size:14px; margin-top:8px;">
-            <a href="https://minnit.chat" target="_blank" rel="noreferrer" style="color:var(--muted);">
+          <span style="display:none" class="minnit-chat-sembed"
+            data-chatname="https://organizations.minnit.chat/363196062352045/c/Main?embed"
+            data-style="width:90%; height:500px; max-height:90vh;"
+            data-version="1.55">Chat</span>
+          <p class="powered-by-minnit">
+            <a href="https://minnit.chat" target="_blank" rel="noreferrer">
               Free embeddable chatroom powered by Minnit Chat
             </a>
           </p>
@@ -721,16 +327,16 @@
     <div class="container">
       <div class="footer__grid">
         <div>
-          <div class="brand">
-            <div class="brand__box">FV</div>
-            <span>ForgeVerse</span>
+          <div class="brand brand--footer">
+            <div class="brand__box neon-border">FV</div>
+            <span class="brand__name neon-glow">ForgeVerse</span>
           </div>
-          <p style="font-size:18px; color:var(--muted);">A Pixel Economy on Solana</p>
-          <div style="display:flex; gap:10px; font-size:18px; margin-top:8px;">
-            <a href="#" target="_blank">Twitter</a>
-            <a href="#" target="_blank">Telegram</a>
-            <a href="#" target="_blank">GitHub</a>
-            <a href="#" target="_blank">Discord</a>
+          <p class="muted">A Pixel Economy on Solana</p>
+          <div class="socials">
+            <a href="#" target="_blank" rel="noreferrer">Twitter</a>
+            <a href="#" target="_blank" rel="noreferrer">Telegram</a>
+            <a href="#" target="_blank" rel="noreferrer">GitHub</a>
+            <a href="#" target="_blank" rel="noreferrer">Discord</a>
           </div>
         </div>
 
@@ -766,259 +372,21 @@
       </div>
 
       <div class="divider"></div>
+
       <div class="copyright">
-        <p style="color:var(--neon); font-family:'Press Start 2P', monospace; font-size:10px;">
-          © 2025 ForgeVerse Labs
-        </p>
+        <p class="neon-glow">© 2025 ForgeVerse Labs</p>
         <p>Built on Solana • Powered by the Community</p>
       </div>
     </div>
   </footer>
 
-  <!-- ====== SCRIPTS ====== -->
-  <script>
-    /* =============================
-       DOCS PANEL SWITCHER
-    ============================== */
-    (function(){
-      const buttons = document.querySelectorAll('.docs-btn');
-      const panel   = document.getElementById('docsPanel');
-      const close   = document.getElementById('docsClose');
-      const title   = document.getElementById('docsTitle');
 
-      const docEls = {
-        whitepaper: document.getElementById('doc-whitepaper'),
-        pitchdeck:  document.getElementById('doc-pitchdeck'),
-        roadmap:    document.getElementById('doc-roadmap')
-      };
-
-      function hideAll(){
-        Object.values(docEls).forEach(el => el.style.display='none');
-      }
-
-      function openDoc(key){
-        if(!docEls[key]) return;
-        hideAll();
-        docEls[key].style.display='block';
-        title.textContent =
-          key === 'whitepaper' ? 'ForgeVerse Whitepaper' :
-          key === 'pitchdeck'  ? 'ForgeVerse Pitchdeck' :
-          'ForgeVerse Roadmap';
-
-        panel.classList.add('show');
-
-        const top = panel.getBoundingClientRect().top + window.pageYOffset - 90;
-        window.scrollTo({top, behavior:'smooth'});
-      }
-
-      function closePanel(){
-        panel.classList.remove('show');
-        hideAll();
-      }
-
-      buttons.forEach(b=>{
-        b.addEventListener('click', ()=>{
-          const key = b.getAttribute('data-doc');
-          if(panel.classList.contains('show') && docEls[key].style.display==='block'){
-            closePanel(); return;
-          }
-          openDoc(key);
-        });
-      });
-
-      close.addEventListener('click', closePanel);
-    })();
-
-    /* =============================
-       PITCHDECK SLIDES (NO PDF)
-    ============================== */
-    (function(){
-      const slides = [
-        { t:"Title", b:[
-          "ForgeVerse",
-          "A Pixel Economy on Solana",
-          "by ForgeVerse Labs"
-        ]},
-        { t:"Problem", b:[
-          "Web3 games lack real utility",
-          "NFT ecosystems become unsustainable",
-          "No skill-based earning loops"
-        ]},
-        { t:"Solution", b:[
-          "Builders (NFTs) with roles",
-          "Stake to produce resources",
-          "Spend resources on upgrades & fusion"
-        ]},
-        { t:"Roles", b:[
-          "10% Traders → earn $DOLLAR",
-          "30% Farmers → earn $FOOD",
-          "60% Workers → earn $METAL"
-        ]},
-        { t:"Economy Loop", b:[
-          "$FOOD feeds NFTs → boosts output",
-          "$METAL crafts tools & upgrades",
-          "$DOLLAR unlocks trading rigs & premium"
-        ]},
-        { t:"Fusion Lab", b:[
-          "Fuse 2 Builders into a stronger one",
-          "Fusion burns supply",
-          "Long-term balancing mechanic"
-        ]},
-        { t:"Game + Social", b:[
-          "Pac-Forge mini-game for boost rewards",
-          "In-site chat & guilds",
-          "Rankings & seasons"
-        ]},
-        { t:"Roadmap", b:[
-          "Genesis → Economy → Fusion",
-          "Game Expansion → Social Forge",
-          "DAO-lite governance"
-        ]}
-      ];
-
-      let i=0;
-      const pdSlide   = document.getElementById('pdSlide');
-      const pdCounter = document.getElementById('pdCounter');
-      const pdPrev    = document.getElementById('pdPrev');
-      const pdNext    = document.getElementById('pdNext');
-
-      function render(){
-        if(!pdSlide) return;
-        const s = slides[i];
-        pdCounter.textContent = `Slide ${i+1}/${slides.length}`;
-        pdSlide.innerHTML = `
-          <h3>${s.t}</h3>
-          <ul>${s.b.map(x=>`<li>${x}</li>`).join("")}</ul>
-        `;
-      }
-
-      pdPrev && pdPrev.addEventListener('click', ()=>{
-        i = (i-1+slides.length)%slides.length; render();
-      });
-      pdNext && pdNext.addEventListener('click', ()=>{
-        i = (i+1)%slides.length; render();
-      });
-
-      render();
-    })();
-
-    /* =============================
-       SWAP DEMO (simple rates)
-    ============================== */
-    (function(){
-      const fromSel = document.getElementById("swapFrom");
-      const toSel   = document.getElementById("swapTo");
-      const amountI = document.getElementById("swapAmount");
-      const btn     = document.getElementById("swapBtn");
-      const res     = document.getElementById("swapResult");
-      const balBox  = document.getElementById("swapBalances");
-
-      // Demo balances (front-end only)
-      const balances = { FOOD: 5000, METAL: 500, DOLLAR: 50 };
-
-      // Base values: FOOD=1, METAL=10, DOLLAR=100
-      const base = { FOOD:1, METAL:10, DOLLAR:100 };
-
-      function renderBalances(){
-        balBox.innerHTML = `
-          <span>$FOOD: ${balances.FOOD}</span>
-          <span>$METAL: ${balances.METAL}</span>
-          <span>$DOLLAR: ${balances.DOLLAR}</span>
-        `;
-      }
-
-      function swap(){
-        const from = fromSel.value;
-        const to   = toSel.value;
-        const amt  = Number(amountI.value || 0);
-
-        if(from === to){
-          res.textContent = "Choose different tokens.";
-          return;
-        }
-        if(amt <= 0){
-          res.textContent = "Enter an amount.";
-          return;
-        }
-        if(balances[from] < amt){
-          res.textContent = "Not enough balance (demo).";
-          return;
-        }
-
-        const value = amt * base[from];
-        const out   = value / base[to];
-
-        balances[from] -= amt;
-        balances[to]   += out;
-
-        res.textContent = `Swapped ${amt} ${from} → ${out.toFixed(2)} ${to} (demo)`;
-        renderBalances();
-      }
-
-      btn?.addEventListener("click", swap);
-      renderBalances();
-    })();
-
-    /* =============================
-       DEMO MINT
-    ============================== */
-    function demoMint(){
-      alert("Mint Demo – Candy Machine will be connected later.");
-    }
-
-    /* =============================
-       SIMPLE PHANTOM CONNECT
-    ============================== */
-    (function () {
-      const btn = document.getElementById('connectBtn');
-      if (!btn) return;
-
-      function setInstall() {
-        btn.textContent = 'Install Phantom';
-        btn.disabled = false;
-        btn.onclick = () => window.open('https://phantom.app/', '_blank');
-      }
-
-      const provider =
-        window.solana ||
-        (window.phantom && window.phantom.solana) ||
-        null;
-
-      if (!provider || !provider.isPhantom) {
-        setInstall();
-        return;
-      }
-
-      btn.addEventListener('click', async () => {
-        try {
-          const resp = await provider.connect({ onlyIfTrusted: false });
-          const pubkey = resp.publicKey.toString();
-          const short = pubkey.slice(0, 4) + '...' + pubkey.slice(-4);
-          btn.textContent = 'Connected: ' + short;
-          btn.disabled = true;
-          btn.style.backgroundColor = '#66FAFF';
-        } catch (e) {
-          alert('Wallet connection cancelled.');
-        }
-      });
-
-      if (provider.isConnected && provider.publicKey) {
-        const pk = provider.publicKey.toString();
-        const short = pk.slice(0, 4) + '...' + pk.slice(-4);
-        btn.textContent = 'Connected: ' + short;
-        btn.disabled = true;
-        btn.style.backgroundColor = '#66FAFF';
-      }
-
-      if (provider.on) {
-        provider.on('disconnect', () => {
-          btn.textContent = 'Connect Wallet';
-          btn.disabled = false;
-          btn.style.backgroundColor = '#FFB347';
-        });
-      }
-    })();
-  </script>
+  <!-- JS -->
+  <script src="js/main.js"></script>
+  <script src="js/docs.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/swap.js"></script>
 
 </body>
 </html>
