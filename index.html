@@ -24,7 +24,6 @@
       --grid-strong:rgba(102,250,255,.14);
       --radius:14px;
     }
-
     *{box-sizing:border-box;}
     body{
       margin:0;
@@ -32,7 +31,9 @@
       color:var(--text);
       background:var(--bg);
       overflow-x:hidden;
+      scroll-behavior:smooth;
     }
+    a{color:inherit; text-decoration:none;}
 
     /* ==== GRID BACKGROUND ==== */
     body::before{
@@ -55,7 +56,6 @@
       z-index:-1;
     }
 
-    a{color:inherit; text-decoration:none;}
     .container{max-width:1200px; margin:0 auto; padding:0 18px;}
 
     /* ==== HEADER ==== */
@@ -108,6 +108,7 @@
       display:inline-flex; align-items:center; justify-content:center;
       text-transform:uppercase;
       letter-spacing:.5px;
+      white-space:nowrap;
     }
     .btn--wallet{
       background:var(--yellow);
@@ -161,6 +162,7 @@
       text-shadow:0 0 8px rgba(255,179,71,.65);
       font-size:18px;
       margin:0 0 14px;
+      text-align:left;
     }
     .section__text{font-size:20px; line-height:1.5; max-width:900px;}
 
@@ -189,14 +191,13 @@
       box-shadow:0 0 22px var(--neon-soft);
       overflow:hidden;
 
-      /* collapsible without empty space */
       max-height:0;
       opacity:0;
-      padding:0 0;
+      padding:0;
       transition:max-height .5s ease, opacity .35s ease, padding .25s ease, margin-top .25s ease;
     }
     .docs-panel.show{
-      max-height:2000px;
+      max-height:2200px;
       opacity:1;
       padding:0 0 18px;
     }
@@ -228,7 +229,8 @@
     }
     .docs-close:hover{background:#fff; color:#000;}
 
-    .docs-body{padding:18px 18px 10px; font-size:18px; line-height:1.5;}
+    .docs-body{padding:18px 18px 10px; font-size:18px; line-height:1.6;}
+    .doc{display:none;}
 
     /* ==== WHITEPAPER ==== */
     .wp h3{
@@ -255,9 +257,7 @@
       font-family:'Press Start 2P', monospace; font-size:9px;
     }
     .pd-btn:hover{background:rgba(102,250,255,.08);}
-    .pd-slide{
-      padding:18px;
-    }
+    .pd-slide{padding:18px;}
     .pd-slide h3{
       font-family:'Press Start 2P', monospace;
       color:var(--yellow);
@@ -266,7 +266,7 @@
     .pd-slide ul{margin:0 0 0 18px;}
     .pd-slide li{margin-bottom:6px;}
 
-    /* ==== ROADMAP TREE / TIMELINE ==== */
+    /* ==== ROADMAP TREE ==== */
     .rm-grid{
       display:grid;
       grid-template-columns:1fr;
@@ -303,6 +303,69 @@
     .rm-node ul{margin:0 0 0 18px;}
     .rm-node li{margin-bottom:4px;}
 
+    /* ==== SWAP DEMO ==== */
+    .swap-box {
+      max-width: 520px;
+      margin: 18px 0 0 0;
+      background: #05070c;
+      border-radius: 14px;
+      border: 2px solid var(--neon);
+      box-shadow: 0 0 20px var(--neon-soft);
+      padding: 18px 16px 20px 16px;
+      font-family: "Press Start 2P", monospace;
+      font-size: 11px;
+    }
+    .swap-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      align-items:center;
+    }
+    .swap-row label {
+      flex: 0 0 60px;
+      display: flex;
+      align-items: center;
+      color:#fff;
+    }
+    .swap-row select,
+    .swap-row input {
+      flex: 1 1 auto;
+      background: #020509;
+      border-radius: 6px;
+      border: 1px solid var(--neon);
+      color: #ffffff;
+      padding: 6px 8px;
+      font-family: "Press Start 2P", monospace;
+      font-size: 11px;
+    }
+    .swap-row input { text-align: right; }
+    .swap-info { font-size: 10px; color: #b8f7ff; margin-top: 4px; line-height: 1.6; }
+    .swap-result { margin-top: 10px; font-size: 11px; color: #fffbcc; min-height: 20px; }
+    .swap-balances { margin-top: 12px; font-size: 11px; color: var(--neon); }
+    .swap-balances span { margin-right: 12px; }
+
+    /* ==== GAME WRAP ==== */
+    #gameMount{
+      margin-top:16px;
+      border:2px solid var(--neon);
+      border-radius:12px;
+      padding:16px;
+      background:#0B0B0E;
+      box-shadow:0 0 14px var(--neon-soft);
+      font-size:18px;
+    }
+
+    /* ==== CHAT ==== */
+    .chat-embed{
+      margin-top:16px;
+      border:2px solid var(--neon);
+      border-radius:12px;
+      padding:12px;
+      background:#0B0B0E;
+      box-shadow:0 0 14px var(--neon-soft);
+    }
+
     /* ==== FOOTER ==== */
     .footer{
       border-top:2px solid var(--neon);
@@ -330,8 +393,8 @@
       .title{font-size:24px;}
       .section__text{font-size:18px;}
       .docs-title{font-size:13px;}
+      .swap-box{font-size:10px;}
     }
-
   </style>
 </head>
 
@@ -403,7 +466,7 @@
           <div id="docsBody" class="docs-body">
 
             <!-- WHITEPAPER CONTENT -->
-            <div id="doc-whitepaper" class="doc wp" style="display:none;">
+            <div id="doc-whitepaper" class="doc wp">
               <h3>1. Vision</h3>
               <p>
                 ForgeVerse is a retro pixel economy on Solana where NFTs generate tradable resources.
@@ -414,62 +477,57 @@
               <h3>2. Core Loop</h3>
               <ul>
                 <li>Mint / buy Builders (NFTs)</li>
-                <li>Stake them to generate resources</li>
-                <li>Spend resources to upgrade production</li>
+                <li>Stake them to produce resources</li>
+                <li>Spend resources to upgrade output</li>
                 <li>Fuse Builders for stronger units</li>
-                <li>Play the mini-game for boosts</li>
+                <li>Play Pac-Forge for temporary boosts</li>
               </ul>
 
-              <h3>3. NFTs & Roles</h3>
+              <h3>3. Builders & Roles</h3>
               <p>
-                Total supply: 1000 Builders. 10% Traders, 30% Farmers, 60% Workers.
+                Total supply: <strong>1000 Builders</strong>.<br>
+                10% Traders, 30% Farmers, 60% Workers.<br>
                 Every role has different yields and upgrade paths.
               </p>
 
               <h3>4. Resources</h3>
               <ul>
-                <li>$DOLLAR – trading power, premium upgrades, marketplace utility</li>
-                <li>$FOOD – feeding NFTs to increase efficiency & sustain growth</li>
-                <li>$METAL – forging tools and crafting upgrades</li>
+                <li><strong>$DOLLAR</strong> – trading power, premium features, marketplace utility</li>
+                <li><strong>$FOOD</strong> – feeding NFTs to increase efficiency & sustain growth</li>
+                <li><strong>$METAL</strong> – forging tools & crafting upgrades</li>
               </ul>
 
-              <h3>5. Upgrades & Sinks</h3>
+              <h3>5. Sinks & Upgrades</h3>
               <p>
                 Resources are not inflationary forever. Each token fuels its own sink:
-                FOOD → feeding, METAL → forging tools, DOLLAR → trading rigs and premium features.
+                FOOD → feeding, METAL → forging tools, DOLLAR → trading rigs & boosts.
               </p>
 
               <h3>6. Fusion Lab</h3>
               <p>
-                Two Builders + resources can be fused into one stronger Builder.
-                Fusion burns NFTs, reducing supply over time and stabilizing rewards.
+                Fuse 2 Builders + resources into 1 stronger Builder.
+                Fusion burns NFTs, reduces supply and stabilizes rewards long-term.
               </p>
 
               <h3>7. Game & Social</h3>
               <p>
-                Pac-Forge mini-game rewards active players with temporary boosts.
-                Chat & guilds create community retention and long-term engagement.
-              </p>
-
-              <h3>8. Roadmap</h3>
-              <p>
-                Progressive rollout: Genesis → Economy → Fusion → Game Expansion → Social Forge → DAO-lite.
+                Pac-Forge mini-game rewards skill with short boosts.
+                Chat & guilds drive retention and community growth.
               </p>
             </div>
 
             <!-- PITCHDECK CONTENT -->
-            <div id="doc-pitchdeck" class="doc" style="display:none;">
+            <div id="doc-pitchdeck" class="doc">
               <div class="pd-nav">
                 <button id="pdPrev" class="pd-btn">&lt; Prev</button>
                 <div id="pdCounter">Slide 1/8</div>
                 <button id="pdNext" class="pd-btn">Next &gt;</button>
               </div>
-
               <div id="pdSlide" class="pd-slide"></div>
             </div>
 
             <!-- ROADMAP CONTENT -->
-            <div id="doc-roadmap" class="doc" style="display:none;">
+            <div id="doc-roadmap" class="doc">
               <div class="rm-grid">
                 <div class="rm-node">
                   <h4>Q4 2025 – Genesis Launch</h4>
@@ -477,7 +535,7 @@
                     <li>Genesis NFT Collection</li>
                     <li>Website & Wallet Connect</li>
                     <li>Staking MVP & Rewards</li>
-                    <li>Pixel Game Alpha</li>
+                    <li>Pac-Forge Alpha</li>
                   </ul>
                 </div>
 
@@ -487,15 +545,15 @@
                     <li>Fusion Lab Prototype</li>
                     <li>$FOOD, $METAL, $DOLLAR live</li>
                     <li>Balancing updates</li>
-                    <li>Closed Beta for holders</li>
+                    <li>Closed beta for holders</li>
                   </ul>
                 </div>
 
                 <div class="rm-node">
                   <h4>Q2 2026 – Game & Tools</h4>
                   <ul>
-                    <li>Crafting & Tools (METAL sinks)</li>
-                    <li>Ranking & Seasons</li>
+                    <li>Crafting & tools (METAL sinks)</li>
+                    <li>Ranking & seasons</li>
                     <li>Partner NFT integration</li>
                   </ul>
                 </div>
@@ -503,7 +561,7 @@
                 <div class="rm-node">
                   <h4>Q3 2026 – Social Forge</h4>
                   <ul>
-                    <li>In-site Chat & Guilds</li>
+                    <li>In-site chat & guilds</li>
                     <li>Co-op events & challenges</li>
                     <li>Mobile UI upgrade</li>
                   </ul>
@@ -512,9 +570,9 @@
                 <div class="rm-node">
                   <h4>Q4 2026 – ForgeVerse 2.0</h4>
                   <ul>
-                    <li>DAO-Lite voting</li>
-                    <li>New maps & game modes</li>
-                    <li>Multi-Chain experiments</li>
+                    <li>DAO-lite votes</li>
+                    <li>New maps & modes</li>
+                    <li>Multi-chain experiments</li>
                   </ul>
                 </div>
               </div>
@@ -531,7 +589,7 @@
       <div class="container">
         <h2 class="section__title">Mint your NFT</h2>
         <p class="section__text">
-          Choose your role and mint. (Demo modal until live Candy Machine is connected.)
+          Choose your role and mint. (Demo until Candy Machine is connected.)
         </p>
         <button class="btn btn--primary" onclick="demoMint()">Mint (Demo)</button>
       </div>
@@ -558,21 +616,62 @@
       </div>
     </section>
 
+    <!-- SWAP DEMO -->
     <section id="swap" class="section">
       <div class="container">
-        <h2 class="section__title">Swap</h2>
-        <p class="section__text">Swap-UI placeholder. Later you can embed Jupiter / Raydium.</p>
+        <h2 class="section__title">Forge Swap (Demo)</h2>
+        <p class="section__text">
+          Demo swap between $FOOD, $METAL and $DOLLAR.  
+          1 $DOLLAR = 10 $METAL = 100 $FOOD.
+        </p>
+
+        <div class="swap-box">
+          <div class="swap-row">
+            <label for="swapFrom">From</label>
+            <select id="swapFrom">
+              <option value="FOOD">$FOOD</option>
+              <option value="METAL">$METAL</option>
+              <option value="DOLLAR">$DOLLAR</option>
+            </select>
+          </div>
+
+          <div class="swap-row">
+            <label for="swapTo">To</label>
+            <select id="swapTo">
+              <option value="METAL">$METAL</option>
+              <option value="FOOD">$FOOD</option>
+              <option value="DOLLAR">$DOLLAR</option>
+            </select>
+          </div>
+
+          <div class="swap-row">
+            <label for="swapAmount">Amount</label>
+            <input id="swapAmount" type="number" min="0" step="1" value="10" />
+          </div>
+
+          <div class="swap-info">
+            Rates (demo): 1 $DOLLAR = 10 $METAL = 100 $FOOD.<br/>
+            Front-end preview only – not on-chain yet.
+          </div>
+
+          <div style="margin-top:10px; text-align:right;">
+            <button id="swapBtn" class="btn btn--secondary">Swap (Demo)</button>
+          </div>
+
+          <div id="swapResult" class="swap-result"></div>
+          <div id="swapBalances" class="swap-balances"></div>
+        </div>
       </div>
     </section>
 
+    <!-- GAME -->
     <section id="game" class="section">
       <div class="container">
         <h2 class="section__title">Game</h2>
         <p class="section__text">
-          Pac-Forge Mini-Game area. (Dein Pacman-Script bleibt wie bisher in /js, hier ist nur der Platzhalter.)
+          Pac-Forge mini-game area. Your Pacman JS can render into the box below.
         </p>
-        <!-- If you already have a canvas/game block, keep it here -->
-        <div id="gameMount" style="margin-top:16px; border:2px solid var(--neon); border-radius:12px; padding:16px;">
+        <div id="gameMount">
           Game loaded from your JS file…
         </div>
       </div>
@@ -588,7 +687,7 @@
     <section id="merch" class="section">
       <div class="container">
         <h2 class="section__title">Merch Store</h2>
-        <p class="section__text">NFT holder discounts. Embed Shopify/WooCommerce later.</p>
+        <p class="section__text">NFT holder discounts. Embed store later.</p>
       </div>
     </section>
 
@@ -598,19 +697,20 @@
         <h2 class="section__title">Chat</h2>
         <p class="section__text">Community chat (Minnit Embed):</p>
 
-        <!-- Minnit Chat Embed -->
-        <script src="https://minnit.chat/js/embed.js?c=1758971289" defer></script>
-        <span style="display:none;"
-              class="minnit-chat-sembed"
-              data-chatname="https://organizations.minnit.chat/363196062352045/c/Main?embed"
-              data-style="width:90%; height:500px; max-height:90vh;"
-              data-version="1.55">Chat</span>
+        <div class="chat-embed">
+          <script src="https://minnit.chat/js/embed.js?c=1758971289" defer></script>
+          <span style="display:none;"
+                class="minnit-chat-sembed"
+                data-chatname="https://organizations.minnit.chat/363196062352045/c/Main?embed"
+                data-style="width:90%; height:500px; max-height:90vh;"
+                data-version="1.55">Chat</span>
 
-        <p style="font-size:14px; margin-top:8px;">
-          <a href="https://minnit.chat" target="_blank" rel="noreferrer" style="color:var(--muted);">
-            Free embeddable chatroom powered by Minnit Chat
-          </a>
-        </p>
+          <p style="font-size:14px; margin-top:8px;">
+            <a href="https://minnit.chat" target="_blank" rel="noreferrer" style="color:var(--muted);">
+              Free embeddable chatroom powered by Minnit Chat
+            </a>
+          </p>
+        </div>
       </div>
     </section>
 
@@ -675,7 +775,7 @@
     </div>
   </footer>
 
-  <!-- ===== JS ===== -->
+  <!-- ====== SCRIPTS ====== -->
   <script>
     /* =============================
        DOCS PANEL SWITCHER
@@ -800,6 +900,63 @@
       });
 
       render();
+    })();
+
+    /* =============================
+       SWAP DEMO (simple rates)
+    ============================== */
+    (function(){
+      const fromSel = document.getElementById("swapFrom");
+      const toSel   = document.getElementById("swapTo");
+      const amountI = document.getElementById("swapAmount");
+      const btn     = document.getElementById("swapBtn");
+      const res     = document.getElementById("swapResult");
+      const balBox  = document.getElementById("swapBalances");
+
+      // Demo balances (front-end only)
+      const balances = { FOOD: 5000, METAL: 500, DOLLAR: 50 };
+
+      // Base values: FOOD=1, METAL=10, DOLLAR=100
+      const base = { FOOD:1, METAL:10, DOLLAR:100 };
+
+      function renderBalances(){
+        balBox.innerHTML = `
+          <span>$FOOD: ${balances.FOOD}</span>
+          <span>$METAL: ${balances.METAL}</span>
+          <span>$DOLLAR: ${balances.DOLLAR}</span>
+        `;
+      }
+
+      function swap(){
+        const from = fromSel.value;
+        const to   = toSel.value;
+        const amt  = Number(amountI.value || 0);
+
+        if(from === to){
+          res.textContent = "Choose different tokens.";
+          return;
+        }
+        if(amt <= 0){
+          res.textContent = "Enter an amount.";
+          return;
+        }
+        if(balances[from] < amt){
+          res.textContent = "Not enough balance (demo).";
+          return;
+        }
+
+        const value = amt * base[from];
+        const out   = value / base[to];
+
+        balances[from] -= amt;
+        balances[to]   += out;
+
+        res.textContent = `Swapped ${amt} ${from} → ${out.toFixed(2)} ${to} (demo)`;
+        renderBalances();
+      }
+
+      btn?.addEventListener("click", swap);
+      renderBalances();
     })();
 
     /* =============================
