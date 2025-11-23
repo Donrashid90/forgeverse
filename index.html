@@ -49,7 +49,7 @@
   </section>
 
   <main class="main">
-    <!-- ABOUT + DOCS -->
+    <!-- ABOUT + DOCS BUTTONS -->
     <section id="about" class="section">
       <div class="container">
         <h2 class="section__title">About ForgeVerse</h2>
@@ -65,11 +65,73 @@
           <button class="fv-card" data-doc="pitchdeck">Pitchdeck</button>
           <button class="fv-card" data-doc="roadmap">Roadmap</button>
         </div>
+      </div>
+    </section>
 
-        <!-- Collapsible PDF Viewer (nur Whitepaper) -->
-        <div id="fv-docs-viewer">
-          <button id="fv-close-btn">✕ CLOSE</button>
-          <iframe id="fv-docs-frame" src="" allow="autoplay"></iframe>
+    <!-- WHITEPAPER (HTML, collapsible, wie Roadmap) -->
+    <section id="fv-whitepaper" class="fv-whitepaper-wrapper">
+      <button id="fv-whitepaper-close" class="fv-whitepaper-close">✕ CLOSE</button>
+
+      <div class="container">
+        <h2 class="section__title">ForgeVerse Whitepaper</h2>
+
+        <div class="fv-whitepaper-frame">
+          <div class="fv-whitepaper-content">
+
+            <h3>1. Vision</h3>
+            <p>
+              ForgeVerse is a retro pixel economy on Solana where NFTs generate tradable resources.
+              Every Builder belongs to one role: Traders earn $DOLLAR, Farmers earn $FOOD, Workers mine $METAL.
+            </p>
+
+            <h3>2. Core Loop</h3>
+            <ul>
+              <li>Mint / buy Builders (NFTs)</li>
+              <li>Stake them to generate resources</li>
+              <li>Spend resources to upgrade production</li>
+              <li>Fuse Builders for stronger units</li>
+              <li>Play the mini-game for boosts</li>
+            </ul>
+
+            <h3>3. NFTs & Roles</h3>
+            <p>
+              Total supply: 1000 Builders.
+              10% Traders, 30% Farmers, 60% Workers.
+              Every role has different yields and upgrade paths.
+            </p>
+
+            <h3>4. Resources</h3>
+            <ul>
+              <li><strong>$DOLLAR</strong> – trading power, premium upgrades, marketplace utility</li>
+              <li><strong>$FOOD</strong> – feeding NFTs to increase efficiency & sustain growth</li>
+              <li><strong>$METAL</strong> – forging tools and crafting upgrades</li>
+            </ul>
+
+            <h3>5. Upgrades & Sinks</h3>
+            <p>
+              Resources are not inflationary forever.
+              Each token fuels its own sink:
+              FOOD → feeding, METAL → forging tools, DOLLAR → trading rigs and premium features.
+            </p>
+
+            <h3>6. Fusion Lab</h3>
+            <p>
+              Two Builders + resources can be fused into one stronger Builder.
+              Fusion burns NFTs, reducing supply over time and stabilizing rewards.
+            </p>
+
+            <h3>7. Game & Social</h3>
+            <p>
+              Pac-Forge mini-game rewards active players with temporary boosts.
+              Chat & guilds create community retention and long-term engagement.
+            </p>
+
+            <h3>8. Roadmap</h3>
+            <p>
+              Progressive rollout: Genesis → Economy → Fusion → Game Expansion → Social Forge → DAO-lite.
+            </p>
+
+          </div>
         </div>
       </div>
     </section>
@@ -207,7 +269,7 @@
       <div class="container">
         <h2 class="section__title">Fusion Lab</h2>
         <p class="section__text">
-          Fuse two NFTs plus resources to forge a stronger Builder. Burn-to-upgrade mechanics reduce total supply.
+          Fuse two NFTs using $FOOD and $METAL to obtain a stronger Builder.
         </p>
       </div>
     </section>
