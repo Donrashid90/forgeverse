@@ -1,0 +1,217 @@
+/* ============================== */
+/*        PITCHDECK DESIGN        */
+/* ============================== */
+
+.pitchdeck-section {
+  margin: 80px auto;
+  padding: 32px;
+  width: 90%;
+  max-width: 900px;
+  background: #000;
+  border: 2px solid #66FAFF;
+  border-radius: 14px;
+  position: relative;
+  box-shadow: 0 0 30px #00ffff55;
+}
+
+.pitchdeck-section::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    repeating-linear-gradient(90deg, rgba(0,255,255,0.1) 0 2px, transparent 2px 40px),
+    repeating-linear-gradient(0deg, rgba(0,255,255,0.1) 0 2px, transparent 2px 40px);
+  z-index:0;
+}
+
+.pitchdeck-section * {
+  position: relative;
+  z-index: 1;
+}
+
+.pd-controls {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:20px;
+  margin-bottom:20px;
+  font-family:'Press Start 2P';
+  color:#66FAFF;
+}
+
+.pd-btn {
+  background:#000;
+  color:#66FAFF;
+  padding:10px 20px;
+  border:2px solid #66FAFF;
+  border-radius:6px;
+  cursor:pointer;
+  font-family:'Press Start 2P';
+}
+
+.pd-btn:hover {
+  background:#66FAFF;
+  color:#000;
+}
+
+.pd-slides {
+  position:relative;
+  height:300px;
+}
+
+.pd-slide {
+  position:absolute;
+  inset:0;
+  opacity:0;
+  transform:scale(0.95);
+  transition:0.3s;
+  padding:20px;
+  font-size:22px;
+  color:#fff;
+  text-align:center;
+}
+
+.pd-slide.active {
+  opacity:1;
+  transform:scale(1);
+}
+
+.pd-slide h3 {
+  font-family:'Press Start 2P';
+  font-size:26px;
+  color:#66FAFF;
+}
+
+/* --- Roadmap Wrapper (anfangs verborgen) --- */
+.fv-roadmap-wrapper {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding: 0;
+  transition: max-height 0.5s ease, opacity 0.4s ease, padding 0.4s ease;
+  position: relative;
+}
+
+/* wenn sichtbar */
+.fv-roadmap-wrapper.show {
+  max-height: 2000px;
+  opacity: 1;
+  padding: 40px 0 80px 0;
+}
+
+/* Close Button oben rechts im Rahmen */
+.fv-roadmap-close {
+  position: absolute;
+  top: 8px;
+  right: 24px;
+  background: #0d0d0f;
+  color: #ffb347;
+  border: 2px solid #ffb347;
+  border-radius: 6px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 10px;
+  padding: 6px 10px;
+  cursor: pointer;
+  box-shadow: 0 0 12px #ffb34766;
+  z-index: 5;
+}
+.fv-roadmap-close:hover {
+  background: #ffb347;
+  color: #0d0d0f;
+}
+
+/* Neon-Rahmen wie Pitchdeck */
+.fv-roadmap-frame {
+  max-width: 900px;
+  margin: 0 auto;
+  border: 3px solid #00eaff;
+  border-radius: 20px;
+  padding: 32px 24px 28px 24px;
+  background: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 25px #00eaff77;
+  position: relative;
+  overflow: hidden;
+}
+
+/* animierte Energie-Linie in der Mitte */
+.fv-roadmap-frame::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    #00eaff,
+    transparent
+  );
+  opacity: 0.6;
+  animation: fv-energy 2.8s linear infinite;
+}
+
+@keyframes fv-energy {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+/* Stammbaum-Struktur */
+.fv-roadmap-tree {
+  position: relative;
+  padding-left: 40px;
+}
+
+.fv-roadmap-item {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+/* Punkte links */
+.fv-roadmap-dot {
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;               /* wirkt wie kleines Pixel-Icon */
+  background: #00eaff;
+  box-shadow: 0 0 12px #00eaffaa;
+}
+
+/* Karten */
+.fv-roadmap-card {
+  margin-left: 40px;
+  background: rgba(0, 0, 0, 0.75);
+  border: 2px solid #00eaff;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 11px;
+  line-height: 1.7;
+  color: #ffffff;
+  box-shadow: 0 0 16px #00eaff44;
+}
+
+.fv-roadmap-card h3 {
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  color: #ffb347;
+}
+
+/* Mobile Tweaks */
+@media (max-width: 768px) {
+  .fv-roadmap-tree {
+    padding-left: 24px;
+  }
+  .fv-roadmap-dot {
+    left: 6px;
+  }
+  .fv-roadmap-card {
+    margin-left: 32px;
+    font-size: 9px;
+  }
+  .fv-roadmap-card h3 {
+    font-size: 11px;
+  }
+}
