@@ -6,24 +6,24 @@
   <title>ForgeVerse – A Pixel Economy on Solana</title>
   <meta name="description" content="ForgeVerse – Pixel economy on Solana. Stake, Forge and Trade to grow your NFT empire."/>
 
-  <!-- Pixel Fonts -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/styles.css"/>
+  <link rel="stylesheet" href="css/main.css"/>
 </head>
 <body>
 
   <!-- HEADER -->
   <header class="header">
     <div class="container header__inner">
-      <div class="brand">
+      <a class="brand" href="#top">
         <img src="assets/forgeverse-logo.svg" alt="ForgeVerse logo" class="brand__logo"/>
         <span class="brand__name neon-glow">ForgeVerse</span>
-      </div>
+      </a>
 
-      <nav class="nav">
+      <nav class="nav" id="mainNav">
         <a href="#about">About</a>
         <a href="#mint">Mint your NFT</a>
         <a href="#nfts">Your NFTs</a>
@@ -36,25 +36,32 @@
         <a href="#chat">Chat</a>
       </nav>
 
+      <button id="navToggle" class="nav__toggle" aria-label="Toggle menu">☰</button>
       <button id="connectBtn" class="btn btn--wallet">Connect Wallet</button>
     </div>
   </header>
 
+
   <!-- HERO -->
-  <section class="hero">
+  <section id="top" class="hero">
     <div class="container hero__inner">
       <h1 class="title neon-glow">A Pixel Economy on Solana</h1>
       <p class="subtitle">Stake, Forge &amp; Trade to grow your NFT empire.</p>
+
       <div class="hero__cta">
         <a href="#mint" class="btn btn--primary">Mint your NFT</a>
         <a href="#about" class="btn btn--secondary">Read Docs</a>
       </div>
     </div>
+
+    <!-- grid background overlay -->
+    <div class="grid-bg"></div>
   </section>
+
 
   <main class="main">
 
-    <!-- ABOUT + DOCS (Whitepaper / Pitchdeck / Roadmap as panels) -->
+    <!-- ABOUT + DOCS -->
     <section id="about" class="section">
       <div class="container">
         <h2 class="section__title">About</h2>
@@ -64,99 +71,118 @@
           <strong>Workers</strong> mine $METAL. Use resources to feed, forge, and fuse your NFTs.
         </p>
 
-        <div id="fv-docs-cards" class="docs-cards">
-          <button data-doc="whitepaper" class="fv-card">Whitepaper</button>
-          <button data-doc="pitchdeck"  class="fv-card">Pitchdeck</button>
-          <button data-doc="roadmap"    class="fv-card">Roadmap</button>
+        <!-- DOC BUTTONS -->
+        <div class="docs__cards" id="docsCards">
+          <button class="docs__card" data-doc="whitepaper">Whitepaper</button>
+          <button class="docs__card" data-doc="pitchdeck">Pitchdeck</button>
+          <button class="docs__card" data-doc="roadmap">Roadmap</button>
         </div>
 
-        <!-- Viewer Panel -->
-        <div id="fv-docs-viewer" class="fv-viewer">
-          <button id="fv-close-btn" class="fv-close">✕ CLOSE</button>
+        <!-- DOC VIEWER (no pdf, internal panels) -->
+        <div class="docs__viewer" id="docsViewer">
+          <button class="docs__close" id="docsClose">✕ CLOSE</button>
 
-          <!-- WHITEPAPER PANEL -->
-          <div id="doc-whitepaper" class="doc-panel">
-            <h3 class="doc-title">ForgeVerse Whitepaper</h3>
-            <ol class="doc-list">
-              <li><b>Vision</b> – Retro pixel economy where NFTs generate tradable resources on Solana.</li>
-              <li><b>Core Loop</b> – Mint → Stake → Earn → Upgrade → Fuse → Play → Repeat.</li>
-              <li><b>NFT Roles</b> – 1000 Builders: 10% Traders, 30% Farmers, 60% Workers.</li>
-              <li><b>Resources</b> – $DOLLAR (trading power), $FOOD (feeding/boosts), $METAL (tools/crafting).</li>
-              <li><b>Sinks</b> – Each token feeds its own sink to avoid runaway inflation.</li>
-              <li><b>Fusion Lab</b> – Burn 2 NFTs + resources → stronger NFT, lowering supply over time.</li>
-              <li><b>Game</b> – Pac-Forge minigame adds skill-based boosts.</li>
-              <li><b>Roadmap</b> – Genesis → Economy → Fusion → Game expansion → Social Forge.</li>
-            </ol>
-          </div>
+          <!-- Whitepaper panel -->
+          <article class="doc doc--whitepaper" id="doc-whitepaper">
+            <h3 class="doc__title yellow">ForgeVerse Whitepaper</h3>
 
-          <!-- PITCHDECK PANEL (Slider) -->
-          <div id="doc-pitchdeck" class="doc-panel">
-            <div class="pitch-header">
-              <button id="pitchPrev" class="pitch-nav">‹ Prev</button>
-              <div class="pitch-title-wrap">
-                <h3 class="doc-title center">ForgeVerse Pitchdeck</h3>
-                <div id="pitchCounter" class="pitch-counter">Slide 1/13</div>
+            <h4>1. Vision</h4>
+            <p>ForgeVerse is a retro pixel economy on Solana where NFTs generate tradable resources.</p>
+
+            <h4>2. Core Loop</h4>
+            <ul>
+              <li>Mint / buy Builders (NFTs)</li>
+              <li>Stake them to generate resources</li>
+              <li>Spend resources to upgrade production</li>
+              <li>Fuse Builders for stronger units</li>
+              <li>Play the mini-game for boosts</li>
+            </ul>
+
+            <h4>3. NFTs & Roles</h4>
+            <p>
+              Total supply: 1000 Builders. 10% Traders, 30% Farmers, 60% Workers.
+              Every role has different yields and upgrade paths.
+            </p>
+
+            <h4>4. Resources</h4>
+            <ul>
+              <li><strong>$DOLLAR</strong> – trading power, premium upgrades, marketplace utility</li>
+              <li><strong>$FOOD</strong> – feeding NFTs to increase efficiency</li>
+              <li><strong>$METAL</strong> – forging tools and crafting upgrades</li>
+            </ul>
+
+            <h4>5. Upgrades & Sinks</h4>
+            <p>Resources are not inflationary forever. Each token fuels its own sink.</p>
+
+            <h4>6. Fusion Lab</h4>
+            <p>Two Builders + resources fuse into one stronger Builder. Fusion burns NFTs.</p>
+
+            <h4>7. Game & Social</h4>
+            <p>Pac-Forge mini-game rewards active players with temporary boosts.</p>
+
+            <h4>8. Roadmap</h4>
+            <p>Genesis → Economy → Fusion → Game Expansion → Social Forge → DAO-lite.</p>
+          </article>
+
+          <!-- Pitchdeck panel -->
+          <article class="doc doc--pitchdeck" id="doc-pitchdeck">
+            <div class="pitchdeck__frame">
+              <div class="pitchdeck__top">
+                <span class="pitchdeck__nav" id="pdPrev">‹ Prev</span>
+                <span class="pitchdeck__counter" id="pdCounter">Slide 1/13</span>
+                <span class="pitchdeck__nav" id="pdNext">Next ›</span>
               </div>
-              <button id="pitchNext" class="pitch-nav">Next ›</button>
+              <div class="pitchdeck__slide" id="pdSlide">
+                <!-- slides injected by JS -->
+              </div>
             </div>
+          </article>
 
-            <div id="pitchSlide" class="pitch-slide">
-              <!-- content injected by docs.js -->
-            </div>
-          </div>
+          <!-- Roadmap panel -->
+          <article class="doc doc--roadmap" id="doc-roadmap">
+            <h3 class="doc__title yellow center">ForgeVerse Roadmap</h3>
 
-          <!-- ROADMAP PANEL (Tree style) -->
-          <div id="doc-roadmap" class="doc-panel">
-            <h3 class="doc-title">ForgeVerse Roadmap</h3>
-            <div class="roadmap-tree">
-              <div class="roadmap-node">
-                <div class="node-title">Q4 2025 – Genesis Launch</div>
+            <div class="roadmap__tree">
+              <div class="roadmap__node">
+                <div class="roadmap__title">Q4 2025 – Genesis Launch</div>
                 <ul>
                   <li>Genesis NFT Collection</li>
-                  <li>Website + Wallet Connect</li>
+                  <li>Website & Wallet Connect</li>
                   <li>Staking MVP & Rewards</li>
                   <li>Pixel Game Alpha</li>
                 </ul>
               </div>
 
-              <div class="roadmap-branch"></div>
-
-              <div class="roadmap-node">
-                <div class="node-title">Q1 2026 – Economy Build-Up</div>
+              <div class="roadmap__node">
+                <div class="roadmap__title">Q1 2026 – Economy Build-Up</div>
                 <ul>
                   <li>Fusion Lab Prototype</li>
-                  <li>$FOOD / $METAL / $DOLLAR live</li>
+                  <li>$FOOD, $METAL, $DOLLAR live</li>
                   <li>Balancing updates</li>
                   <li>Closed Beta for holders</li>
                 </ul>
               </div>
 
-              <div class="roadmap-branch"></div>
-
-              <div class="roadmap-node">
-                <div class="node-title">Q2 2026 – Game & Tools</div>
+              <div class="roadmap__node">
+                <div class="roadmap__title">Q2 2026 – Game & Tools</div>
                 <ul>
                   <li>Crafting & Tools (METAL sinks)</li>
-                  <li>Ranking Seasons</li>
+                  <li>Ranking & seasons</li>
                   <li>Partner NFT integration</li>
                 </ul>
               </div>
 
-              <div class="roadmap-branch"></div>
-
-              <div class="roadmap-node">
-                <div class="node-title">Q3 2026 – Social Forge</div>
+              <div class="roadmap__node">
+                <div class="roadmap__title">Q3 2026 – Social Forge</div>
                 <ul>
-                  <li>In-site Chat & Guilds</li>
-                  <li>Co-op Events</li>
+                  <li>In-site chat & guilds</li>
+                  <li>Co-op events & challenges</li>
                   <li>Mobile UI upgrade</li>
                 </ul>
               </div>
 
-              <div class="roadmap-branch"></div>
-
-              <div class="roadmap-node">
-                <div class="node-title">Q4 2026 – ForgeVerse 2.0</div>
+              <div class="roadmap__node">
+                <div class="roadmap__title">Q4 2026 – ForgeVerse 2.0</div>
                 <ul>
                   <li>DAO-lite voting</li>
                   <li>New maps & game modes</li>
@@ -164,31 +190,26 @@
                 </ul>
               </div>
             </div>
-          </div>
-
+          </article>
         </div>
       </div>
     </section>
 
 
-    <!-- MINT (ONLY ONCE) -->
+    <!-- MINT -->
     <section id="mint" class="section">
       <div class="container">
         <h2 class="section__title">Mint your NFT</h2>
-        <p class="section__text">
-          Choose your role and mint. (Demo modal until live Candy Machine is connected.)
-        </p>
-        <button class="btn btn--primary" onclick="demoMint()">Mint (Demo)</button>
+        <p class="section__text">Choose your role and mint. (Demo modal until live Candy Machine is connected.)</p>
+        <button class="btn btn--primary" id="mintDemoBtn">Mint (Demo)</button>
       </div>
     </section>
 
-    <!-- YOUR NFTS -->
+    <!-- NFTS -->
     <section id="nfts" class="section">
       <div class="container">
         <h2 class="section__title">Your NFTs</h2>
-        <p class="section__text">
-          After wallet connect, your NFTs can be displayed here (gallery / API).
-        </p>
+        <p class="section__text">After wallet connect, your NFTs will show here.</p>
       </div>
     </section>
 
@@ -196,9 +217,7 @@
     <section id="stake" class="section">
       <div class="container">
         <h2 class="section__title">Stake your NFTs</h2>
-        <p class="section__text">
-          Staking UI placeholder. Anchor program comes later.
-        </p>
+        <p class="section__text">Staking UI placeholder.</p>
       </div>
     </section>
 
@@ -206,9 +225,7 @@
     <section id="fusion" class="section">
       <div class="container">
         <h2 class="section__title">Fusion Lab</h2>
-        <p class="section__text">
-          Fuse two NFTs using $FOOD and $METAL to obtain a stronger Builder.
-        </p>
+        <p class="section__text">Fuse two NFTs using $FOOD and $METAL to obtain a stronger NFT.</p>
       </div>
     </section>
 
@@ -216,28 +233,29 @@
     <section id="swap" class="section">
       <div class="container">
         <h2 class="section__title">Swap</h2>
-        <p class="section__text">Future CoinSwap / Futures block (Demo).</p>
-        <div class="swap-box">
-          <div class="swap-row">
-            <label>From</label>
-            <input id="swapFromAmt" type="number" min="0" placeholder="0.0"/>
+        <div class="swap__box">
+          <label>From</label>
+          <div class="swap__row">
+            <input type="number" id="swapFromAmount" placeholder="0.0" min="0" step="0.01">
             <select id="swapFromToken">
               <option>DOLLAR</option>
               <option>FOOD</option>
               <option>METAL</option>
             </select>
           </div>
-          <div class="swap-row">
-            <label>To</label>
-            <input id="swapToAmt" type="text" disabled placeholder="auto"/>
+
+          <label>To</label>
+          <div class="swap__row">
+            <input type="text" id="swapToAmount" placeholder="auto" disabled>
             <select id="swapToToken">
               <option>FOOD</option>
               <option>METAL</option>
               <option>DOLLAR</option>
             </select>
           </div>
-          <button id="swapBtn" class="btn btn--secondary">Swap (Demo)</button>
-          <div id="swapMsg" class="swap-msg"></div>
+
+          <button class="btn btn--secondary" id="swapDemoBtn">Swap (Demo)</button>
+          <p class="muted small" id="swapHint">Demo only. Real swap comes after token launch.</p>
         </div>
       </div>
     </section>
@@ -246,32 +264,33 @@
     <section id="game" class="section">
       <div class="container">
         <h2 class="section__title">Game</h2>
-        <p class="section__text">
-          Pac-Forge minigame. Enter your name to submit score.
-        </p>
+        <p class="section__text">Pac-Forge minigame. Enter your name to submit score.</p>
 
-        <div class="game-ui">
-          <div class="game-left">
-            <div>Score: <span id="scoreEl">0</span></div>
-            <div>Lives: <span id="livesEl">3</span></div>
+        <div class="game__ui">
+          <div class="game__left">
+            <div class="game__stats">
+              <div>Score: <span id="scoreVal">0</span></div>
+              <div>Lives: <span id="livesVal">3</span></div>
+            </div>
+            <div class="game__buttons">
+              <button class="btn btn--primary btn--small" id="gameStartBtn">Start</button>
+              <button class="btn btn--secondary btn--small" id="gameResetBtn">Reset</button>
+            </div>
+
+            <div class="game__submit">
+              <input id="playerName" type="text" maxlength="14" placeholder="Your name">
+              <button class="btn btn--secondary btn--small" id="submitScoreBtn">Submit Score</button>
+            </div>
+
+            <div class="leaderboard">
+              <h3 class="leaderboard__title">Leaderboard</h3>
+              <ol id="leaderboardList"></ol>
+            </div>
           </div>
-          <div class="game-right">
-            <button id="gameStartBtn" class="btn btn--primary btn--small">Start</button>
-            <button id="gameResetBtn" class="btn btn--secondary btn--small">Reset</button>
+
+          <div class="game__right" id="gameMount">
+            <!-- Canvas inserted by js/game.js -->
           </div>
-        </div>
-
-        <div id="gameMount" class="game-mount"></div>
-
-        <div class="score-submit">
-          <input id="playerName" maxlength="12" placeholder="your name"/>
-          <button id="submitScoreBtn" class="btn btn--secondary btn--small">Submit Score</button>
-          <span id="submitMsg"></span>
-        </div>
-
-        <div class="leaderboard">
-          <h3>Leaderboard</h3>
-          <ol id="leaderboardList"></ol>
         </div>
       </div>
     </section>
@@ -280,9 +299,7 @@
     <section id="ranking" class="section">
       <div class="container">
         <h2 class="section__title">Ranking</h2>
-        <p class="section__text">
-          Overall ranking placeholder (top NFTs / coins).
-        </p>
+        <p class="section__text">Overall ranking placeholder (top NFTs / coins).</p>
       </div>
     </section>
 
@@ -290,9 +307,7 @@
     <section id="merch" class="section">
       <div class="container">
         <h2 class="section__title">Merch Store</h2>
-        <p class="section__text">
-          NFT holder discounts. Shopify/WooCommerce later.
-        </p>
+        <p class="section__text">NFT holder discounts. Shopify/WooCommerce later.</p>
       </div>
     </section>
 
@@ -300,93 +315,47 @@
     <section id="chat" class="section">
       <div class="container">
         <h2 class="section__title">Chat</h2>
-        <p class="section__text">Open/close community chat.</p>
-
-        <button id="chatToggleBtn" class="btn btn--primary btn--small">Open Chat</button>
-
-        <div id="chatPanel" class="chat-panel">
-          <!-- Minnit embed -->
-          <script src="https://minnit.chat/js/embed.js?c=1758971289" defer></script>
-          <span style="display:none" class="minnit-chat-sembed"
-            data-chatname="https://organizations.minnit.chat/363196062352045/c/Main?embed"
-            data-style="width:90%; height:500px; max-height:90vh;"
-            data-version="1.55">Chat</span>
-          <p class="powered-by-minnit">
-            <a href="https://minnit.chat" target="_blank" rel="noreferrer">
-              Free embeddable chatroom powered by Minnit Chat
-            </a>
-          </p>
+        <div id="chatMount" class="chat__box">
+          <!-- Minnit embed inserted by js/chat.js -->
         </div>
       </div>
     </section>
 
   </main>
 
+
   <!-- FOOTER -->
   <footer class="footer">
-    <div class="container">
-      <div class="footer__grid">
-        <div>
-          <div class="brand brand--footer">
-            <div class="brand__box neon-border">FV</div>
-            <span class="brand__name neon-glow">ForgeVerse</span>
-          </div>
-          <p class="muted">A Pixel Economy on Solana</p>
-          <div class="socials">
-            <a href="#" target="_blank" rel="noreferrer">Twitter</a>
-            <a href="#" target="_blank" rel="noreferrer">Telegram</a>
-            <a href="#" target="_blank" rel="noreferrer">GitHub</a>
-            <a href="#" target="_blank" rel="noreferrer">Discord</a>
-          </div>
+    <div class="container footer__inner">
+      <div class="footer__left">
+        <div class="brand brand--footer">
+          <div class="brand__box neon-border">FV</div>
+          <span class="brand__name neon-glow">ForgeVerse</span>
         </div>
-
-        <div>
-          <h3 class="footer__title">Quick Links</h3>
-          <ul class="footer__list">
-            <li><a href="#about">About</a></li>
-            <li><a href="#mint">Mint NFT</a></li>
-            <li><a href="#stake">Stake</a></li>
-            <li><a href="#fusion">Fusion Lab</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 class="footer__title">Community</h3>
-          <ul class="footer__list">
-            <li><a href="#game">Game</a></li>
-            <li><a href="#ranking">Ranking</a></li>
-            <li><a href="#merch">Merch</a></li>
-            <li><a href="#chat">Chat</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 class="footer__title">Legal</h3>
-          <ul class="footer__list">
-            <li><a href="#">Terms of Service</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#about">Whitepaper</a></li>
-            <li><a href="#">FAQ</a></li>
-          </ul>
-        </div>
+        <p class="muted">A Pixel Economy on Solana</p>
       </div>
 
-      <div class="divider"></div>
-
-      <div class="copyright">
-        <p class="neon-glow">© 2025 ForgeVerse Labs</p>
-        <p>Built on Solana • Powered by the Community</p>
+      <div class="footer__right">
+        <a href="#about">About</a>
+        <a href="#mint">Mint</a>
+        <a href="#stake">Stake</a>
+        <a href="#fusion">Fusion</a>
+        <a href="#swap">Swap</a>
+        <a href="#game">Game</a>
+        <a href="#chat">Chat</a>
       </div>
+    </div>
+    <div class="copyright">
+      © 2025 ForgeVerse Labs • Built on Solana
     </div>
   </footer>
 
 
   <!-- JS -->
   <script src="js/main.js"></script>
-  <script src="js/docs.js"></script>
+  <script src="js/swap.js"></script>
   <script src="js/game.js"></script>
   <script src="js/chat.js"></script>
-  <script src="js/swap.js"></script>
 
 </body>
 </html>
